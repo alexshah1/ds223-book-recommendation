@@ -101,9 +101,7 @@ class SqlHandler:
         
         logger.warning('the data is loaded')
 
-    def from_sql_to_pandas(self, )-> pd.DataFrame:
-        pass
-        #TODO: do it by yourself
+    
 
     def from_sql_to_pandas(self, chunksize:int, id_value:str) -> pd.DataFrame:
         """
@@ -134,9 +132,27 @@ class SqlHandler:
         return df
 
 
-    def update_table(self,condition):
-        pass
-        # TODO: complete on your own
+    def update_table(self, condition: str, update_values: dict) -> None:
+        """
+        Update records in the database table based on the specified condition.
+
+        Parameters:
+            condition (str): The SQL condition to filter records to be updated.
+            update_values (dict): A dictionary containing column names as keys and their updated values as values.
+
+        Returns:
+            None
+        """
+        set_clause = ', '.join([f"{col} = ?" for col in update_values.keys()])
+        query = f"UPDATE {self.table_name} SET {set_clause} WHERE {condition};"
+        
+        values = tuple(update_values.values())
+
+        self.cursor.execute(query, values)
+        self.cnxn.commit()
+
+        logger.info("Table updated successfully.")
+
 
    
         
