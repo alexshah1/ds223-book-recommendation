@@ -154,8 +154,80 @@ class SqlHandler:
         logger.info("Table updated successfully.")
 
 
-   
+
+    def get_book_embeddings(self) -> pd.DataFrame:
+        """
+        Retrieve book embeddings from the database.
+
+        Returns:
+            pd.DataFrame: DataFrame containing book IDs and embeddings.
+        """
+        query = f"SELECT ISBN, embedding FROM {self.table_name};"
+        return pd.read_sql_query(query, self.cnxn)
+    
+
+    def get_book_embedding_by_ISBN(self, ISBN: str) -> np.ndarray:
+        """
+        Retrieve book embedding from the database based on ISBN.
+
+        Parameters:
+            ISBN (str): The ISBN of the book.
+
+        Returns:
+            np.ndarray: The embedding of the book.
+        """
+        query = f"SELECT embedding FROM {self.table_name} WHERE ISBN = ?;"
+        self.cursor.execute(query, (ISBN,))
+        row = self.cursor.fetchone()
+        if row:
+            return np.array(row[0])
+        else:
+            raise ValueError(f"No embedding found for book with ISBN: {ISBN}")
         
+        
+    def calculate_similarity(self, ISBN: str, threshold: float = 0.5) -> pd.DataFrame:
+        """
+        Calculate similarity scores between the provided query ISBN and embeddings in the database.
+
+        Parameters:
+            ISBN (str): The ISBN of the query book.
+            threshold (float): The minimum similarity threshold for results.
+
+        Returns:
+            pd.DataFrame: DataFrame containing book IDs and similarity scores.
+        """
+        # Retrieve query embedding from the database
+        query_embedding = self.get_book_embedding_by_ISBN(ISBN)
+
+        # Retrieve book embeddings from the database
+        book_embeddings = self.get_book_embeddings()
+
+        # Calculate similarity scores
+        similarity_scores = []
+        for idx, row in book_embeddings.iterrows():
+            ISBN = row['ISBN']
+            embedding = np.array(row['embedding'])
+            # Calculate cosine similarity between query embedding and book embedding
+            similarity_score = self.cosine_similarity(query_embedding, embedding)
+            if similarity_score >= threshold:
+                similarity_scores.append({'ISBN': ISBN, 'similarity_score': similarity_score})
+
+        return pd.DataFrame(similarity_scores)
 
 
+    def cosine_similarity(self, vector1: np.ndarray, vector2: np.ndarray) -> float:
+        """
+        Calculate the cosine similarity between two vectors.
+
+        Parameters:
+            vector1 (np.ndarray): First vector.
+            vector2 (np.ndarray): Second vector.
+
+        Returns:
+            float: Cosine similarity score between -1 and 1.
+        """
+        dot_product = np.dot(vector1, vector2)
+        norm_vector1 = np.linalg.norm(vector1)
+        norm_vector2 = np.linalg.norm(vector2)
+        return dot_product / (norm_vector1 * norm_vector2)
 
