@@ -1,6 +1,7 @@
 book-recommendation/
 book_recommendation/
 **/.DS_Store
+.git/
 .vscode/
 # Byte-compiled / optimized / DLL files
 __pycache__/

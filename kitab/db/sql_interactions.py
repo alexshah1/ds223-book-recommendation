@@ -35,6 +35,14 @@ class SqlHandler:
         except Exception as e:
             logger.error(f'Error occurred while retrieving columns for table {table_name}: {e}')
             return []
+    
+    
+    def execute_commands(self, commands: list) -> None:
+        for command in commands:
+            self.cursor.execute(command)
+        self.connection.commit()
+        logger.info('Commands executed successfully.')
+
 
     def insert_many(self, df: pd.DataFrame, table_name: str) -> None:
         try:
@@ -42,7 +50,7 @@ class SqlHandler:
             df.rename(columns=lambda x: x.lower(), inplace=True)
             columns = list(df.columns)
             logger.info(f'Columns before intersection: {columns}')
-            sql_column_names = [i.lower() for i in self.get_table_columns()]
+            sql_column_names = [i.lower() for i in self.get_table_columns(table_name)]
             columns = list(set(columns) & set(sql_column_names))
             logger.info(f'Columns after intersection: {columns}')
             data_to_insert = df.loc[:, columns]
@@ -114,7 +122,7 @@ class SqlHandler:
 
     def get_table(self, table_name) -> pd.DataFrame:
         query = f"""SELECT * FROM {table_name}"""
-        data = pd.read_sql_query(query, self.connection)
+        data = pd.read_sql(query, self.connection)
 
         return data
 

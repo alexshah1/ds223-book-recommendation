@@ -2,14 +2,11 @@ import psycopg2
 import pandas as pd
 import numpy as np
 from kitab.db.sql_interactions import SqlHandler
-
+from kitab.db.db_info import user, password, port, host, database,commands
 from kitab.db.get_data import get_full_data
-user='yevamanukyan'
-password='password'
-host='localhost'
-port='5432'
-database = "book_rec"
+
 try:
+
     
     # Getting the full data
 
@@ -53,38 +50,36 @@ try:
     book_genre.drop_duplicates(inplace=True)
     book_genre.reset_index(drop=True, inplace=True)
 
-    # Inserting Data
+    # Establish connection with the database
+    sql_handler = SqlHandler(database, user=user, password=password, host=host, port=port)
 
+    # Create tables in the DB
+    for command in commands:
+        sql_handler.cursor.execute(command)
+
+    # Inserting data
     # Book table
-    sql_handler_book = SqlHandler(database, 'book', user=user, password=password, host = host, port = port)
-    sql_handler_book.truncate_table()
-    sql_handler_book.insert_many(book_table)
-    sql_handler_book.close_cnxn()
+    sql_handler.truncate_table("book")
+    sql_handler.insert_many(book_table, "book")
 
     # Author table
-    sql_handler_author = SqlHandler(database, 'author', user=user, password=password, host = host, port = port)
-    sql_handler_author.truncate_table()
-    sql_handler_author.insert_many(author_table)
-    sql_handler_author.close_cnxn()
+    sql_handler.truncate_table("author")
+    sql_handler.insert_many(author_table, "author")
 
     # Genre table
-    sql_handler_genre = SqlHandler(database, 'genre', user=user, password=password, host = host, port = port)
-    sql_handler_genre.truncate_table()
-    sql_handler_genre.insert_many(genre_table)
-    sql_handler_genre.close_cnxn()
+    sql_handler.truncate_table("genre")
+    sql_handler.insert_many(genre_table, "genre")
 
     # BookAuthor table
-    sql_handler_bookauthor = SqlHandler(database, 'bookauthor', user=user, password=password, host = host, port = port)
-    sql_handler_bookauthor.truncate_table()
-    sql_handler_bookauthor.insert_many(book_author)
-    sql_handler_bookauthor.close_cnxn()
+    sql_handler.truncate_table("bookauthor")
+    sql_handler.insert_many(book_author, "bookauthor")
 
     # BookGenre table
-    sql_handler_bookgenre = SqlHandler(database, 'bookgenre', user=user, password=password, host = host, port = port)
-    sql_handler_bookgenre.truncate_table()
-    sql_handler_bookgenre.insert_many(book_genre)
-    sql_handler_bookgenre.close_cnxn()
-
+    sql_handler.truncate_table("bookgenre")
+    sql_handler.insert_many(book_genre, "bookgenre")
+    
+    # Close the connection
+    sql_handler.close_cnxn()
 
 
 except psycopg2.Error as e:
