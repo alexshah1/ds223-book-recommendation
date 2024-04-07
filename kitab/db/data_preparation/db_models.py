@@ -5,10 +5,10 @@ from sql_interactions import SqlHandler
 # import json
 from get_data import get_full_data
 
-host = "localhost"          # Hostname or IP address of the PostgreSQL server
+host = "hostname"          # Hostname or IP address of the PostgreSQL server
 port = 5432               # Port number of the PostgreSQL server (default is 5432)
 database = "book_rec"       # Name of the database to connect to
-username = "yevamanukyan"   # Replace 'your_username' with the actual username
+username = "username"   # Replace 'your_username' with the actual username
 
 
 # Establishing a connection to the PostgreSQL server

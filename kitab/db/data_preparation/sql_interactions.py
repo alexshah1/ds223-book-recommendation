@@ -15,7 +15,7 @@ logger.addHandler(ch)
 class SqlHandler:
 
     def __init__(self, dbname: str, table_name: str) -> None:
-        self.connection = psycopg2.connect(dbname=dbname, user='yevamanukyan', password='2003', host='localhost', port='5432')
+        self.connection = psycopg2.connect(dbname=dbname, user='username', password='password', host='host_name', port='port')
         self.cursor = self.connection.cursor()
         self.table_name = table_name
 
