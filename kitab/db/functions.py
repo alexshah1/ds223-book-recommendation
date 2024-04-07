@@ -99,3 +99,13 @@ def get_table_from_db(table_name: str) -> pd.DataFrame:
     # Return the table
     pass
 
+def get_or_add_genre(genre: str) -> int:   #ham update ham addum petq kga
+    # stugum ete ka genre id a talis
+    # ete chka avelacnuma genren u noric verdardznum id
+    pass
+
+# same here
+def get_or_add_author(genre: str) -> int:
+    pass
+
+
