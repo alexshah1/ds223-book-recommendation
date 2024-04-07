@@ -4,35 +4,15 @@ import numpy as np
 from kitab.db.sql_interactions import SqlHandler
 
 from kitab.db.get_data import get_full_data
-
-host = "localhost"          # Hostname or IP address of the PostgreSQL server
-port = 5432               # Port number of the PostgreSQL server (default is 5432)
-database = "book_rec"       # Name of the database to connect to
-username = "yevamanukyan"   # Replace 'your_username' with the actual username
-
-
-# Establishing a connection to the PostgreSQL server
+user='yevamanukyan'
+password='password'
+host='localhost'
+port='5432'
+database = "book_rec"
 try:
-
-    connection = psycopg2.connect(
-        host=host,
-        port=port,
-        database=database,
-        user=username  # Use the actual username here
-    )
-    
-    print("Successfully connected to the PostgreSQL server.")
-
-    # Iterate through each GoodRead CSV file
-    # "Kept these just in case"
-    # for i in range(1, 21):
-    # i = 1
-    # csv_file = f"/GoodReads_Data/GoodReads{i}.csv"
-
-    # Read data from CSV into pandas DataFrame
-    # df = pd.read_csv(csv_file)    
     
     # Getting the full data
+
     data = get_full_data()
     data["genre"].fillna("", inplace=True)
     data.dropna()
@@ -73,41 +53,34 @@ try:
     book_genre.drop_duplicates(inplace=True)
     book_genre.reset_index(drop=True, inplace=True)
 
-    # # Convert 'isbn' column to string data type
-    # data['ISBN'] = data['ISBN'].astype(str)
-
-    # # Convert string representation of list to list 
-    # data['embedding'] = data['embedding'].apply(json.loads)
-
-
-# Inserting Data
+    # Inserting Data
 
     # Book table
-    sql_handler_book = SqlHandler(database, 'book')
+    sql_handler_book = SqlHandler(database, 'book', user=user, password=password, host = host, port = port)
     sql_handler_book.truncate_table()
     sql_handler_book.insert_many(book_table)
     sql_handler_book.close_cnxn()
 
     # Author table
-    sql_handler_author = SqlHandler(database, 'author')
+    sql_handler_author = SqlHandler(database, 'author', user=user, password=password, host = host, port = port)
     sql_handler_author.truncate_table()
     sql_handler_author.insert_many(author_table)
     sql_handler_author.close_cnxn()
 
     # Genre table
-    sql_handler_genre = SqlHandler(database, 'genre')
+    sql_handler_genre = SqlHandler(database, 'genre', user=user, password=password, host = host, port = port)
     sql_handler_genre.truncate_table()
     sql_handler_genre.insert_many(genre_table)
     sql_handler_genre.close_cnxn()
 
     # BookAuthor table
-    sql_handler_bookauthor = SqlHandler(database, 'bookauthor')
+    sql_handler_bookauthor = SqlHandler(database, 'bookauthor', user=user, password=password, host = host, port = port)
     sql_handler_bookauthor.truncate_table()
     sql_handler_bookauthor.insert_many(book_author)
     sql_handler_bookauthor.close_cnxn()
 
     # BookGenre table
-    sql_handler_bookgenre = SqlHandler(database, 'bookgenre')
+    sql_handler_bookgenre = SqlHandler(database, 'bookgenre', user=user, password=password, host = host, port = port)
     sql_handler_bookgenre.truncate_table()
     sql_handler_bookgenre.insert_many(book_genre)
     sql_handler_bookgenre.close_cnxn()
