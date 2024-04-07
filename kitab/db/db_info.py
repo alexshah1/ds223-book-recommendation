@@ -30,20 +30,20 @@ commands = (
     );""",
         
     """CREATE TABLE Author (
-        author_id INTEGER PRIMARY KEY,
+        author_id SERIAL PRIMARY KEY,
         full_name VARCHAR(200)
     );""",
 
 
     """CREATE TABLE Genre (
-        genre_id INTEGER PRIMARY KEY,
+        genre_id SERIAL PRIMARY KEY,
         genre VARCHAR(100)
     );""",
 
 
     """CREATE TABLE BookAuthor (
         ISBN VARCHAR(20),
-        author_id INTEGER,
+        author_id SERIAL,
         PRIMARY KEY (ISBN, author_id),
         FOREIGN KEY (author_id) REFERENCES Author(author_id),
         FOREIGN KEY (ISBN) REFERENCES Book(ISBN)
@@ -52,7 +52,7 @@ commands = (
 
     """CREATE TABLE BookGenre (
         ISBN VARCHAR(20),
-        genre_id INTEGER,
+        genre_id SERIAL,
         PRIMARY KEY (ISBN, genre_id),
         FOREIGN KEY (ISBN) REFERENCES Book(ISBN),
         FOREIGN KEY (genre_id) REFERENCES Genre(genre_id)
