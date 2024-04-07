@@ -3,7 +3,7 @@ import logging
 import pandas as pd
 import numpy as np
 
-from ..logger import CustomFormatter
+from ..logger.logger import CustomFormatter
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -15,7 +15,7 @@ logger.addHandler(ch)
 class SqlHandler:
 
     def __init__(self, dbname: str, table_name: str) -> None:
-        self.connection = psycopg2.connect(dbname=dbname, user='username', password='password', host='host_name', port='port')
+        self.connection = psycopg2.connect(dbname=dbname, user='yevamanukyan', password='password', host='localhost', port='5432')
         self.cursor = self.connection.cursor()
         self.table_name = table_name
 
@@ -69,7 +69,7 @@ class SqlHandler:
 
     def truncate_table(self)->None:
         
-        query=f"TRUNCATE TABLE IF EXISTS {self.table_name};"
+        query = f""" TRUNCATE TABLE {self.table_name} CASCADE; """   #if exists
         self.cursor.execute(query)
         logging.info(f'the {self.table_name} is truncated')
         # self.cursor.close()
@@ -166,3 +166,48 @@ class SqlHandler:
         else:
             raise ValueError(f"No embedding found for book with ISBN: {ISBN}")
     
+
+    def update_book(self, ISBN, new_ISBN: str = None, new_title: str = None, new_desc: str = None, new_available: bool = None) -> None:
+        """
+        Update a book record in the database.
+
+        Parameters:
+            ISBN (str): The ISBN of the book to be updated.
+            new_ISBN (str): The new ISBN for the book (optional).
+            new_title (str): The new title for the book (optional).
+            new_desc (str): The new description for the book (optional).
+            new_available (bool): The new availability status for the book (optional).
+
+        Returns:
+            None
+        """
+        update_values = {}
+
+        if new_ISBN is not None:
+            update_values["ISBN"] = new_ISBN
+
+        if new_title is not None:
+            update_values["title"] = new_title
+
+        if new_desc is not None:
+            update_values["desc"] = new_desc
+            # This will calculate the new embedding for the new description 
+            new_embedding = self.get_embedding(new_desc)
+            update_values["embedding"] = new_embedding
+
+        if new_available is not None:
+            update_values["available"] = new_available
+
+        set_clause = ', '.join([f"{col} = %s" for col in update_values.keys()])
+
+        # Values for the SQL query
+        values = tuple(update_values.values())
+
+        # Executing SQL query to update the book record in the database
+        try:
+            query = f"UPDATE {self.table_name} SET {set_clause} WHERE ISBN = %s;"
+            self.cursor.execute(query, values + (ISBN,))
+            self.connection.commit()
+            logger.info(f"Book with ISBN '{ISBN}' updated successfully.")
+        except Exception as e:
+            logger.error(f"Error occurred while updating book with ISBN '{ISBN}': {e}")

@@ -7,10 +7,10 @@ def get_full_data():
     embs = []
 
     for i in range(5):
-        data = pd.read_csv(f"data_{i+1}.csv")
+        data = pd.read_csv(f"GoodReads_Data/data_{i+1}.csv")
         datas.append(data)
 
-        with open(f"embeddings_{i+1}.pkl", "rb") as f:
+        with open(f"GoodReads_Data/embeddings_{i+1}.pkl", "rb") as f:
             emb = pickle.load(f)
         embs.append(emb)
     

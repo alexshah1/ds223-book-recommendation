@@ -1,14 +1,14 @@
 import psycopg2
 import pandas as pd
 import numpy as np
-from sql_interactions import SqlHandler
-# import json
-from get_data import get_full_data
+from kitab.db.sql_interactions import SqlHandler
 
-host = "hostname"          # Hostname or IP address of the PostgreSQL server
+from kitab.db.get_data import get_full_data
+
+host = "localhost"          # Hostname or IP address of the PostgreSQL server
 port = 5432               # Port number of the PostgreSQL server (default is 5432)
 database = "book_rec"       # Name of the database to connect to
-username = "username"   # Replace 'your_username' with the actual username
+username = "yevamanukyan"   # Replace 'your_username' with the actual username
 
 
 # Establishing a connection to the PostgreSQL server
@@ -59,6 +59,8 @@ try:
     book_author = data.explode("author")[["author", "isbn"]]
     book_author = pd.merge(book_author, author_table, how='left', left_on='author', right_on='full_name')[["isbn", "author_id"]]
     book_author.rename(columns={"isbn":"ISBN"}, inplace=True)
+    book_author.drop_duplicates(inplace=True)
+    book_author.reset_index(drop=True, inplace=True)
 
     genres = data["genre"].apply(lambda x: split_and_filter(x))
     data["genre"] = genres
@@ -68,7 +70,8 @@ try:
     book_genre = data.explode("genre")[["genre", "isbn"]]
     book_genre = pd.merge(book_genre, genre_table, how='left', left_on='genre', right_on='genre')[["isbn", "genre_id"]]
     book_genre.rename(columns={"isbn":"ISBN"}, inplace=True)
-
+    book_genre.drop_duplicates(inplace=True)
+    book_genre.reset_index(drop=True, inplace=True)
 
     # # Convert 'isbn' column to string data type
     # data['ISBN'] = data['ISBN'].astype(str)
@@ -76,30 +79,36 @@ try:
     # # Convert string representation of list to list 
     # data['embedding'] = data['embedding'].apply(json.loads)
 
-    # Inserting Data
+
+# Inserting Data
 
     # Book table
     sql_handler_book = SqlHandler(database, 'book')
+    sql_handler_book.truncate_table()
     sql_handler_book.insert_many(book_table)
     sql_handler_book.close_cnxn()
 
     # Author table
     sql_handler_author = SqlHandler(database, 'author')
+    sql_handler_author.truncate_table()
     sql_handler_author.insert_many(author_table)
     sql_handler_author.close_cnxn()
 
     # Genre table
     sql_handler_genre = SqlHandler(database, 'genre')
+    sql_handler_genre.truncate_table()
     sql_handler_genre.insert_many(genre_table)
     sql_handler_genre.close_cnxn()
 
     # BookAuthor table
     sql_handler_bookauthor = SqlHandler(database, 'bookauthor')
+    sql_handler_bookauthor.truncate_table()
     sql_handler_bookauthor.insert_many(book_author)
     sql_handler_bookauthor.close_cnxn()
 
     # BookGenre table
     sql_handler_bookgenre = SqlHandler(database, 'bookgenre')
+    sql_handler_bookgenre.truncate_table()
     sql_handler_bookgenre.insert_many(book_genre)
     sql_handler_bookgenre.close_cnxn()
 

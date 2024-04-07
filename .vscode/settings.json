@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./kitab/db/data_preparation",
+        "./kitab/db"
+    ]
+}
