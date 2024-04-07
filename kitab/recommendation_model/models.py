@@ -1,12 +1,8 @@
 import numpy as np
 import pandas as pd
 from sentence_transformers import SentenceTransformer 
-import pickle
-
 
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-#data = get_full_data()
-data = None
 
 def cos_vec_vec(vector1: np.ndarray, vector2: np.ndarray) -> float:
     dot_product = np.dot(vector1, vector2)
@@ -22,7 +18,10 @@ def cos_mat_vec(vector1: np.ndarray, vector2: np.ndarray) -> float:
     return dot_product / (norm_vector1 * norm_vector2)
 
 
-def recommend_book(description: str, n: int) -> list:
+def recommend_book(description: str, n: int, data : pd.DataFrame = None) -> list:
+    
+    if data is None:
+        data = get_table_from_db("books")
     
     # Check that description is not empty
     if description == "": return []
@@ -48,6 +47,8 @@ def recommend_book(description: str, n: int) -> list:
 
 def recommend_book_by_ISBN(ISBN: str, n: int) -> list:
     
+    data = get_table_from_db("books")
+    
     # Check that ISBN is not empty
     if ISBN == "": return []
     
@@ -58,10 +59,12 @@ def recommend_book_by_ISBN(ISBN: str, n: int) -> list:
     book = data[data["isbn"] == ISBN].iloc[0]
     
     # Return the recommendations
-    return recommend_book(book["desc"], n)
+    return recommend_book(book["desc"], n, data)
 
 
 def recommend_book_by_title(title: str, n: int) -> list:
+    
+    data = get_table_from_db("books")
     
     # Check that title is not empty
     if title == "": return []
@@ -73,5 +76,5 @@ def recommend_book_by_title(title: str, n: int) -> list:
     book = data[data["title"] == title].iloc[0]
     
     # Return the recommendations
-    return recommend_book(book["desc"], n)
+    return recommend_book(book["desc"], n, data)
 
