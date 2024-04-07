@@ -5,23 +5,43 @@ from fastapi import FastAPI
 import uvicorn
 
 # Read the data
-data = pd.read_csv("GoodReads_100k_books.csv")
+# data = pd.read_csv("GoodReads_100k_books.csv")
 
 app = FastAPI()
 
 @app.get("/get_book")
 def get_book(isbn: str):
-    book = data[data["isbn"] == isbn]
+    pass
+    # book = data[data["isbn"] == isbn]
     # CRUD operation to get the book from the database
+    # return book.to_dict(orient="records")
+    # return the book
+
+@app.get("/get_recommendations")
+def get_recommendations(desc: str, n: int):
+    pass
+    # USE the recommendation model to get the recommendations
+    # return recommendations
     
-    return book.to_dict(orient="records")
+@app.get("/get_recommendations_by_isbn")
+def get_recommendations_by_isbn(isbn: str, n: int):
+    pass
+    # USE the recommendation model to get the recommendations
+    # return recommendations
+    
+@app.get("/get_recommendations_by_title")
+def get_recommendations_by_title(title: str, n: int):
+    pass
+    # USE the recommendation model to get the recommendations
+    # return recommendations
 
 @app.post("/add_book")
 def add_book(book: object):
     if "isbn" not in book:
         return {"message": "ISBN is required."}
-    if book["isbn"] in data["isbn"].values:
-        return {"message": "Book already exists. Use /update_book to update the book."}
+    # Check isbn in the database
+    # if book["isbn"] in data["isbn"].values:
+    #     return {"message": "Book already exists. Use /update_book to update the book."}
     if "title" not in book:
         return {"message": "Title is required."}
     if "description" not in book:
@@ -39,11 +59,12 @@ def add_book(book: object):
     
     return {"message": "Book added successfully"}
 
-@app.put("/update_book")
+@app.update("/update_book")
 def update_book(isbn, new_book):
     try:
-        if isbn not in data["isbn"].values:
-            return {"message": "Book does not exist. Use /add_book to add the book."}
+        # Check isbn in the database
+        # if isbn not in data["isbn"].values:
+        #     return {"message": "Book does not exist. Use /add_book to add the book."}
         # CRUD operation to update the book in the database
         return {"message": "Book updated successfully"}
     except Exception as e:
