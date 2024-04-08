@@ -8,11 +8,9 @@ def get_book_by_ISBN(ISBN: str):
     db = SqlHandler(database, user=user, password=password, host=host, port=port)
     
     # Retrieve the book with the given ISBN
-    book = db.get_table("book")
-    book_author = db.get_table("bookauthor")
-    book_genre = db.get_table("bookgenre")
-    author = db.get_table("author")
-    genre = db.get_table("genre")
+    book = db.get_table("book", conditions={"isbn": ISBN})
+    book_author = db.get_table("bookauthor", conditions={"isbn": ISBN})
+    book_genre = db.get_table("bookgenre", conditions={"isbn": ISBN})
 
     book = book[book["isbn"] == ISBN]
     
@@ -23,11 +21,13 @@ def get_book_by_ISBN(ISBN: str):
     book.drop(columns=["embedding"], inplace=True)
     book = book.to_dict("records")
 
-    author_ids = book_author[book_author["isbn"] == ISBN]["author_id"].tolist()
-    authors = author[author["author_id"].isin(author_ids)]["full_name"].tolist()
+    author_ids = book_author["author_id"].tolist()
+    author = db.get_table("author", conditions={"author_id": author_ids})
+    authors = author["full_name"].tolist()
     
-    genre_ids = book_genre[book_genre["isbn"] == ISBN]["genre_id"].tolist()
-    genres = genre[genre["genre_id"].isin(genre_ids)]["genre"].tolist()
+    genre_ids = book_genre["genre_id"].tolist()
+    genre = db.get_table("genre", conditions={"genre_id": genre_ids})
+    genres = genre["genre"].tolist()
 
     # Return the book
     return book, authors, genres
@@ -80,8 +80,8 @@ def update_book_db(ISBN: str, new_book: dict):
     ISBN = latest_ISBN
     
     # Get the tables
-    book_author = db.get_table("bookauthor")
-    book_genre = db.get_table("bookgenre")
+    book_author = db.get_table("bookauthor", conditions={"isbn": ISBN})
+    book_genre = db.get_table("bookgenre", conditions={"isbn": ISBN})
     
     # Add author(s) to the author table if doesn't exist
     if "authors" in new_book:

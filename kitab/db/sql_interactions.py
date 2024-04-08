@@ -25,6 +25,7 @@ class SqlHandler:
         self.connection.close()
         logger.info('The connection has been closed.')
 
+
     def get_table_columns(self, table_name: str) -> list:
         try:
             self.cursor.execute(f"SELECT column_name FROM information_schema.columns WHERE table_name = '{table_name}';")
@@ -207,10 +208,36 @@ class SqlHandler:
 
         logger.info("Records removed successfully.")
 
-    def get_table(self, table_name) -> pd.DataFrame:
-        query = f"""SELECT * FROM {table_name}"""
-        data = pd.read_sql(query, self.connection)
+    def get_table(self, table_name: str, conditions: dict = None) -> pd.DataFrame:
+        """
+        Retrieve data from the database table.
 
+        Parameters:
+            table_name (str): The name of the table to retrieve data from.
+            conditions (dict, optional): A dictionary representing the conditions to filter records. Defaults to None.
+
+        Returns:
+            pd.DataFrame: A DataFrame containing the retrieved data.
+        """
+        if conditions:
+            condition_clauses = []
+            values = []
+            for column, value in conditions.items():
+                if isinstance(value, list):
+                    placeholders = ', '.join(['%s'] * len(value))
+                    condition_clauses.append(f"{column} IN ({placeholders})")
+                    values.extend(value)
+                else:
+                    condition_clauses.append(f"{column} = %s")
+                    values.append(value)
+            
+            condition_clause = ' AND '.join(condition_clauses)
+            query = f"SELECT * FROM {table_name} WHERE {condition_clause};"
+            data = pd.read_sql(query, self.connection, params=values)
+        else:
+            query = f"SELECT * FROM {table_name};"
+            data = pd.read_sql(query, self.connection)
+        
         return data
 
     # def get_book_embeddings(self, table_name: str) -> pd.DataFrame:
