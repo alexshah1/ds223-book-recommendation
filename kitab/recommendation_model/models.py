@@ -1,23 +1,8 @@
 import numpy as np
 import pandas as pd
-from sentence_transformers import SentenceTransformer 
-
-model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-
-def cos_vec_vec(vector1: np.ndarray, vector2: np.ndarray) -> float:
-    dot_product = np.dot(vector1, vector2)
-    norm_vector1 = np.linalg.norm(vector1)
-    norm_vector2 = np.linalg.norm(vector2)
-    return dot_product / (norm_vector1 * norm_vector2)
-
-
-def cos_mat_vec(vector1: np.ndarray, vector2: np.ndarray) -> float:
-    dot_product = np.dot(vector1, vector2)
-    norm_vector1 = np.linalg.norm(vector1, axis=1)
-    norm_vector2 = np.linalg.norm(vector2)
-    return dot_product / (norm_vector1 * norm_vector2)
-
-
+from ..db.functions import get_table_from_db
+from .model_utils import get_embedding, cos_mat_vec, cos_vec_vec
+    
 def recommend_book(description: str, n: int, data : pd.DataFrame = None) -> list:
     
     if data is None:
@@ -27,7 +12,7 @@ def recommend_book(description: str, n: int, data : pd.DataFrame = None) -> list
     if description == "": return []
     
     # Get the embedding of the description
-    desc_embedding = model.encode(description)
+    desc_embedding = get_embedding(description)
     
     # Get all the embeddings for the existing book descriptions
     embeddings = data["embedding"].tolist()

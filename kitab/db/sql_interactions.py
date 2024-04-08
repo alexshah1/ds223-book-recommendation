@@ -119,6 +119,93 @@ class SqlHandler:
     #     df = pd.concat(dfs)
 
     #     return df
+        
+    def insert_records(self, table_name: str, values_list: list[dict]) -> None:
+        """
+        Insert one or more records into the database table.
+
+        Parameters:
+            values_list (List[Dict]): A list of dictionaries containing column names as keys and their values as values.
+
+        Returns:
+        None
+        """
+        if not values_list:
+            logger.warning("No records to insert.")
+            return
+
+        columns = ', '.join(values_list[0].keys())
+        placeholders = '(' + ', '.join(['%s'] * len(values_list[0])) + ')'
+        query = f"INSERT INTO {table_name} ({columns}) VALUES {placeholders};"        
+        values = [tuple(value.values()) for value in values_list]
+
+        self.cursor.executemany(query, values)
+        self.connection.commit()
+
+        logger.info(f"{len(values_list)} records inserted successfully.")
+
+    def update_records(self, table_name: str, update_values: dict, condition: dict) -> None:
+        """
+        Update records in the database table based on a given condition.
+
+        Parameters:
+            table_name (str): The name of the table to update records in.
+            condition (dict): A dictionary representing the condition for selecting records to update.
+            update_values (dict): A dictionary containing column names as keys and their updated values as values.
+
+        Returns:
+            None
+        """
+        if not condition:
+            logger.warning("No condition provided for updating records.")
+            return
+
+        if not update_values:
+            logger.warning("No values provided for update.")
+            return
+
+        set_clause = ', '.join([f"{column} = %s" for column in update_values.keys()])
+        condition_clause = ' AND '.join([f"{column} = %s" for column in condition.keys()])
+
+        query = f"UPDATE {table_name} SET {set_clause} WHERE {condition_clause};"
+        values = list(update_values.values()) + list(condition.values())
+
+        self.cursor.execute(query, tuple(values))
+        self.connection.commit()
+
+        logger.info("Records updated successfully.")
+        
+    def remove_records(self, table_name: str, conditions_list: list[dict]) -> None:
+        """
+        Remove records from the database table based on multiple conditions.
+
+        Parameters:
+            table_name (str): The name of the table to remove records from.
+            conditions_list (list[dict]): A list of dictionaries representing conditions for selecting records to remove.
+                The conditions inside each dictionary are concatenated using AND, and the dictionaries inside the list are concatenated using OR.
+
+        Returns:
+            None
+        """
+        if not conditions_list:
+            logger.warning("No conditions provided for removing records.")
+            return
+
+        condition_clauses = []
+        values = []
+
+        for condition in conditions_list:
+            condition_clause = ' AND '.join([f"{column} = %s" for column in condition.keys()])
+            condition_clauses.append(f"({condition_clause})")
+            values.extend(list(condition.values()))
+
+        where_clause = ' OR '.join(condition_clauses)
+        query = f"DELETE FROM {table_name} WHERE {where_clause};"
+
+        self.cursor.execute(query, tuple(values))
+        self.connection.commit()
+
+        logger.info("Records removed successfully.")
 
     def get_table(self, table_name) -> pd.DataFrame:
         query = f"""SELECT * FROM {table_name}"""
@@ -126,56 +213,31 @@ class SqlHandler:
 
         return data
 
+    # def get_book_embeddings(self, table_name: str) -> pd.DataFrame:
+    #     """
+    #     Retrieve book embeddings from the database.
 
-    def update_table(self, condition: str, update_values: dict, table_name: str) -> None:
-        """
-        Update records in the database table based on the specified condition.
-
-        Parameters:
-            condition (str): The SQL condition to filter records to be updated.
-            update_values (dict): A dictionary containing column names as keys and their updated values as values.
-
-        Returns:
-            None
-        """
-        set_clause = ', '.join([f"{col} = ?" for col in update_values.keys()])
-        query = f"UPDATE {table_name} SET {set_clause} WHERE {condition};"
-        
-        values = tuple(update_values.values())
-
-        self.cursor.execute(query, values)
-        self.close_cnxn.commit()
-
-        logger.info("Table updated successfully.")
-
-
-
-    def get_book_embeddings(self, table_name: str) -> pd.DataFrame:
-        """
-        Retrieve book embeddings from the database.
-
-        Returns:
-            pd.DataFrame: DataFrame containing book IDs and embeddings.
-        """
-        query = f"SELECT ISBN, embedding FROM {table_name};"
-        return pd.read_sql_query(query, self.close_cnxn)
+    #     Returns:
+    #         pd.DataFrame: DataFrame containing book IDs and embeddings.
+    #     """
+    #     query = f"SELECT ISBN, embedding FROM {table_name};"
+    #     return pd.read_sql_query(query, self.close_cnxn)
     
+    # def get_book_embedding_by_ISBN(self, ISBN: str, table_name: str) -> np.ndarray:
+    #     """
+    #     Retrieve book embedding from the database based on ISBN.
 
-    def get_book_embedding_by_ISBN(self, ISBN: str, table_name: str) -> np.ndarray:
-        """
-        Retrieve book embedding from the database based on ISBN.
+    #     Parameters:
+    #         ISBN (str): The ISBN of the book.
 
-        Parameters:
-            ISBN (str): The ISBN of the book.
-
-        Returns:
-            np.ndarray: The embedding of the book.
-        """
-        query = f"SELECT embedding FROM {table_name} WHERE ISBN = ?;"
-        self.cursor.execute(query, (ISBN,))
-        row = self.cursor.fetchone()
-        if row:
-            return np.array(row[0])
-        else:
-            raise ValueError(f"No embedding found for book with ISBN: {ISBN}")
+    #     Returns:
+    #         np.ndarray: The embedding of the book.
+    #     """
+    #     query = f"SELECT embedding FROM {table_name} WHERE ISBN = ?;"
+    #     self.cursor.execute(query, (ISBN,))
+    #     row = self.cursor.fetchone()
+    #     if row:
+    #         return np.array(row[0])
+    #     else:
+    #         raise ValueError(f"No embedding found for book with ISBN: {ISBN}")
         
