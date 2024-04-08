@@ -7,6 +7,8 @@ port='5432'
 database = "book_rec"
 
 commands = (
+    "CREATE EXTENSION IF NOT EXISTS vector;"
+
     "DROP TABLE IF EXISTS BookAuthor;",
         
     "DROP TABLE IF EXISTS Author;",

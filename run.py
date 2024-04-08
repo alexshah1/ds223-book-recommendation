@@ -1,5 +1,5 @@
 import uvicorn
-from .kitab.api.app import app
+from kitab.api.app import app
 
 if __name__=="__main__":
-    uvicorn.run(app)
+    uvicorn.run(app, port=5552)

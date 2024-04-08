@@ -1,4 +1,5 @@
 import psycopg2
+from pgvector.psycopg2 import register_vector
 import logging
 import pandas as pd
 import numpy as np
@@ -17,6 +18,7 @@ class SqlHandler:
     def __init__(self, dbname: str, user: str, password: str, host: str, port: str) -> None:
         self.connection = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
         self.cursor = self.connection.cursor()
+        register_vector(self.connection)
     
     def close_cnxn(self) -> None:
         logger.info('Committing the changes.')

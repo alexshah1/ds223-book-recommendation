@@ -1,5 +1,5 @@
 import pandas as pd
-from ..recommendation_model.model_utils import get_embedding
+from kitab.utils import get_embedding
 from .db_info import user, password, host, database, port
 from .sql_interactions import SqlHandler
 
@@ -11,23 +11,25 @@ def get_book_by_ISBN(ISBN: str):
     book = db.get_table("book", conditions={"isbn": ISBN})
     book_author = db.get_table("bookauthor", conditions={"isbn": ISBN})
     book_genre = db.get_table("bookgenre", conditions={"isbn": ISBN})
-
-    book = book[book["isbn"] == ISBN]
-    
+        
     # If no book found, return None
     if len(book) == 0:
-        return None
+        return None, None, None
     
     book.drop(columns=["embedding"], inplace=True)
-    book = book.to_dict("records")
+    book = book.to_dict(orient='records')[0]
 
     author_ids = book_author["author_id"].tolist()
-    author = db.get_table("author", conditions={"author_id": author_ids})
-    authors = author["full_name"].tolist()
+    authors = []
+    if len(author_ids) > 0:
+        author = db.get_table("author", conditions={"author_id": author_ids})
+        authors = author["full_name"].tolist()
     
     genre_ids = book_genre["genre_id"].tolist()
-    genre = db.get_table("genre", conditions={"genre_id": genre_ids})
-    genres = genre["genre"].tolist()
+    genres = []
+    if len(genre_ids) > 0:
+        genre = db.get_table("genre", conditions={"genre_id": genre_ids})
+        genres = genre["genre"].tolist()
 
     # Return the book
     return book, authors, genres
@@ -47,16 +49,18 @@ def add_book_db(book: dict) -> None:
     
     # Add author(s) to the author table if doesn't exist
     authors = book["authors"]
-    author_ids = _get_or_add_authors(db, authors)
-    
-    db.insert_records("bookauthor", [{"isbn": ISBN, "author_id": int(author_id)} for author_id in author_ids])
+    if len(authors) > 0:
+        author_ids = _get_or_add_authors(db, authors)
+        
+        db.insert_records("bookauthor", [{"isbn": ISBN, "author_id": int(author_id)} for author_id in author_ids])
     
     # Add genres to the genres table if doesn't exist
     genres = book["genres"]    
-    genre_ids = _get_or_add_genres(db, genres)
-    
-    db.insert_records("bookgenre", [{"isbn": ISBN, "genre_id": int(genre_id)} for genre_id in genre_ids])
-    
+    if len(genres) > 0:
+        genre_ids = _get_or_add_genres(db, genres)
+        
+        db.insert_records("bookgenre", [{"isbn": ISBN, "genre_id": int(genre_id)} for genre_id in genre_ids])
+        
 def update_book_db(ISBN: str, new_book: dict):
     
     # Open connection to the database

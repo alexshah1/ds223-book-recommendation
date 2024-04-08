@@ -16,5 +16,5 @@ def get_full_data():
     
     df = pd.concat(datas).reset_index(drop=True)
     df["embedding"] = np.concatenate(embs).tolist()
-    
+ 
     return df
