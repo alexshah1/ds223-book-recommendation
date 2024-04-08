@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from ..db.functions import get_table_from_db
+from ..db.functions import get_table_from_db, get_authors, get_genres
 from kitab.utils import get_embedding, cos_mat_vec, cos_vec_vec
     
 def recommend_books(description: str, n: int, data : pd.DataFrame = None) -> list:
@@ -26,9 +26,22 @@ def recommend_books(description: str, n: int, data : pd.DataFrame = None) -> lis
     # Get the ISBNs of the books
     most_similar_books = data.iloc[most_similar_indices]
     most_similar_books.drop(columns=["embedding"], inplace=True)
+    ISBNs = most_similar_books["isbn"].tolist()
     
+    # Get a dict of authors and genres for the books
+    authors = get_authors(ISBNs)
+    genres = get_genres(ISBNs)
+    
+    # Convert the most similar books to a list of dictionaries
+    books = most_similar_books.to_dict(orient="records")
+    
+    # Add the authors and genres to the books
+    for book in books:
+        book["authors"] = authors[book["isbn"]]
+        book["genres"] = genres[book["isbn"]]
+        
     # Return the most similar books
-    return most_similar_books.to_dict(orient="records")
+    return books
 
 
 def recommend_books_by_ISBN(ISBN: str, n: int) -> list:

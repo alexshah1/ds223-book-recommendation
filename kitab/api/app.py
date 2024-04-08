@@ -1,4 +1,4 @@
-from ..db.functions import get_book_by_ISBN, add_book_db, update_book_db
+from ..db.functions import get_book_by_ISBN, get_book_by_title, add_book_db, update_book_db
 from ..recommendation_model.models import recommend_books, recommend_books_by_ISBN, recommend_books_by_title
 import pandas as pd
 from fastapi import FastAPI
@@ -33,11 +33,11 @@ class BookUpdate(BaseModel):
 
 @app.get("/get_book")
 def get_book(isbn: str):
-    book, authors, genres = get_book_by_ISBN(isbn)
+    book = get_book_by_ISBN(isbn)
+    
     if book is None:
         return {"message": "Book not found."}
-    book["authors"] = authors
-    book["genres"] = genres
+    
     return book
 
 
@@ -64,9 +64,7 @@ def update_book(isbn: str, new_book: BookUpdate):
         return {"message": "Nothing passed."}
     
     new_book = new_book.model_dump()
-    old_book, authors, genres = get_book_by_ISBN(isbn)
-    old_book["authors"] = authors
-    old_book["genres"] = genres
+    old_book= get_book_by_ISBN(isbn)
     
     to_remove = []
     for field in new_book:
@@ -89,21 +87,27 @@ def update_book(isbn: str, new_book: BookUpdate):
 
 @app.get("/get_recommendations")
 def get_recommendations(description: str, n: int):
-    books = recommend_books(description=description, n=n).to_dict(orient="records")
+    books = recommend_books(description=description, n=n)
     print(books)
     return books
 
 
 @app.get("/get_recommendations_by_isbn")
 def get_recommendations_by_isbn(isbn: str, n: int):
-    books = recommend_books_by_ISBN(isbn=isbn, n=n).to_dict(orient="records")
+    # Check ISBN in the database
+    if get_book_by_ISBN(isbn) is None:
+        return {"message": "Book does not exist. Please use /get_recommendations or /get_recommendations_by_title."}
+    books = recommend_books_by_ISBN(ISBN=isbn, n=n)
     print(books)
     return books
 
-   
+
 @app.get("/get_recommendations_by_title")
 def get_recommendations_by_title(title: str, n: int):
-    books = recommend_books_by_title(title=title, n=n).to_dict(orient="records")
+    # Check ISBN in the database
+    if get_book_by_title(title) is None:
+        return {"message": "Book does not exist. Please use /get_recommendations or /get_recommendations_by_isbn."}
+    books = recommend_books_by_title(title=title, n=n)
     print(books)
     return books
 

@@ -30,9 +30,31 @@ def get_book_by_ISBN(ISBN: str):
     if len(genre_ids) > 0:
         genre = db.get_table("genre", conditions={"genre_id": genre_ids})
         genres = genre["genre"].tolist()
+    
+    book["authors"] = authors
+    book["genres"] = genres
 
     # Return the book
-    return book, authors, genres
+    return book
+
+
+def get_book_by_title(title: str):
+    # Open connection to the database
+    db = SqlHandler(database, user=user, password=password, host=host, port=port)
+    
+    # Retrieve the book with the given title
+    books = db.get_table("book", conditions={"title": title})
+    
+    print(books)
+    
+    if len(books) == 0:
+        return None
+    else:
+        ISBN = books["isbn"].values[0]
+
+    # Return the book
+    return get_book_by_ISBN(ISBN)
+
 
 def add_book_db(book: dict) -> None:
     # Open connection to the database
@@ -60,6 +82,7 @@ def add_book_db(book: dict) -> None:
         genre_ids = _get_or_add_genres(db, genres)
         
         db.insert_records("bookgenre", [{"isbn": ISBN, "genre_id": int(genre_id)} for genre_id in genre_ids])
+        
         
 def update_book_db(ISBN: str, new_book: dict):
     
@@ -162,4 +185,48 @@ def _get_or_add_authors(db: SqlHandler, authors: str) -> int:
     db.insert_records("author", to_insert)
     return author_ids
 
+def get_authors(ISBNs: list[str]) -> dict:
+    # Open connection to the database
+    db = SqlHandler(database, user=user, password=password, host=host, port=port)
+    
+    # Retrieve the authors of the books with the given ISBNs
+    authors = db.get_table("bookauthor", conditions={"isbn": ISBNs})
+    author_ids = authors["author_id"].tolist()
+    
+    author_table = db.get_table("author", conditions={"author_id": author_ids})
+    
+    # Initialize dictionary to store authors for each ISBN
+    isbn_authors = {isbn: [] for isbn in ISBNs}
+    
+    # Populate dictionary with authors
+    for _, row in authors.iterrows():
+        isbn = row["isbn"]
+        author_id = row["author_id"]
+        author_name = author_table.loc[author_table['author_id'] == author_id, 'full_name'].iloc[0]
+        isbn_authors[isbn].append(author_name)
+    
+    # Return the dictionary of lists
+    return isbn_authors
 
+def get_genres(ISBNs: list[str]) -> dict[list]:
+    # Open connection to the database
+    db = SqlHandler(database, user=user, password=password, host=host, port=port)
+    
+    # Retrieve the genres of the books with the given ISBNs
+    genres = db.get_table("bookgenre", conditions={"isbn": ISBNs})
+    genre_ids = genres["genre_id"].tolist()
+    
+    genre_table = db.get_table("genre", conditions={"genre_id": genre_ids})
+    
+    # Initialize dictionary to store genres for each ISBN
+    isbn_genres = {isbn: [] for isbn in ISBNs}
+    
+    # Populate dictionary with genres
+    for _, row in genres.iterrows():
+        isbn = row["isbn"]
+        genre_id = row["genre_id"]
+        genre_name = genre_table.loc[genre_table['genre_id'] == genre_id, 'genre'].iloc[0]
+        isbn_genres[isbn].append(genre_name)
+    
+    # Return the dictionary of lists
+    return isbn_genres
