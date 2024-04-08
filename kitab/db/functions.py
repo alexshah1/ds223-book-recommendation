@@ -9,6 +9,10 @@ def get_book_by_ISBN(ISBN: str):
     
     # Retrieve the book with the given ISBN
     book = db.get_table("book", conditions={"isbn": ISBN})
+    
+    if len(book) == 0:
+        return None
+    
     book_author = db.get_table("bookauthor", conditions={"isbn": ISBN})
     book_genre = db.get_table("bookgenre", conditions={"isbn": ISBN})
         
