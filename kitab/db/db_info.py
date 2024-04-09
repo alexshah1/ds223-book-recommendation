@@ -1,7 +1,7 @@
 # Tamporary solution
 
-user='user'
-password='password'
+user='postgres'
+password='alex51654096'
 host='localhost'
 port='5432'
 database = "book_rec"

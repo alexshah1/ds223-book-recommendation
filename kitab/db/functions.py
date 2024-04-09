@@ -149,7 +149,7 @@ def get_table_from_db(table_name: str) -> pd.DataFrame:
     # Return the table
     return table
 
-def _get_or_add_genres(db: SqlHandler, genres: str) -> int:
+def _get_or_add_genres(db: SqlHandler, genres: list[str]) -> int:
     genre_table = db.get_table("genre")
     
     genre_ids = []
@@ -169,7 +169,7 @@ def _get_or_add_genres(db: SqlHandler, genres: str) -> int:
     db.insert_records("genre", to_insert)
     return genre_ids
 
-def _get_or_add_authors(db: SqlHandler, authors: str) -> int:
+def _get_or_add_authors(db: SqlHandler, authors: list[str]) -> int:
     author_table = db.get_table("author")
     
     author_ids = []
