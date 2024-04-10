@@ -1,19 +1,21 @@
 import pickle
 import numpy as np
 import pandas as pd
+from glob import glob
 
 def get_full_data():
-    datas = []
+
+    data_paths = sorted(glob("GoodReads_Data/*.csv"))
+    emg_paths = sorted(glob("GoodReads_Data/*.pkl"))
+    
+    datas = [pd.read_csv(data_path) for data_path in data_paths]
     embs = []
-
-    for i in range(5):
-        data = pd.read_csv(f"GoodReads_Data/data_{i+1}.csv")
-        datas.append(data)
-
-        with open(f"GoodReads_Data/embeddings_{i+1}.pkl", "rb") as f:
+    
+    for emb_path in emg_paths:
+        with open(emb_path, "rb") as f:
             emb = pickle.load(f)
         embs.append(emb)
-    
+     
     df = pd.concat(datas).reset_index(drop=True)
     df["embedding"] = np.concatenate(embs).tolist()
  
