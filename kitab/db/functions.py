@@ -1,11 +1,11 @@
 import pandas as pd
 from kitab.utils import get_embedding
-from .db_info import user, password, host, database, port
+from .db_info import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
 from .sql_interactions import SqlHandler
 
 def get_book_by_ISBN(ISBN: str):
     # Open connection to the database
-    db = SqlHandler(database, user=user, password=password, host=host, port=port)
+    db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
     
     # Retrieve the book with the given ISBN
     book = db.get_table("book", conditions={"isbn": ISBN})
@@ -44,7 +44,7 @@ def get_book_by_ISBN(ISBN: str):
 
 def get_book_by_title(title: str):
     # Open connection to the database
-    db = SqlHandler(database, user=user, password=password, host=host, port=port)
+    db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
     
     # Retrieve the book with the given title
     books = db.get_table("book", conditions={"title": title})
@@ -62,10 +62,10 @@ def get_book_by_title(title: str):
 
 def add_book_db(book: dict) -> None:
     # Open connection to the database
-    db = SqlHandler(database, user=user, password=password, host=host, port=port)
+    db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
         
     # Extract information from the book dictionary
-    ISBN = book["ISBN"]
+    ISBN = book["isbn"]
     title = book["title"]
     description = book["description"]
     available = book["available"]
@@ -91,7 +91,7 @@ def add_book_db(book: dict) -> None:
 def update_book_db(ISBN: str, new_book: dict):
     
     # Open connection to the database
-    db = SqlHandler(database, user=user, password=password, host=host, port=port)
+    db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
     
     condition = {"ISBN": ISBN}
     new_values = {}
@@ -141,7 +141,7 @@ def update_book_db(ISBN: str, new_book: dict):
 
 def get_table_from_db(table_name: str) -> pd.DataFrame:
     # Open connection to the database
-    db = SqlHandler(database, user=user, password=password, host=host, port=port)
+    db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
     
     # Retrieve the table from the database
     table = db.get_table(table_name)
@@ -191,7 +191,7 @@ def _get_or_add_authors(db: SqlHandler, authors: list[str]) -> int:
 
 def get_authors(ISBNs: list[str]) -> dict:
     # Open connection to the database
-    db = SqlHandler(database, user=user, password=password, host=host, port=port)
+    db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
     
     # Retrieve the authors of the books with the given ISBNs
     authors = db.get_table("bookauthor", conditions={"isbn": ISBNs})
@@ -214,7 +214,7 @@ def get_authors(ISBNs: list[str]) -> dict:
 
 def get_genres(ISBNs: list[str]) -> dict[list]:
     # Open connection to the database
-    db = SqlHandler(database, user=user, password=password, host=host, port=port)
+    db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
     
     # Retrieve the genres of the books with the given ISBNs
     genres = db.get_table("bookgenre", conditions={"isbn": ISBNs})
