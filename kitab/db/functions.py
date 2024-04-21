@@ -234,3 +234,29 @@ def get_genres(ISBNs: list[str]) -> dict[list]:
     
     # Return the dictionary of lists
     return isbn_genres
+
+
+def add_recommendation_log(description: str, recommendation_ISBN: str, successful: bool) -> bool:
+    
+    try:
+        # Open connection to the database
+        db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+        
+        # Insert the recommendation log into the history table
+        db.insert_records("history", [{"description": description, "recommendation_ISBN": recommendation_ISBN, "successful": successful}])
+    
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
+def get_history_by_recommendation_isbn(recommendation_isbn: str) -> dict:
+    # Open connection to the database
+    db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+    
+    # Retrieve the history of books that have been recommended
+    history = db.get_table("history", conditions={"recommendation_ISBN": recommendation_isbn})
+    
+    # Return the history
+    return history.drop(columns="log_id").to_dict(orient='records')

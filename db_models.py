@@ -21,31 +21,38 @@ try:
 
     def split_and_filter(cell):
         if cell:
-            return cell.split(",")
+            genres = cell.split(",")
+            return [g.strip() for g in genres if g]
         else:
             return []
 
     authors = data["author"].apply(lambda x: split_and_filter(x))
     data["author"] = authors
-    unique_authors = authors.explode().unique()
+    unique_authors = authors.explode().dropna().unique()
     author_table = pd.DataFrame({"author_id": range(1, len(unique_authors)+1), "full_name": unique_authors})
 
-    book_author = data.explode("author")[["author", "isbn"]]
+    books_with_authors = data[data['author'].map(lambda d: len(d)) > 0]
+    book_author = books_with_authors.explode("author")[["author", "isbn"]]
     book_author = pd.merge(book_author, author_table, how='left', left_on='author', right_on='full_name')[["isbn", "author_id"]]
     book_author.rename(columns={"isbn":"ISBN"}, inplace=True)
     book_author.drop_duplicates(inplace=True)
     book_author.reset_index(drop=True, inplace=True)
+    book_author["author_id"] = book_author["author_id"].astype(int)
 
     genres = data["genre"].apply(lambda x: split_and_filter(x))
     data["genre"] = genres
-    unique_genres = genres.explode().unique()
+    unique_genres = genres.explode().dropna().unique()
     genre_table = pd.DataFrame({"genre_id": range(1, len(unique_genres)+1), "genre": unique_genres})
+    print(genre_table["genre"].isnull().sum())
 
-    book_genre = data.explode("genre")[["genre", "isbn"]]
+    books_with_genres = data[data['genre'].map(lambda d: len(d)) > 0]
+    book_genre = books_with_genres.explode("genre")[["genre", "isbn"]]
+    book_genre["genre"] = book_genre["genre"].str.strip()
     book_genre = pd.merge(book_genre, genre_table, how='left', left_on='genre', right_on='genre')[["isbn", "genre_id"]]
     book_genre.rename(columns={"isbn":"ISBN"}, inplace=True)
     book_genre.drop_duplicates(inplace=True)
     book_genre.reset_index(drop=True, inplace=True)
+    book_genre["genre_id"] = book_genre["genre_id"].astype(int)
 
     # Establish connection with the database
     sql_handler = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)

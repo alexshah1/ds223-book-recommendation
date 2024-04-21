@@ -131,11 +131,11 @@ class SqlHandler:
             values_list (List[Dict]): A list of dictionaries containing column names as keys and their values as values.
 
         Returns:
-        None
+            None
         """
         if not values_list:
             logger.warning("No records to insert.")
-            return
+            return            
 
         columns = ', '.join(values_list[0].keys())
         placeholders = '(' + ', '.join(['%s'] * len(values_list[0])) + ')'

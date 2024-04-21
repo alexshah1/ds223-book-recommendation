@@ -1,4 +1,4 @@
-from ..db.functions import get_book_by_ISBN, get_book_by_title, add_book_db, update_book_db
+from ..db.functions import get_book_by_ISBN, get_book_by_title, add_book_db, update_book_db, add_recommendation_log, get_history_by_recommendation_isbn
 from ..recommendation_model.models import recommend_books, recommend_books_by_ISBN, recommend_books_by_title
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -128,6 +128,30 @@ def get_recommendations_by_title(title: str, n: int):
     books = recommend_books_by_title(title=title, n=n)
 
     return books
+
+
+@app.get("/get_logs")
+def get_logs(recommendation_isbn: str):
+        
+    # Check if the book is in the database
+    if get_book_by_ISBN(recommendation_isbn) is None:
+        return {"message": "No book with the given ISBN in the database."}
+    
+    return get_history_by_recommendation_isbn(recommendation_isbn)
+    
+
+@app.post("/add_log")
+def add_log(description: str, recommendation_isbn: str, successful: bool):
+        
+    # Check if the book is in the database
+    if get_book_by_ISBN(recommendation_isbn) is None:
+        return {"message": "No book with the given ISBN in the database."}
+
+    # If book isn't in the database, add it
+    if add_recommendation_log(description, recommendation_isbn, successful):
+        return {"message": "Log successfully added."}
+    
+    return {"message": "Something went wrong. Log not added."}
 
 
 if __name__ == "__main__":
