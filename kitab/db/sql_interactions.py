@@ -21,6 +21,12 @@ class SqlHandler:
         register_vector(self.connection)
     
     def close_cnxn(self) -> None:
+        """
+        Close the connection to the database.
+        
+        Returns:
+        None
+        """
         logger.info('Committing the changes.')
         self.connection.commit()
         self.cursor.close()
@@ -29,6 +35,15 @@ class SqlHandler:
 
 
     def get_table_columns(self, table_name: str) -> list:
+        """
+        Retrieves the columns of a table in the database.
+        
+        Parameters:
+        table_name (str): The name of the table whose columns are to be retrieved.
+        
+        Returns:
+        list: A list of column names in the table.
+        """
         try:
             self.cursor.execute(f"SELECT column_name FROM information_schema.columns WHERE table_name = '{table_name}';")
             columns = self.cursor.fetchall()
@@ -41,6 +56,15 @@ class SqlHandler:
     
     
     def execute_commands(self, commands: list) -> None:
+        """
+        Executes a list of commands in the database.
+        
+        Parameters:
+        commands (list): A list of SQL commands to be executed.
+        
+        Returns:
+        None
+        """
         for command in commands:
             self.cursor.execute(command)
         self.connection.commit()
@@ -48,6 +72,16 @@ class SqlHandler:
 
 
     def insert_many(self, df: pd.DataFrame, table_name: str) -> None:
+        """
+        Inserts data from a DataFrame into a table in the database.
+
+        Parameters:
+        df (pd.DataFrame): The DataFrame containing the data to be inserted.
+        table_name (str): The name of the table to be dropped.
+
+        Returns:
+        None
+        """
         try:
             df = df.replace(np.nan, None)  # for handling NULLS
             df.rename(columns=lambda x: x.lower(), inplace=True)
@@ -77,16 +111,32 @@ class SqlHandler:
             logger.error(f'Error occurred while inserting data into {table_name}: {e}')
 
 
-    def truncate_table(self, table_name: str)->None:
-        
+    def truncate_table(self, table_name: str) -> None:
+        """
+        Truncates a table from the database.
+
+        Parameters:
+        table_name (str): The name of the table to be truncated.
+
+        Returns:
+        None
+        """
         query = f""" TRUNCATE TABLE {table_name} CASCADE; """   #if exists
         self.cursor.execute(query)
         logging.info(f'the {table_name} is truncated')
         # self.cursor.close()
 
 
-    def drop_table(self, table_name: str):
-        
+    def drop_table(self, table_name: str) -> None:
+        """
+        Drops a table from the database if it exists.
+
+        Parameters:
+        table_name (str): The name of the table to be dropped.
+
+        Returns:
+        None
+        """
         query = f"DROP TABLE IF EXISTS {table_name};"
         logging.info(query)
 

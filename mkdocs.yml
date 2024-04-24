@@ -1,0 +1,16 @@
+site_name: Book Recommendation
+
+nav: 
+    - Home: index.md
+    - User Guide: installation.md
+    - DB Schema: db_schema.md
+    - Loading Your Own Data: own_data.md
+    - SQL Interactions: sql_interactions.md
+    - Recommendation Model: recommendation_model.md
+    - API: api.md
+
+theme:
+  name: material
+
+plugins:
+  - mkdocstrings

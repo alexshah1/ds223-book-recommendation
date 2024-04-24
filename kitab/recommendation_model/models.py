@@ -3,10 +3,26 @@ import pandas as pd
 from ..db.functions import get_table_from_db, get_authors, get_genres
 from kitab.utils import get_embedding, cos_mat_vec, cos_vec_vec
     
-def recommend_books(description: str, n: int, data : pd.DataFrame = None) -> list:
+def recommend_books(description: str, n: int, get_available: bool = True, data : pd.DataFrame = None) -> list[dict]:
+    """
+    Recommends a list of books based on a given description.
     
+    Parameters:
+        description (str): The description of the book.
+        n (int): The number of books to recommend.
+        get_available (bool, optional): Whether to only recommend available books. Defaults to True.
+        data (pd.DataFrame, optional): The data containing book information. Defaults to None.
+    
+    Returns:
+        list[dict]: A list of dictionaries representing the most similar books.
+    """
     if data is None:
-        data = get_table_from_db("book")
+        if get_available:
+            data = get_table_from_db("book", conditions={"available": True})
+        else:
+            data = get_table_from_db("book")
+    elif get_available:
+        data = data[data["available"] == True]
     
     # Check that description is not empty
     if description == "": return []
@@ -44,8 +60,18 @@ def recommend_books(description: str, n: int, data : pd.DataFrame = None) -> lis
     return books
 
 
-def recommend_books_by_ISBN(ISBN: str, n: int) -> list:
+def recommend_books_by_ISBN(ISBN: str, n: int, get_available: bool = True) -> list[dict]:
+    """
+    Recommends a list of books based on the description of the book with the given ISBN.
     
+    Parameters:
+        ISBN (str): The ISBN of the book.
+        n (int): The number of books to recommend.
+        get_available (bool, optional): Whether to only recommend available books. Defaults to True.
+    
+    Returns:
+        list[dict]: A list of dictionaries representing the most similar books.
+    """
     data = get_table_from_db("book")
     
     # Check that ISBN is not empty
@@ -58,11 +84,21 @@ def recommend_books_by_ISBN(ISBN: str, n: int) -> list:
     book = data[data["isbn"] == ISBN].iloc[0]
     
     # Return the recommendations
-    return recommend_books(book["description"], n, data)
+    return recommend_books(book["description"], n, get_available, data)
 
 
-def recommend_books_by_title(title: str, n: int) -> list:
+def recommend_books_by_title(title: str, n: int, get_available: bool = True) -> list[dict]:
+    """
+    Recommends a list of books based on the description of the book with the given title.
     
+    Parameters:
+        title (str): The title of the book.
+        n (int): The number of books to recommend.
+        get_available (bool, optional): Whether to only recommend available books. Defaults to True.
+    
+    Returns:
+        list[dict]: A list of dictionaries representing the most similar books.
+    """    
     data = get_table_from_db("book")
     
     # Check that title is not empty
@@ -75,5 +111,4 @@ def recommend_books_by_title(title: str, n: int) -> list:
     book = data[data["title"] == title].iloc[0]
     
     # Return the recommendations
-    return recommend_books(book["description"], n, data)
-
+    return recommend_books(book["description"], n, get_available, data)
