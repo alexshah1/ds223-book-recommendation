@@ -1,3 +1,6 @@
+"""
+This module contains tailored functions for interacting with the database. These are used by the API and the recommendation model.
+"""
 import pandas as pd
 from kitab.utils import get_embedding
 from .db_info import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME

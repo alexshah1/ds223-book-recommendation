@@ -1,3 +1,6 @@
+"""
+This module contains the API for the book recommendation system.
+"""
 from ..db.functions import get_book_by_ISBN, get_book_by_title, add_book_db, update_book_db, add_recommendation_log, get_history_by_recommendation_isbn
 from ..recommendation_model.models import recommend_books, recommend_books_by_ISBN, recommend_books_by_title
 from fastapi import FastAPI

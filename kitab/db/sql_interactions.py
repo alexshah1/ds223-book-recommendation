@@ -1,3 +1,6 @@
+"""
+This module contains the functions for interacting with the SQL database.
+"""
 import psycopg2
 from pgvector.psycopg2 import register_vector
 import logging

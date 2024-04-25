@@ -1,3 +1,6 @@
+"""
+This module contains the functions for recommending books. 
+"""
 import numpy as np
 import pandas as pd
 from ..db.functions import get_table_from_db, get_authors, get_genres

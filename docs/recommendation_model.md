@@ -1,13 +1,16 @@
-## Scope
-This system will:
-- Recommend books based on user's genre preference and search queries.
-- Use natural language processing to analyze book descriptions for similarity.
-- Suggest top 'n' books when specific titles are unavailable.
+# Recommendation Model
 
-## Receiving Recommendations
-- If the book you wanted for is not available, based on your search, the system will display a list of recommended books in the same genre or similar descriptions.
+## How Does It Work?
 
-## Key Features
-- **Genre-Based Recommendations**: Users can receive book suggestions within a specific genre.
-- **Description Similarity Analysis**: The system finds books with similar descriptions.
-- **Handling Missing Books**: If a searched book is unavailable, the system suggests alternatives..
+Our recommendation model works by generating embeddings for the books and then calculating the cosine similarity between the embeddings of the input book and all other books. The books with the highest cosine similarity are recommended.
+
+
+## Additional Filtering
+
+Additional filters can be applied to ensure the model works faster. One such filter is the availability of the book. If the book is not available, it will not be recommended. This filter can be turned off if you want to recommend books irrespective of their availability.
+
+## Current Functionality
+
+As of now, the package has the following functionality in terms of recommendations:
+
+::: kitab.recommendation_model.models
