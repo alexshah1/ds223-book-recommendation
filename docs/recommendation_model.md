@@ -10,4 +10,4 @@ This system will:
 ## Key Features
 - **Genre-Based Recommendations**: Users can receive book suggestions within a specific genre.
 - **Description Similarity Analysis**: The system finds books with similar descriptions.
-- **Handling Missing Books**: If a searched book is unavailable, the system suggests alternatives.
+- **Handling Missing Books**: If a searched book is unavailable, the system suggests alternatives..
