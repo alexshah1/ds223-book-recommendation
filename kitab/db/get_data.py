@@ -2,7 +2,8 @@ import pickle
 import numpy as np
 import pandas as pd
 from glob import glob
-from .db_info import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, COMMANDS, REQUIRED_COLUMNS
+from .db_info import COMMANDS, REQUIRED_COLUMNS
+from .db_credentials import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT
 from .sql_interactions import SqlHandler
 import psycopg2
 import logging

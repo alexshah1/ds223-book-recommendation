@@ -3,7 +3,7 @@ This module contains tailored functions for interacting with the database. These
 """
 import pandas as pd
 from kitab.utils import get_embedding
-from .db_info import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+from .db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
 from .sql_interactions import SqlHandler
 import logging
 from ..logger.logger import CustomFormatter
