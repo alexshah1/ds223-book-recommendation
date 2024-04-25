@@ -74,6 +74,9 @@ DB_NAME='' # Database name
 Then using the `load_data()` function, the data can be loaded into the database. The function gets the path of the folder which stores the data and the embeddings, combine these, and load them into the database.
 
 ```{python}
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+
 from kitab.db.get_data import load_data
 
 load_data(destination_folder)

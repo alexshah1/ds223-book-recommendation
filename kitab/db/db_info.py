@@ -1,6 +1,4 @@
 import os
-from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv())
 
 # Get DB credentials from the environment variables
 DB_USER = os.getenv("DB_USER")
@@ -12,8 +10,6 @@ DB_NAME = os.getenv("DB_NAME")
 REQUIRED_COLUMNS = ["isbn", "title", "description", "author", "genre"]
 
 COMMANDS = (
-    "CREATE EXTENSION IF NOT EXISTS vector;"
-
     "DROP TABLE IF EXISTS BookAuthor;",
         
     "DROP TABLE IF EXISTS Author;",
