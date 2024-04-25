@@ -10,7 +10,6 @@ from sentence_transformers import SentenceTransformer
 from .db.db_info import REQUIRED_COLUMNS
 from tqdm import tqdm
 import logging
-
 from .logger.logger import CustomFormatter
 
 logger = logging.getLogger(__name__)

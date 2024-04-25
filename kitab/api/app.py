@@ -7,7 +7,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import uvicorn
 import logging
-
 from ..logger.logger import CustomFormatter
 
 logger = logging.getLogger(__name__)

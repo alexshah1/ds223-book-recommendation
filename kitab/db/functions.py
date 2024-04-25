@@ -6,7 +6,6 @@ from kitab.utils import get_embedding
 from .db_info import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
 from .sql_interactions import SqlHandler
 import logging
-
 from ..logger.logger import CustomFormatter
 
 logger = logging.getLogger(__name__)
