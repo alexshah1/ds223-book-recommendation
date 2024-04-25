@@ -19,7 +19,7 @@ class CustomFormatter(logging.Formatter):
     format = "%(asctime)s - %(name)s - %(funcName)s - %(levelname)s - (%(message)s) - line: %(lineno)d"
     FORMATS = {
         logging.DEBUG: grey + format + reset,
-        logger.info: violet + format + reset,
+        logging.INFO: violet + format + reset,
         logging.WARNING: yellow + format + reset,
         logging.ERROR: red + format + reset,
         logging.CRITICAL: bold_red + format + reset
