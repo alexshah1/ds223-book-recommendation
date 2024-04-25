@@ -60,7 +60,7 @@ def load_data(folder_path: str = "data"):
         data.fillna({"genre": ""}, inplace=True)
         data = data[REQUIRED_COLUMNS]
         
-        data.dropna(subset = ["isbn", "desc"], inplace=True)
+        data.dropna(subset = ["isbn", "description"], inplace=True)
 
         book_table = data[["isbn", "title", "description", "embedding", "available"]]
 
@@ -79,7 +79,7 @@ def load_data(folder_path: str = "data"):
         books_with_authors = data[data['author'].map(lambda d: len(d)) > 0]
         book_author = books_with_authors.explode("author")[["author", "isbn"]]
         book_author = pd.merge(book_author, author_table, how='left', left_on='author', right_on='full_name')[["isbn", "author_id"]]
-        book_author.rename(columns={"isbn":"ISBN"}, inplace=True)
+        # book_author.rename(columns={"isbn":"ISBN"}, inplace=True)
         book_author.drop_duplicates(inplace=True)
         book_author.reset_index(drop=True, inplace=True)
         book_author["author_id"] = book_author["author_id"].astype(int)
@@ -93,7 +93,7 @@ def load_data(folder_path: str = "data"):
         book_genre = books_with_genres.explode("genre")[["genre", "isbn"]]
         book_genre["genre"] = book_genre["genre"].str.strip()
         book_genre = pd.merge(book_genre, genre_table, how='left', left_on='genre', right_on='genre')[["isbn", "genre_id"]]
-        book_genre.rename(columns={"isbn":"ISBN"}, inplace=True)
+        # book_genre.rename(columns={"isbn":"ISBN"}, inplace=True)
         book_genre.drop_duplicates(inplace=True)
         book_genre.reset_index(drop=True, inplace=True)
         book_genre["genre_id"] = book_genre["genre_id"].astype(int)

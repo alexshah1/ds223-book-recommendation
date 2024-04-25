@@ -1,17 +1,18 @@
-# Welcome to MkDocs
+# Kitab - Book Recommendation System
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+## Package Overview
+The **Kitab** package aims to help bookstores with an easy-to-use recommendation system. When a customer requests a book that is currently unavailable, the system will utilize machine learning techniques to find similar books based on attributes such as genre, author, and book description. This will help bookstores enhance customer satisfaction and increase sales by offering relevant alternatives.
 
-## Commands
+## Package Name
+The package name is **Kitab**, which is the word for *book* in Arabic, Swahili, Urdu, Hindi and various Indian and Turkic languages.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## Contributors
+The package was created as the final project of the DS 223 Marketing Analytics class at the American University of Armenia (AUA) during the Spring 2024 semester. The team members are:
 
-## Project layout
+- Alexander Shahramanyan
+- Anna Charchyan
+- Yeva Manukyan
+- Lilith Asminian
+- Maria Petrosyan
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+The instructor of the course is Professor Karen Hovhannisyan. He oversaw the project and provided guidance to the team throughout the semester.
