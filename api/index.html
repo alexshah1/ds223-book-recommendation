@@ -317,7 +317,52 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Endpoints">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-book" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update Book:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-authors-by-isbns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Authors by ISBNs:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-genres-by-isbns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Genres by ISBNs:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieve-book-history-by-recommendation-isbn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retrieve Book History by Recommendation ISBN:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-recommendation-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add Recommendation Log:
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Add Recommendation Log:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -482,7 +527,52 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Endpoints">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-book" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update Book:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-authors-by-isbns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Authors by ISBNs:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#get-genres-by-isbns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Genres by ISBNs:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retrieve-book-history-by-recommendation-isbn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retrieve Book History by Recommendation ISBN:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-recommendation-log" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add Recommendation Log:
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Add Recommendation Log:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -599,6 +689,48 @@
 </code></pre>
 <h2 id="endpoints">Endpoints</h2>
 <p>The API provides the following endpoints:</p>
+<p>-<strong>Endpoint</strong>: /book/{ISBN}
+- Method: GET
+- Output: JSON object containing book information (title, description, authors, genres)</p>
+<p>## Add Book:
+- <strong>Endpoint</strong>: /book
+- Method: POST
+- Input: JSON object containing book information (title, description, authors, genres)
+- Output: Success or failure message</p>
+<h2 id="update-book">Update Book:</h2>
+<ul>
+<li><strong>Endpoint</strong>: /book/{ISBN}</li>
+<li>Method: PUT</li>
+<li>Input: JSON object containing updated book information (title, description, authors, genres)</li>
+<li>Output: Success or failure message</li>
+</ul>
+<h2 id="get-authors-by-isbns">Get Authors by ISBNs:</h2>
+<ul>
+<li><strong>Endpoint</strong>: /authors</li>
+<li>Method: POST</li>
+<li>Input: List of ISBNs</li>
+<li>Output: JSON object containing authors for each ISBN</li>
+</ul>
+<h2 id="get-genres-by-isbns">Get Genres by ISBNs:</h2>
+<ul>
+<li><strong>Endpoint</strong>: /genres</li>
+<li>Method: POST</li>
+<li>Input: List of ISBNs</li>
+<li>Output: JSON object containing genres for each ISBN</li>
+</ul>
+<h2 id="retrieve-book-history-by-recommendation-isbn">Retrieve Book History by Recommendation ISBN:</h2>
+<ul>
+<li><strong>Endpoint</strong>: /history/{recommendation_ISBN}</li>
+<li>Method: GET</li>
+<li>Output: JSON object containing history of recommendations for the book</li>
+</ul>
+<h2 id="add-recommendation-log">Add Recommendation Log:</h2>
+<ul>
+<li><strong>Endpoint</strong>: /history</li>
+<li>Method: POST</li>
+<li>Input: JSON object containing recommendation information (description, recommendation_ISBN, successful)</li>
+<li>Output: Success or failure message</li>
+</ul>
 
 
 <div class="doc doc-object doc-module">
