@@ -43,7 +43,6 @@ try:
     data["genre"] = genres
     unique_genres = genres.explode().dropna().unique()
     genre_table = pd.DataFrame({"genre_id": range(1, len(unique_genres)+1), "genre": unique_genres})
-    print(genre_table["genre"].isnull().sum())
 
     books_with_genres = data[data['genre'].map(lambda d: len(d)) > 0]
     book_genre = books_with_genres.explode("genre")[["genre", "isbn"]]
