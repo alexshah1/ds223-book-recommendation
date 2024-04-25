@@ -8,7 +8,17 @@ import os
 import pickle as pkl
 from sentence_transformers import SentenceTransformer
 from .db.db_info import REQUIRED_COLUMNS
+from tqdm import tqdm
+import logging
 
+from .logger.logger import CustomFormatter
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+ch.setFormatter(CustomFormatter())
+logger.addHandler(ch)
 
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
@@ -81,6 +91,8 @@ def process_data(data_file: str, destination_folder: str = "data", column_names:
     # Load the data
     data = pd.read_csv(data_file)
     
+    logger.info("Data loaded successfully.")
+    
     # Make sure all required columns present
     for req_col in REQUIRED_COLUMNS:
         if (column_names and column_names[req_col] not in data.columns) or req_col not in data.columns:
@@ -90,9 +102,12 @@ def process_data(data_file: str, destination_folder: str = "data", column_names:
         # Add random book availability
         np.random.seed(42)
         data['available'] = np.random.choice([True, False], size=len(data), p=[0.3, 0.7])
+        logger.info("Available column added.")
     elif (column_names and column_names["available"] not in data.columns) or "available" not in data.columns:
         raise Exception("available column required, but missing in the given data. Either add it, or set random_availability to True.")
     
+    logger.info("All columns available.")
+
     # Rename the columns to the default column names
     if column_names:
         reverse_mapping = {v: k for k, v in column_names.items()}
@@ -100,11 +115,13 @@ def process_data(data_file: str, destination_folder: str = "data", column_names:
     
     # TODO data cleaning here, you need to be able to explain what you did and why
     
-    split_len = 20000
+    data = data[[REQUIRED_COLUMNS] + ["available"]]
+    
+    split_len = chunk_size
     split_data = [data[idx*split_len:(idx+1)*split_len] for idx in range(math.ceil(len(data)/split_len))]
 
-    for idx, d_part in enumerate(split_data):
-        
+    logger.info("Starting computing the embeddings.")
+    for idx, d_part in tqdm(enumerate(split_data)):        
         # Save the d_part as a CSV
         d_part.to_csv(f"{destination_folder}/data_{idx}.csv", index=False)
         

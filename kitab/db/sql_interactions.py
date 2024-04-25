@@ -131,7 +131,7 @@ class SqlHandler:
         """
         query = f""" TRUNCATE TABLE {table_name} CASCADE; """   #if exists
         self.cursor.execute(query)
-        logging.info(f'the {table_name} is truncated')
+        logger.info(f'the {table_name} is truncated')
         # self.cursor.close()
 
 
@@ -146,13 +146,13 @@ class SqlHandler:
         None
         """
         query = f"DROP TABLE IF EXISTS {table_name};"
-        logging.info(query)
+        logger.info(query)
 
         self.cursor.execute(query)
 
         self.close_cnxn.commit()
 
-        logging.info(f"table '{table_name}' deleted.")
+        logger.info(f"table '{table_name}' deleted.")
         logger.debug('using drop table function')
 
 

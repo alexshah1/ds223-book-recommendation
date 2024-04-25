@@ -29,15 +29,15 @@ def get_book_by_ISBN(ISBN: str):
 
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    logging.info("Database connection opened.")
+    logger.info("Database connection opened.")
     
     # Retrieve the book with the given ISBN
     book = db.get_table("book", conditions={"isbn": ISBN})
     
     if len(book) == 0:
-        logging.info("Book not found.")
+        logger.info("Book not found.")
         return None
-    logging.info("Book retrieved.")
+    logger.info("Book retrieved.")
     
     book_author = db.get_table("bookauthor", conditions={"isbn": ISBN})
     book_genre = db.get_table("bookgenre", conditions={"isbn": ISBN})
@@ -54,18 +54,18 @@ def get_book_by_ISBN(ISBN: str):
     if len(author_ids) > 0:
         author = db.get_table("author", conditions={"author_id": author_ids})
         authors = author["full_name"].tolist()
-        logging.info(f"Authors retrieved.")
+        logger.info(f"Authors retrieved.")
     else:
-        logging.info("No authors found.")
+        logger.info("No authors found.")
     
     genre_ids = book_genre["genre_id"].tolist()
     genres = []
     if len(genre_ids) > 0:
         genre = db.get_table("genre", conditions={"genre_id": genre_ids})
         genres = genre["genre"].tolist()
-        logging.info(f"Genres retrieved.")
+        logger.info(f"Genres retrieved.")
     else:
-        logging.info("No genres found.")
+        logger.info("No genres found.")
     
     book["authors"] = authors
     book["genres"] = genres
@@ -86,7 +86,7 @@ def get_book_by_title(title: str):
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    logging.info("Database connection opened.")
+    logger.info("Database connection opened.")
     
     # Retrieve the book with the given title
     books = db.get_table("book", conditions={"title": title})
@@ -94,10 +94,10 @@ def get_book_by_title(title: str):
     print(books)
     
     if len(books) == 0:
-        logging.info("Book not found.")
+        logger.info("Book not found.")
         return None
     else:
-        logging.info("Book ISBN retrieved.")
+        logger.info("Book ISBN retrieved.")
         ISBN = books["isbn"].values[0]
 
     # Return the book
@@ -117,7 +117,7 @@ def add_book_db(book: dict) -> bool:
     try:
         # Open connection to the database
         db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-        logging.info("Database connection opened.")
+        logger.info("Database connection opened.")
             
         # Extract information from the book dictionary
         ISBN = book["isbn"]
@@ -127,29 +127,29 @@ def add_book_db(book: dict) -> bool:
         embedding = get_embedding(book["description"]).tolist()
         
         db.insert_records("book", [{"isbn": ISBN, "title": title, "description": description, "embedding": embedding, "available": available}])
-        logging.info("Book table populated.")
+        logger.info("Book table populated.")
         
         # Add author(s) to the author table if doesn't exist
         authors = book["authors"]
         if len(authors) > 0:
-            logging.info("Authors to be added.")
+            logger.info("Authors to be added.")
             author_ids = _get_or_add_authors(db, authors)
             
             db.insert_records("bookauthor", [{"isbn": ISBN, "author_id": int(author_id)} for author_id in author_ids])
-            logging.info("Author table populated.")
+            logger.info("Author table populated.")
         else:
-            logging.info("No authors to be added.")
+            logger.info("No authors to be added.")
         
         # Add genres to the genres table if doesn't exist
         genres = book["genres"]    
         if len(genres) > 0:
-            logging.info("Genres to be added.")
+            logger.info("Genres to be added.")
             genre_ids = _get_or_add_genres(db, genres)
             
             db.insert_records("bookgenre", [{"isbn": ISBN, "genre_id": int(genre_id)} for genre_id in genre_ids])
-            logging.info("Genre table populated.")
+            logger.info("Genre table populated.")
         else:
-            logging.info("No genres to be added.")
+            logger.info("No genres to be added.")
 
         return True
     except:
@@ -169,7 +169,7 @@ def update_book_db(ISBN: str, new_book: dict) -> bool:
     try:
         # Open connection to the database
         db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-        logging.info("Database connection opened.")
+        logger.info("Database connection opened.")
         
         condition = {"ISBN": ISBN}
         new_values = {}
@@ -185,7 +185,7 @@ def update_book_db(ISBN: str, new_book: dict) -> bool:
                 new_values["embedding"] = get_embedding(new_book["description"]).tolist()
 
         db.update_records("book", new_values, condition)
-        logging.info("Book table updated.")
+        logger.info("Book table updated.")
         
         ISBN = latest_ISBN
         
@@ -195,7 +195,7 @@ def update_book_db(ISBN: str, new_book: dict) -> bool:
         
         # Add author(s) to the author table if doesn't exist
         if "authors" in new_book:
-            logging.info("Authors to be updated.")
+            logger.info("Authors to be updated.")
             
             authors = new_book["authors"]
             new_author_ids = set(_get_or_add_authors(db, authors))
@@ -207,13 +207,13 @@ def update_book_db(ISBN: str, new_book: dict) -> bool:
             db.remove_records("bookauthor", [{"isbn": ISBN, "author_id": int(removed_author)} for removed_author in removed_authors])
             db.insert_records("bookauthor", [{"isbn": ISBN, "author_id": int(added_author)} for added_author in added_authors])
             
-            logging.info("Author table updated.")
+            logger.info("Author table updated.")
         else:
-            logging.info("No authors to be updated.")
+            logger.info("No authors to be updated.")
         
         # Add genres to the genres table if doesn't exist
         if "genres" in new_book:
-            logging.info("Genres to be updated.")
+            logger.info("Genres to be updated.")
             
             genres = new_book["genres"]    
             new_genre_ids = set(_get_or_add_genres(db, genres))
@@ -225,9 +225,9 @@ def update_book_db(ISBN: str, new_book: dict) -> bool:
             db.remove_records("bookgenre", [{"isbn": ISBN, "genre_id": int(removed_genre)} for removed_genre in removed_genres])
             db.insert_records("bookgenre", [{"isbn": ISBN, "genre_id": int(added_genre)} for added_genre in added_genres])
             
-            logging.info("Genre table updated.")
+            logger.info("Genre table updated.")
         else:
-            logging.info("No genres to be updated.")
+            logger.info("No genres to be updated.")
             
         return True
     except:
@@ -246,7 +246,7 @@ def get_table_from_db(table_name: str, conditions: dict = None) -> pd.DataFrame:
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    logging.info("Database connection opened.")
+    logger.info("Database connection opened.")
     
     # Retrieve the table from the database
     if conditions:
@@ -254,7 +254,7 @@ def get_table_from_db(table_name: str, conditions: dict = None) -> pd.DataFrame:
     else:
         table = db.get_table(table_name)
         
-    logging.info(f"Table {table_name} retrieved.")
+    logger.info(f"Table {table_name} retrieved.")
     
     # Return the table
     return table
@@ -287,7 +287,7 @@ def _get_or_add_genres(db: SqlHandler, genres: list[str]) -> list[int]:
     
     # Insert the records
     db.insert_records("genre", to_insert)
-    logging.info("New genres added.")
+    logger.info("New genres added.")
     
     return genre_ids
 
@@ -319,7 +319,7 @@ def _get_or_add_authors(db: SqlHandler, authors: list[str]) -> list[int]:
     
     # Insert the records
     db.insert_records("author", to_insert)
-    logging.info("New authors added.")
+    logger.info("New authors added.")
     
     return author_ids
 
@@ -335,7 +335,7 @@ def get_authors(ISBNs: list[str]) -> dict[str:list]:
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    logging.info("Database connection opened.")
+    logger.info("Database connection opened.")
     
     # Retrieve the authors of the books with the given ISBNs
     authors = db.get_table("bookauthor", conditions={"isbn": ISBNs})
@@ -368,7 +368,7 @@ def get_genres(ISBNs: list[str]) -> dict[list]:
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    logging.info("Database connection opened.")
+    logger.info("Database connection opened.")
 
     # Retrieve the genres of the books with the given ISBNs
     genres = db.get_table("bookgenre", conditions={"isbn": ISBNs})
@@ -402,7 +402,7 @@ def get_history_by_recommendation_isbn(recommendation_isbn: str) -> dict:
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    logging.info("Database connection opened.")
+    logger.info("Database connection opened.")
     
     # Retrieve the history of books that have been recommended
     history = db.get_table("history", conditions={"recommendation_ISBN": recommendation_isbn})
@@ -426,7 +426,7 @@ def add_recommendation_log(description: str, recommendation_ISBN: str, successfu
     try:
         # Open connection to the database
         db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-        logging.info("Database connection opened.")
+        logger.info("Database connection opened.")
         
         # Insert the recommendation log into the history table
         db.insert_records("history", [{"description": description, "recommendation_ISBN": recommendation_ISBN, "successful": successful}])
