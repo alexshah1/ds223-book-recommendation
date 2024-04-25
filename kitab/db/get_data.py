@@ -44,6 +44,15 @@ def get_full_data(folder_path: str = "data"):
 # TODO
 # should be something similar to db_models.py but must be a function, that takes a directory with csv-s and pickles and loads to the db
 def load_data(folder_path: str = "data"):
+    """
+    Load data from a specified folder path and insert it into the database.
+
+    Parameters:
+    - folder_path (str): The path to the folder containing the data files. Default is "data".
+
+    Returns:
+    None
+    """
     try:
         # Getting the full data
         data = get_full_data(folder_path)
@@ -53,7 +62,7 @@ def load_data(folder_path: str = "data"):
         
         data.dropna(subset = ["isbn", "desc"], inplace=True)
 
-        book_table = data[["isbn", "title", "desc", "embedding", "available"]].rename(columns={"isbn":"ISBN", "desc":"description"})
+        book_table = data[["isbn", "title", "description", "embedding", "available"]]
 
         def split_and_filter(cell):
             if cell:

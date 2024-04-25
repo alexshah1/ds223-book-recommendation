@@ -54,8 +54,9 @@ def get_embedding(text: str) -> np.ndarray:
     return model.encode(text)    
             
 
+# TODO
 # To add in the future: function gets embedding_func: function = None, or gets the embeddings from the user
-def process_date(data_file: str, destination_folder: str, column_names: dict[str:str] = None, random_availability: bool = False) -> None:
+def process_date(data_file: str, destination_folder: str = "data", column_names: dict[str:str] = None, random_availability: bool = False) -> None:
     """
     Process the given data file, perform data cleaning, and save the processed data and embeddings.
 
