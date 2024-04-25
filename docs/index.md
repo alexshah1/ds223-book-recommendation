@@ -31,4 +31,4 @@ By implementing this system, we expect to:
 - Increase sales by suggesting alternatives when popular books are unavailable.
 - Enhance the discoverability of new and lesser-known books.
 
-Thank you for visiting our documentation. Please navigate to other sections for detailed information on installation, API usage, and more about how our system works.
+Thank you for visiting our documentation. Please navigate to other sections for detailed information on installation, API usage, and more about how our system works. 
