@@ -89,4 +89,6 @@ description = "In this thrilling detective tale, a group of childhood friends ac
 recommend_books(description, n=5)
 ```
 
+Find full documentation [here](https://alexshah1.github.io/ds223-book-recommendation/).
+
 © 2024 Team 8, DS 223 Marketing Analytics, AUA
