@@ -3,10 +3,11 @@ site_name: Book Recommendation
 nav: 
     - Home: index.md
     - Getting Started: getting_started.md
-    - DB Schema: db_schema.md
+    - Database Schema: db_schema.md
     - SQL Interactions: sql_interactions.md
     - Recommendation Model: recommendation_model.md
     - API: api.md
+    - Additional: additional.md
 
 theme:
   name: material

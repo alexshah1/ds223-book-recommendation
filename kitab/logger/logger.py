@@ -1,3 +1,6 @@
+"""
+This module contains the custom formatter for logging messages.
+"""
 import logging
 
 class CustomFormatter(logging.Formatter):

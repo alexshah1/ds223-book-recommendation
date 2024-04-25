@@ -1,3 +1,6 @@
+"""
+This module contains utility functions for processing data and generating embeddings.
+"""
 import numpy as np
 import pandas as pd
 import math
@@ -54,7 +57,6 @@ def get_embedding(text: str) -> np.ndarray:
     return model.encode(text)    
             
 
-# TODO
 # To add in the future: function gets embedding_func: function = None, or gets the embeddings from the user
 def process_data(data_file: str, destination_folder: str = "data", column_names: dict[str:str] = None, random_availability: bool = False) -> None:
     """
