@@ -16,3 +16,29 @@ The package was created as the final project of the DS 223 Marketing Analytics c
 - Maria Petrosyan
 
 The instructor of the course is Professor Karen Hovhannisyan. He oversaw the project and provided guidance to the team throughout the semester.
+
+## Getting Started
+
+To get started with our book recommendation system, follow these steps:
+
+1. **Installation**: Make sure you have Python installed on your system. Clone the project repository from GitHub and install the necessary dependencies using `pip`.
+
+2. **Setup**: Configure the database connection and API endpoints according to your environment settings. Refer to the `getting_started.md` file for detailed instructions.
+
+3. **Run the Server**: Start the server by running the `run.py` file. This will launch the API server and make the recommendation system accessible.
+
+## API Endpoints
+
+Our recommendation system provides API endpoints for interacting with the platform. Refer to the `api.md` file for details.
+
+## Usage
+
+Our book recommendation system can be integrated into various platforms. Developers can utilize the API endpoints to retrieve book information, add new books, update book details, and track recommendation interactions.
+
+## Expected Outcomes
+By implementing this system, we expect to:
+- Improve customer satisfaction through personalized recommendations.
+- Increase sales by suggesting alternatives when popular books are unavailable.
+- Enhance the discoverability of new and lesser-known books.
+
+Thank you for visiting our documentation. Please navigate to other sections for detailed information on installation, API usage, and more about how our system works.
