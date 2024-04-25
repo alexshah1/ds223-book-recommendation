@@ -52,7 +52,7 @@ try:
     book_genre.drop_duplicates(inplace=True)
     book_genre.reset_index(drop=True, inplace=True)
     book_genre["genre_id"] = book_genre["genre_id"].astype(int)
-
+    
     # Establish connection with the database
     sql_handler = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
 

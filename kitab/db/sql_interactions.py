@@ -16,6 +16,11 @@ logger.addHandler(ch)
 class SqlHandler:
 
     def __init__(self, dbname: str, user: str, password: str, host: str, port: str) -> None:
+        # Check credentials
+        print([dbname, user, password, host, port])
+        if any(not cred for cred in [dbname, user, password, host, port]):
+            raise Exception("Some database credentials were not passed. Please fill in the database credentials (DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME) in db_info.py.")
+        
         self.connection = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
         self.cursor = self.connection.cursor()
         register_vector(self.connection)

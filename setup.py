@@ -12,6 +12,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    install_requires=['pandas', 'sentence-transformers>=2.6', 'psycopg2-binary', 'pgvector'],
+    install_requires=['pandas', 'sentence-transformers>=2.6', 'psycopg2-binary', 'pgvector', 'dotenv'],
     python_requires=">=3.7",
 )
