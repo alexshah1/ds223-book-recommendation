@@ -6,6 +6,7 @@ current_directory = os.path.dirname(os.path.abspath(__file__))
 try:
     with open('pypi_desc.md', encoding='utf-8') as f:
         long_description = f.read()
+        print(long_description)
 except Exception:
     long_description = ''
 
@@ -24,5 +25,5 @@ setup(
     install_requires=['pandas', 'sentence-transformers>=2.6', 'psycopg2-binary', 'pgvector', 'python-dotenv', 'tqdm'],
     python_requires=">=3.9",
     long_description=long_description,
-    description_content_type='text/markdown',
+    long_description_content_type='text/markdown',
 )
