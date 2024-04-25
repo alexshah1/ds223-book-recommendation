@@ -110,7 +110,6 @@ def update_book(isbn: str, new_book: BookUpdate):
     old_book= get_book_by_ISBN(isbn)
     
     # Remove unchanged fields
-    logger.info("Removing unchanged fields.")
     to_remove = []
     for field in new_book:
         if old_book[field] == new_book[field] or new_book[field] is None:
@@ -121,7 +120,6 @@ def update_book(isbn: str, new_book: BookUpdate):
 
     # If no fields to be changed remained, return a message
     if len(new_book.keys()) == 0:
-        logger.info("No fields to be updated.")
         return {"message": "Nothing new passed."}
 
     # Update the book

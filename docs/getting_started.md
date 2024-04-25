@@ -68,7 +68,7 @@ load_data(destination_folder)
 Then you're ready to use the package functionalities. You can use the `recommend_books()` function to get recommendations for a book. The function takes the ISBN of the book and the number of recommendations you want to get.
 
 ```{python}
-from kitab.recommmendation_model import recommend_books
+from kitab.recommendation_model.models import recommend_books
 
 description = "In this thrilling detective tale, a group of childhood friends accidentally stumble upon an ancient artifact hidden in their clubhouse. Little do they know, their discovery thrusts them into a dangerous conspiracy spanning centuries. As they uncover clues, they race against time to prevent a cataclysmic event that could reshape the world. Join them on a heart-pounding journey through shadows and secrets in this gripping mystery."
 

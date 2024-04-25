@@ -17,12 +17,13 @@ logger.addHandler(ch)
 
 
 
-def get_full_data(folder_path: str = "data"):
+def get_full_data(folder_path: str = "data", verbose: bool = False):
     """
     Retrieves and combines data from multiple CSV files and corresponding pickle files.
     
     Parameters:
     folder_path (str): The path to the directory containing the CSV and pickle files.
+    verbose (bool): Whether to display logs. Default is False.
     
     Returns:
     pandas.DataFrame: A DataFrame containing the combined data with an additional 'embedding' column.
@@ -37,7 +38,8 @@ def get_full_data(folder_path: str = "data"):
     elif len(data_paths) != len(emb_paths):
         raise Exception("The number of CSV and PKL files do not match.")
     
-    logger.info("Data and embeddings found successfully.")
+    if verbose:
+        logger.info("Data and embeddings found successfully.")
     
     datas = [pd.read_csv(data_path) for data_path in data_paths]
     embs = []
@@ -50,17 +52,19 @@ def get_full_data(folder_path: str = "data"):
     df = pd.concat(datas).reset_index(drop=True)
     df["embedding"] = np.concatenate(embs).tolist()
     
-    logger.info("Data and embeddings combined successfully.")
+    if verbose:
+        logger.info("Data and embeddings combined successfully.")
  
     return df
 
 
-def load_data(folder_path: str = "data"):
+def load_data(folder_path: str = "data", verbose: bool = False):
     """
     Load data from a specified folder path and insert it into the database.
 
     Parameters:
-    - folder_path (str): The path to the folder containing the data files. Default is "data".
+    folder_path (str): The path to the folder containing the data files. Default is "data".
+    verbose (bool): Whether to display logs. Default is False.
 
     Returns:
     None
@@ -76,7 +80,8 @@ def load_data(folder_path: str = "data"):
 
         book_table = data[["isbn", "title", "description", "embedding", "available"]]
         
-        logger.info("Data loaded successfully.")
+        if verbose:
+            logger.info("Data loaded successfully.")
 
         def split_and_filter(cell):
             if cell:
@@ -90,7 +95,8 @@ def load_data(folder_path: str = "data"):
         unique_authors = authors.explode().dropna().unique()
         author_table = pd.DataFrame({"author_id": range(1, len(unique_authors)+1), "full_name": unique_authors})
         
-        logger.info("Authors extracted successfully.")
+        if verbose:
+            logger.info("Authors extracted successfully.")
 
         books_with_authors = data[data['author'].map(lambda d: len(d)) > 0]
         book_author = books_with_authors.explode("author")[["author", "isbn"]]
@@ -100,14 +106,16 @@ def load_data(folder_path: str = "data"):
         book_author.reset_index(drop=True, inplace=True)
         book_author["author_id"] = book_author["author_id"].astype(int)
         
-        logger.info("Book-Author mapping created successfully.")
+        if verbose:
+            logger.info("Book-Author mapping created successfully.")
 
         genres = data["genre"].apply(lambda x: split_and_filter(x))
         data["genre"] = genres
         unique_genres = genres.explode().dropna().unique()
         genre_table = pd.DataFrame({"genre_id": range(1, len(unique_genres)+1), "genre": unique_genres})
         
-        logger.info("Genres extracted successfully.")
+        if verbose:
+            logger.info("Genres extracted successfully.")
 
         books_with_genres = data[data['genre'].map(lambda d: len(d)) > 0]
         book_genre = books_with_genres.explode("genre")[["genre", "isbn"]]
@@ -118,7 +126,8 @@ def load_data(folder_path: str = "data"):
         book_genre.reset_index(drop=True, inplace=True)
         book_genre["genre_id"] = book_genre["genre_id"].astype(int)
         
-        logger.info("Book-Genre mapping created successfully.")
+        if verbose:
+            logger.info("Book-Genre mapping created successfully.")
 
         # Establish connection with the database
         sql_handler = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
@@ -127,36 +136,42 @@ def load_data(folder_path: str = "data"):
         for command in COMMANDS:
             sql_handler.cursor.execute(command)
             
-        logger.info("Tables created successfully.")
+        if verbose:
+            logger.info("Tables created successfully.")
 
         # Inserting data
         # Book table
         sql_handler.insert_many(book_table, "book")
         
-        logger.info("Book data inserted successfully.")
+        if verbose:
+            logger.info("Book data inserted successfully.")
 
         # Author table
         sql_handler.insert_many(author_table, "author")
         
-        logger.info("Author data inserted successfully.")
+        if verbose:
+            logger.info("Author data inserted successfully.")
 
         # Genre table
         sql_handler.insert_many(genre_table, "genre")
         
-        logger.info("Genre data inserted successfully.")
+        if verbose:
+            logger.info("Genre data inserted successfully.")
 
         # BookAuthor table
         sql_handler.insert_many(book_author, "bookauthor")
         
-        logger.info("Book-Author mapping inserted successfully.")
+        if verbose:
+            logger.info("Book-Author mapping inserted successfully.")
 
         # BookGenre table
         sql_handler.insert_many(book_genre, "bookgenre")
         
-        logger.info("Book-Genre mapping inserted successfully.")
+        if verbose:
+            logger.info("Book-Genre mapping inserted successfully.")
         
         # Close the connection
         sql_handler.close_cnxn()
 
     except psycopg2.Error as e:
-        print("Error: Unable to connect to the PostgreSQL server.")
+        logger.error("Unable to connect to the PostgreSQL server.")

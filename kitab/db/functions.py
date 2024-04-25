@@ -15,12 +15,13 @@ ch.setLevel(logging.DEBUG)
 ch.setFormatter(CustomFormatter())
 logger.addHandler(ch)
 
-def get_book_by_ISBN(ISBN: str):
+def get_book_by_ISBN(ISBN: str, verbose: bool = False):
     """
     Retrieves a book from the database based on its ISBN.
 
     Parameters:
     ISBN (str): The ISBN of the book to retrieve.
+    verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
     dict or None: A dictionary containing the book information if found, or None if no book is found.
@@ -28,7 +29,8 @@ def get_book_by_ISBN(ISBN: str):
 
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    logger.info("Database connection opened.")
+    if verbose:
+        logger.info("Database connection opened.")
     
     # Retrieve the book with the given ISBN
     book = db.get_table("book", conditions={"isbn": ISBN})
@@ -36,7 +38,9 @@ def get_book_by_ISBN(ISBN: str):
     if len(book) == 0:
         logger.info("Book not found.")
         return None
-    logger.info("Book retrieved.")
+    
+    if verbose:
+        logger.info("Book retrieved.")
     
     book_author = db.get_table("bookauthor", conditions={"isbn": ISBN})
     book_genre = db.get_table("bookgenre", conditions={"isbn": ISBN})
@@ -53,18 +57,22 @@ def get_book_by_ISBN(ISBN: str):
     if len(author_ids) > 0:
         author = db.get_table("author", conditions={"author_id": author_ids})
         authors = author["full_name"].tolist()
-        logger.info(f"Authors retrieved.")
+        if verbose:
+            logger.info(f"Authors retrieved.")
     else:
-        logger.info("No authors found.")
+        if verbose:
+            logger.info("No authors found.")
     
     genre_ids = book_genre["genre_id"].tolist()
     genres = []
     if len(genre_ids) > 0:
         genre = db.get_table("genre", conditions={"genre_id": genre_ids})
         genres = genre["genre"].tolist()
-        logger.info(f"Genres retrieved.")
+        if verbose:
+            logger.info(f"Genres retrieved.")
     else:
-        logger.info("No genres found.")
+        if verbose:
+            logger.info("No genres found.")
     
     book["authors"] = authors
     book["genres"] = genres
@@ -73,37 +81,39 @@ def get_book_by_ISBN(ISBN: str):
     return book
 
 
-def get_book_by_title(title: str):
+def get_book_by_title(title: str, verbose: bool = False):
     """
     Retrieves a book from the database based on its title.
 
     Parameters:
     title (str): The title of the book to retrieve.
+    verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
     dict or None: A dictionary containing the book information if found, or None if no book is found.
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    logger.info("Database connection opened.")
+    if verbose:
+        logger.info("Database connection opened.")
     
     # Retrieve the book with the given title
     books = db.get_table("book", conditions={"title": title})
-    
-    print(books)
-    
+        
     if len(books) == 0:
-        logger.info("Book not found.")
+        if verbose:
+            logger.info("Book not found.")
         return None
     else:
-        logger.info("Book ISBN retrieved.")
+        if verbose:
+            logger.info("Book ISBN retrieved.")
         ISBN = books["isbn"].values[0]
 
     # Return the book
     return get_book_by_ISBN(ISBN)
 
 
-def add_book_db(book: dict) -> bool:
+def add_book_db(book: dict, verbose: bool = False) -> bool:
     """
     Adds a book to the database.
 
@@ -116,7 +126,8 @@ def add_book_db(book: dict) -> bool:
     try:
         # Open connection to the database
         db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-        logger.info("Database connection opened.")
+        if verbose:
+            logger.info("Database connection opened.")
             
         # Extract information from the book dictionary
         ISBN = book["isbn"]
@@ -126,41 +137,49 @@ def add_book_db(book: dict) -> bool:
         embedding = get_embedding(book["description"]).tolist()
         
         db.insert_records("book", [{"isbn": ISBN, "title": title, "description": description, "embedding": embedding, "available": available}])
-        logger.info("Book table populated.")
+        if verbose:
+            logger.info("Book table populated.")
         
         # Add author(s) to the author table if doesn't exist
         authors = book["authors"]
         if len(authors) > 0:
-            logger.info("Authors to be added.")
+            if verbose:
+                logger.info("Authors to be added.")
             author_ids = _get_or_add_authors(db, authors)
             
             db.insert_records("bookauthor", [{"isbn": ISBN, "author_id": int(author_id)} for author_id in author_ids])
-            logger.info("Author table populated.")
+            if verbose:
+                logger.info("Author table populated.")
         else:
-            logger.info("No authors to be added.")
+            if verbose:
+                logger.info("No authors to be added.")
         
         # Add genres to the genres table if doesn't exist
         genres = book["genres"]    
         if len(genres) > 0:
-            logger.info("Genres to be added.")
+            if verbose:
+                logger.info("Genres to be added.")
             genre_ids = _get_or_add_genres(db, genres)
             
             db.insert_records("bookgenre", [{"isbn": ISBN, "genre_id": int(genre_id)} for genre_id in genre_ids])
-            logger.info("Genre table populated.")
+            if verbose:
+                logger.info("Genre table populated.")
         else:
-            logger.info("No genres to be added.")
+            if verbose:
+                logger.info("No genres to be added.")
 
         return True
     except:
         return False    
     
-def update_book_db(ISBN: str, new_book: dict) -> bool:
+def update_book_db(ISBN: str, new_book: dict, verbose: bool = True) -> bool:
     """
     Updates a book in the database.
     
     Parameters:
     ISBN (str): The ISBN of the book to update.
     new_book (dict): A dictionary containing the updated book information.
+    verbose (bool): Whether to print verbose output. Defaults to False.
     
     Returns:
     bool: True if the book was successfully updated, False otherwise.
@@ -168,7 +187,8 @@ def update_book_db(ISBN: str, new_book: dict) -> bool:
     try:
         # Open connection to the database
         db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-        logger.info("Database connection opened.")
+        if verbose:
+            logger.info("Database connection opened.")
         
         condition = {"ISBN": ISBN}
         new_values = {}
@@ -184,7 +204,8 @@ def update_book_db(ISBN: str, new_book: dict) -> bool:
                 new_values["embedding"] = get_embedding(new_book["description"]).tolist()
 
         db.update_records("book", new_values, condition)
-        logger.info("Book table updated.")
+        if verbose:
+            logger.info("Book table updated.")
         
         ISBN = latest_ISBN
         
@@ -194,7 +215,8 @@ def update_book_db(ISBN: str, new_book: dict) -> bool:
         
         # Add author(s) to the author table if doesn't exist
         if "authors" in new_book:
-            logger.info("Authors to be updated.")
+            if verbose:
+                logger.info("Authors to be updated.")
             
             authors = new_book["authors"]
             new_author_ids = set(_get_or_add_authors(db, authors))
@@ -206,13 +228,16 @@ def update_book_db(ISBN: str, new_book: dict) -> bool:
             db.remove_records("bookauthor", [{"isbn": ISBN, "author_id": int(removed_author)} for removed_author in removed_authors])
             db.insert_records("bookauthor", [{"isbn": ISBN, "author_id": int(added_author)} for added_author in added_authors])
             
-            logger.info("Author table updated.")
+            if verbose:
+                logger.info("Author table updated.")
         else:
-            logger.info("No authors to be updated.")
+            if verbose:
+                logger.info("No authors to be updated.")
         
         # Add genres to the genres table if doesn't exist
         if "genres" in new_book:
-            logger.info("Genres to be updated.")
+            if verbose:
+                logger.info("Genres to be updated.")
             
             genres = new_book["genres"]    
             new_genre_ids = set(_get_or_add_genres(db, genres))
@@ -224,28 +249,32 @@ def update_book_db(ISBN: str, new_book: dict) -> bool:
             db.remove_records("bookgenre", [{"isbn": ISBN, "genre_id": int(removed_genre)} for removed_genre in removed_genres])
             db.insert_records("bookgenre", [{"isbn": ISBN, "genre_id": int(added_genre)} for added_genre in added_genres])
             
-            logger.info("Genre table updated.")
+            if verbose:
+                logger.info("Genre table updated.")
         else:
-            logger.info("No genres to be updated.")
+            if verbose:
+                logger.info("No genres to be updated.")
             
         return True
     except:
         return False
 
-def get_table_from_db(table_name: str, conditions: dict = None) -> pd.DataFrame:
+def get_table_from_db(table_name: str, conditions: dict = None, verbose: bool = False) -> pd.DataFrame:
     """
     Retrieves a table from the database.
 
     Parameters:
     table_name (str): The name of the table to retrieve.
     conditions (dict): A dictionary of conditions to filter the table.
+    verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
     pd.DataFrame: A DataFrame containing the table information.
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    logger.info("Database connection opened.")
+    if verbose:
+        logger.info("Database connection opened.")
     
     # Retrieve the table from the database
     if conditions:
@@ -253,18 +282,20 @@ def get_table_from_db(table_name: str, conditions: dict = None) -> pd.DataFrame:
     else:
         table = db.get_table(table_name)
         
-    logger.info(f"Table {table_name} retrieved.")
+    if verbose:
+        logger.info(f"Table {table_name} retrieved.")
     
     # Return the table
     return table
 
-def _get_or_add_genres(db: SqlHandler, genres: list[str]) -> list[int]:
+def _get_or_add_genres(db: SqlHandler, genres: list[str], verbose: bool = False) -> list[int]:
     """
     Get the genre IDs for the given list of genres. If the genres do not exist in the database, add them to the genre table.
 
     Parameters:
     db (SqlHandler): The database handler.
     genres (list[str]): A list of genres.
+    verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
     list[int]: A list of genre IDs.
@@ -286,17 +317,19 @@ def _get_or_add_genres(db: SqlHandler, genres: list[str]) -> list[int]:
     
     # Insert the records
     db.insert_records("genre", to_insert)
-    logger.info("New genres added.")
+    if verbose:
+        logger.info("New genres added.")
     
     return genre_ids
 
-def _get_or_add_authors(db: SqlHandler, authors: list[str]) -> list[int]:
+def _get_or_add_authors(db: SqlHandler, authors: list[str], verbose: bool = False) -> list[int]:
     """
     Get the author IDs for the given list of authors. If the authors do not exist in the database, add them to the author table.
 
     Parameters:
     db (SqlHandler): The database handler.
     authors (list[str]): A list of authors.
+    verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
     list[int]: A list of author IDs.
@@ -318,23 +351,26 @@ def _get_or_add_authors(db: SqlHandler, authors: list[str]) -> list[int]:
     
     # Insert the records
     db.insert_records("author", to_insert)
-    logger.info("New authors added.")
+    if verbose:
+        logger.info("New authors added.")
     
     return author_ids
 
-def get_authors(ISBNs: list[str]) -> dict[str:list]:
+def get_authors(ISBNs: list[str], verbose: bool = False) -> dict[str:list]:
     """
     Get the authors for the given list of ISBNs.
     
     Parameters:
     ISBNs (list[str]): A list of ISBNs.
+    verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
     dict[str:list]: A dictionary containing the authors for each ISBN.
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    logger.info("Database connection opened.")
+    if verbose:
+        logger.info("Database connection opened.")
     
     # Retrieve the authors of the books with the given ISBNs
     authors = db.get_table("bookauthor", conditions={"isbn": ISBNs})
@@ -355,19 +391,21 @@ def get_authors(ISBNs: list[str]) -> dict[str:list]:
     # Return the dictionary of lists
     return isbn_authors
 
-def get_genres(ISBNs: list[str]) -> dict[list]:
+def get_genres(ISBNs: list[str], verbose: bool = False) -> dict[list]:
     """
     Get the genres for the given list of ISBNs.
     
     Parameters:
     ISBNs (list[str]): A list of ISBNs.
+    verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
     dict[str:list]: A dictionary containing the genres for each ISBN.
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    logger.info("Database connection opened.")
+    if verbose:
+        logger.info("Database connection opened.")
 
     # Retrieve the genres of the books with the given ISBNs
     genres = db.get_table("bookgenre", conditions={"isbn": ISBNs})
@@ -389,7 +427,7 @@ def get_genres(ISBNs: list[str]) -> dict[list]:
     return isbn_genres
 
 
-def get_history_by_recommendation_isbn(recommendation_isbn: str) -> dict:
+def get_history_by_recommendation_isbn(recommendation_isbn: str, verbose: bool = False) -> dict:
     """
     Get the history of recommendations for a book with the given ISBN.
     
@@ -401,7 +439,8 @@ def get_history_by_recommendation_isbn(recommendation_isbn: str) -> dict:
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    logger.info("Database connection opened.")
+    if verbose:
+        logger.info("Database connection opened.")
     
     # Retrieve the history of books that have been recommended
     history = db.get_table("history", conditions={"recommendation_ISBN": recommendation_isbn})
@@ -410,7 +449,7 @@ def get_history_by_recommendation_isbn(recommendation_isbn: str) -> dict:
     return history.drop(columns="log_id").to_dict(orient='records')
 
 
-def add_recommendation_log(description: str, recommendation_ISBN: str, successful: bool) -> bool:
+def add_recommendation_log(description: str, recommendation_ISBN: str, successful: bool, verbose: bool = False) -> bool:
     """
     Adds a recommendation log to the history table.
     
@@ -418,6 +457,7 @@ def add_recommendation_log(description: str, recommendation_ISBN: str, successfu
     description (str): The description of the recommendation.
     recommendation_ISBN (str): The ISBN of the recommended book.
     successful (bool): Whether the recommendation was successful or not.
+    verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
     bool: True if the recommendation log was successfully added, False otherwise.
@@ -425,12 +465,13 @@ def add_recommendation_log(description: str, recommendation_ISBN: str, successfu
     try:
         # Open connection to the database
         db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-        logger.info("Database connection opened.")
+        if verbose:
+            logger.info("Database connection opened.")
         
         # Insert the recommendation log into the history table
         db.insert_records("history", [{"description": description, "recommendation_ISBN": recommendation_ISBN, "successful": successful}])
     
         return True
     except Exception as e:
-        print(e)
+        logger.error("Error adding recommendation log.")
         return False
