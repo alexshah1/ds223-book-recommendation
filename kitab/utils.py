@@ -67,7 +67,7 @@ def get_embedding(text: str) -> np.ndarray:
             
 
 # To add in the future: function gets embedding_func: function = None, or gets the embeddings from the user
-def process_data(data_file: str, destination_folder: str = "data", column_names: dict[str:str] = None, random_availability: bool = False, chunk_size: int = 20000) -> None:
+def process_data(data_file: str, destination_folder: str = "data", column_names: dict[str:str] = None, random_availability: bool = False) -> None:
     """
     Process the given data file, perform data cleaning, and save the processed data and embeddings.
 
@@ -76,7 +76,6 @@ def process_data(data_file: str, destination_folder: str = "data", column_names:
     destination_folder (str): The path to the destination folder where the processed data and embeddings will be saved.
     column_names (dict[str:str], optional): A dictionary mapping required column names to the corresponding column names in the data file. Defaults to None.
     random_availability (bool, optional): If True, add random book availability to the data. If False, the data must contain an 'availability' column. Defaults to False.
-    chunk_size (int, optional): The size of the chunks to split the data into. Defaults to 20000.
 
     Returns:
         None
@@ -90,8 +89,6 @@ def process_data(data_file: str, destination_folder: str = "data", column_names:
     # Load the data
     data = pd.read_csv(data_file)
     
-    logger.info("Data loaded successfully.")
-    
     # Make sure all required columns present
     for req_col in REQUIRED_COLUMNS:
         if (column_names and column_names[req_col] not in data.columns) or req_col not in data.columns:
@@ -100,27 +97,23 @@ def process_data(data_file: str, destination_folder: str = "data", column_names:
     if random_availability:
         # Add random book availability
         np.random.seed(42)
-        data['available'] = np.random.choice([True, False], size=len(data), p=[0.3, 0.7])
-        logger.info("Available column added.")
-    elif (column_names and column_names["available"] not in data.columns) or "available" not in data.columns:
-        raise Exception("available column required, but missing in the given data. Either add it, or set random_availability to True.")
+        data['availability'] = np.random.choice([True, False], size=len(data), p=[0.3, 0.7])
+    elif (column_names and column_names["availability"] not in data.columns) or "availability" not in data.columns:
+        raise Exception("Availability column required, but missing in the given data. Either add it, or set random_availability to True.")
     
-    logger.info("All columns available.")
-
     # Rename the columns to the default column names
     if column_names:
         reverse_mapping = {v: k for k, v in column_names.items()}
         data.rename(columns=reverse_mapping, inplace=True)
     
-    # TODO data cleaning here, you need to be able to explain what you did and why
+    # Data cleaning 
+    data.dropna(inplace=True)
     
-    data = data[[REQUIRED_COLUMNS] + ["available"]]
-    
-    split_len = chunk_size
+    split_len = 20000
     split_data = [data[idx*split_len:(idx+1)*split_len] for idx in range(math.ceil(len(data)/split_len))]
 
-    logger.info("Starting computing the embeddings.")
-    for idx, d_part in tqdm(enumerate(split_data)):        
+    for idx, d_part in enumerate(split_data):
+        
         # Save the d_part as a CSV
         d_part.to_csv(f"{destination_folder}/data_{idx}.csv", index=False)
         
