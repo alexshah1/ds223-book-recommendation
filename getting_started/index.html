@@ -446,7 +446,7 @@
 <li>genre (list[str]) - the genres of the book,</li>
 <li>available (bool) - whether the book is available or not (optional; you can use random initialization of this column).</li>
 </ul>
-<p>The <code>process_data()</code> function will process the data and generate the embeddings. It will split the data into parts, generate embeddings, store them in a specified folder. The folder will have numbered CSVs with the processed data and PKLs with the embeddings.</p>
+<p>The <code>process_data()</code> function will process the data and generate the embeddings (this might take a while). It will split the data into parts, generate embeddings, store them in a specified folder. The folder will have numbered CSVs with the processed data and PKLs with the embeddings.</p>
 <pre><code>from kitab.utils import process_data
 
 filepath = &quot;data.csv&quot;
@@ -462,12 +462,15 @@ DB_PORT='' # Database port
 DB_NAME='' # Database name
 </code></pre>
 <p>Then using the <code>load_data()</code> function, the data can be loaded into the database. The function gets the path of the folder which stores the data and the embeddings, combine these, and load them into the database.</p>
-<pre><code>from kitab.db.get_data import load_data
+<pre><code>from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+
+from kitab.db.get_data import load_data
 
 load_data(destination_folder)
 </code></pre>
 <p>Then you're ready to use the package functionalities. You can use the <code>recommend_books()</code> function to get recommendations for a book. The function takes the ISBN of the book and the number of recommendations you want to get.</p>
-<pre><code>from kitab.recommmendation_model import recommend_books
+<pre><code>from kitab.recommendation_model.models import recommend_books
 
 description = &quot;In this thrilling detective tale, a group of childhood friends accidentally stumble upon an ancient artifact hidden in their clubhouse. Little do they know, their discovery thrusts them into a dangerous conspiracy spanning centuries. As they uncover clues, they race against time to prevent a cataclysmic event that could reshape the world. Join them on a heart-pounding journey through shadows and secrets in this gripping mystery.&quot;
 

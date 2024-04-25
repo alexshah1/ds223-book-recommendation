@@ -308,61 +308,7 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#endpoints" class="md-nav__link">
-    <span class="md-ellipsis">
-      Endpoints
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#update-book" class="md-nav__link">
-    <span class="md-ellipsis">
-      Update Book:
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get-authors-by-isbns" class="md-nav__link">
-    <span class="md-ellipsis">
-      Get Authors by ISBNs:
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get-genres-by-isbns" class="md-nav__link">
-    <span class="md-ellipsis">
-      Get Genres by ISBNs:
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#retrieve-book-history-by-recommendation-isbn" class="md-nav__link">
-    <span class="md-ellipsis">
-      Retrieve Book History by Recommendation ISBN:
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#add-recommendation-log" class="md-nav__link">
-    <span class="md-ellipsis">
-      Add Recommendation Log:
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Add Recommendation Log:">
+    <nav class="md-nav" aria-label="Run the server">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -518,61 +464,7 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#endpoints" class="md-nav__link">
-    <span class="md-ellipsis">
-      Endpoints
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#update-book" class="md-nav__link">
-    <span class="md-ellipsis">
-      Update Book:
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get-authors-by-isbns" class="md-nav__link">
-    <span class="md-ellipsis">
-      Get Authors by ISBNs:
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get-genres-by-isbns" class="md-nav__link">
-    <span class="md-ellipsis">
-      Get Genres by ISBNs:
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#retrieve-book-history-by-recommendation-isbn" class="md-nav__link">
-    <span class="md-ellipsis">
-      Retrieve Book History by Recommendation ISBN:
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#add-recommendation-log" class="md-nav__link">
-    <span class="md-ellipsis">
-      Add Recommendation Log:
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Add Recommendation Log:">
+    <nav class="md-nav" aria-label="Run the server">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -687,50 +579,6 @@
 <p>The package also provides API functionality to interact with the recommendation model. To run the server, you need to run the <code>run.py</code> file:</p>
 <pre><code class="language-bash">python run.py
 </code></pre>
-<h2 id="endpoints">Endpoints</h2>
-<p>The API provides the following endpoints:</p>
-<p>-<strong>Endpoint</strong>: /book/{ISBN}
-- Method: GET
-- Output: JSON object containing book information (title, description, authors, genres)</p>
-<p>## Add Book:
-- <strong>Endpoint</strong>: /book
-- Method: POST
-- Input: JSON object containing book information (title, description, authors, genres)
-- Output: Success or failure message</p>
-<h2 id="update-book">Update Book:</h2>
-<ul>
-<li><strong>Endpoint</strong>: /book/{ISBN}</li>
-<li>Method: PUT</li>
-<li>Input: JSON object containing updated book information (title, description, authors, genres)</li>
-<li>Output: Success or failure message</li>
-</ul>
-<h2 id="get-authors-by-isbns">Get Authors by ISBNs:</h2>
-<ul>
-<li><strong>Endpoint</strong>: /authors</li>
-<li>Method: POST</li>
-<li>Input: List of ISBNs</li>
-<li>Output: JSON object containing authors for each ISBN</li>
-</ul>
-<h2 id="get-genres-by-isbns">Get Genres by ISBNs:</h2>
-<ul>
-<li><strong>Endpoint</strong>: /genres</li>
-<li>Method: POST</li>
-<li>Input: List of ISBNs</li>
-<li>Output: JSON object containing genres for each ISBN</li>
-</ul>
-<h2 id="retrieve-book-history-by-recommendation-isbn">Retrieve Book History by Recommendation ISBN:</h2>
-<ul>
-<li><strong>Endpoint</strong>: /history/{recommendation_ISBN}</li>
-<li>Method: GET</li>
-<li>Output: JSON object containing history of recommendations for the book</li>
-</ul>
-<h2 id="add-recommendation-log">Add Recommendation Log:</h2>
-<ul>
-<li><strong>Endpoint</strong>: /history</li>
-<li>Method: POST</li>
-<li>Input: JSON object containing recommendation information (description, recommendation_ISBN, successful)</li>
-<li>Output: Success or failure message</li>
-</ul>
 
 
 <div class="doc doc-object doc-module">
@@ -778,7 +626,8 @@ book (dict): The book information.</p>
 
           <details class="quote">
             <summary>Source code in <code>kitab\api\app.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">67</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">66</span>
+<span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
@@ -796,8 +645,7 @@ book (dict): The book information.</p>
 <span class="normal">82</span>
 <span class="normal">83</span>
 <span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/add_book&quot;</span><span class="p">)</span>
+<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/add_book&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">add_book</span><span class="p">(</span><span class="n">book</span><span class="p">:</span> <span class="n">Book</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add a book to the database.</span>
@@ -844,7 +692,10 @@ successful (bool): Whether the recommendation was successful.</p>
 
           <details class="quote">
             <summary>Source code in <code>kitab\api\app.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">218</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
 <span class="normal">219</span>
 <span class="normal">220</span>
 <span class="normal">221</span>
@@ -859,10 +710,7 @@ successful (bool): Whether the recommendation was successful.</p>
 <span class="normal">230</span>
 <span class="normal">231</span>
 <span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/add_log&quot;</span><span class="p">)</span>
+<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/add_log&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">add_log</span><span class="p">(</span><span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">recommendation_isbn</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">successful</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add a log of a recommendation.</span>
@@ -908,7 +756,8 @@ dict: The book information.</p>
 
           <details class="quote">
             <summary>Source code in <code>kitab\api\app.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">46</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">45</span>
+<span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
 <span class="normal">49</span>
@@ -925,8 +774,7 @@ dict: The book information.</p>
 <span class="normal">60</span>
 <span class="normal">61</span>
 <span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/get_book&quot;</span><span class="p">)</span>
+<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/get_book&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">get_book</span><span class="p">(</span><span class="n">isbn</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the book by ISBN.</span>
@@ -972,7 +820,10 @@ dict: The history of recommendations.</p>
 
           <details class="quote">
             <summary>Source code in <code>kitab\api\app.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">200</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
 <span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
@@ -984,10 +835,7 @@ dict: The history of recommendations.</p>
 <span class="normal">209</span>
 <span class="normal">210</span>
 <span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/get_logs&quot;</span><span class="p">)</span>
+<span class="normal">212</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/get_logs&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">get_logs</span><span class="p">(</span><span class="n">recommendation_isbn</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the history of recommendations for the book with the given ISBN.</span>
@@ -1032,7 +880,10 @@ dict: The recommendations.</p>
 
           <details class="quote">
             <summary>Source code in <code>kitab\api\app.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
 <span class="normal">138</span>
@@ -1045,10 +896,7 @@ dict: The recommendations.</p>
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/get_recommendations&quot;</span><span class="p">)</span>
+<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/get_recommendations&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">get_recommendations</span><span class="p">(</span><span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">get_available</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return n book recommendations based on the description.</span>
@@ -1094,7 +942,10 @@ dict: The recommendations.</p>
 
           <details class="quote">
             <summary>Source code in <code>kitab\api\app.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
@@ -1111,10 +962,7 @@ dict: The recommendations.</p>
 <span class="normal">168</span>
 <span class="normal">169</span>
 <span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/get_recommendations_by_isbn&quot;</span><span class="p">)</span>
+<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/get_recommendations_by_isbn&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">get_recommendations_by_isbn</span><span class="p">(</span><span class="n">isbn</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">get_available</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return n book recommendations based on recommendation of the book with the given ISBN.</span>
@@ -1164,7 +1012,10 @@ dict: The recommendations.</p>
 
           <details class="quote">
             <summary>Source code in <code>kitab\api\app.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
 <span class="normal">178</span>
 <span class="normal">179</span>
 <span class="normal">180</span>
@@ -1181,10 +1032,7 @@ dict: The recommendations.</p>
 <span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/get_recommendations_by_title&quot;</span><span class="p">)</span>
+<span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/get_recommendations_by_title&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">get_recommendations_by_title</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">get_available</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return n book recommendations based on recommendation of the book with the given title.</span>
@@ -1231,7 +1079,8 @@ new_book (dict): The new book information.</p>
 
           <details class="quote">
             <summary>Source code in <code>kitab\api\app.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 88</span>
+<span class="normal"> 89</span>
 <span class="normal"> 90</span>
 <span class="normal"> 91</span>
 <span class="normal"> 92</span>
@@ -1271,10 +1120,7 @@ new_book (dict): The new book information.</p>
 <span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;/update_book&quot;</span><span class="p">)</span>
+<span class="normal">129</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;/update_book&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">update_book</span><span class="p">(</span><span class="n">isbn</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_book</span><span class="p">:</span> <span class="n">BookUpdate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Update a book in the database.</span>
@@ -1299,7 +1145,6 @@ new_book (dict): The new book information.</p>
     <span class="n">old_book</span><span class="o">=</span> <span class="n">get_book_by_ISBN</span><span class="p">(</span><span class="n">isbn</span><span class="p">)</span>
 
     <span class="c1"># Remove unchanged fields</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Removing unchanged fields.&quot;</span><span class="p">)</span>
     <span class="n">to_remove</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">new_book</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">old_book</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">==</span> <span class="n">new_book</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="ow">or</span> <span class="n">new_book</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1310,7 +1155,6 @@ new_book (dict): The new book information.</p>
 
     <span class="c1"># If no fields to be changed remained, return a message</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_book</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No fields to be updated.&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Nothing new passed.&quot;</span><span class="p">}</span>
 
     <span class="c1"># Update the book</span>
