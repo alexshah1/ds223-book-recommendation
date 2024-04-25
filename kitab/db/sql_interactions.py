@@ -24,6 +24,7 @@ class SqlHandler:
             raise Exception("Some database credentials were not passed. Please fill in the database credentials (DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME) in db_info.py.")
         
         self.connection = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
+        self.cursor = self.connection.cursor()
         self.cursor.execute("CREATE EXTENSION IF NOT EXISTS vector;")
         register_vector(self.connection)
     
