@@ -8,8 +8,4 @@ The package also provides API functionality to interact with the recommendation 
 python run.py
 ```
 
-## API Endpoints
-
-The API provides the following endpoints:
-
 ::: kitab.api.app
