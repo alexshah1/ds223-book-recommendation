@@ -112,9 +112,12 @@ def process_data(data_file: str, destination_folder: str = "data", column_names:
         reverse_mapping = {v: k for k, v in column_names.items()}
         data.rename(columns=reverse_mapping, inplace=True)
     
-    # TODO data cleaning here, you need to be able to explain what you did and why
+    # Keep only the required columns
+    data = data[REQUIRED_COLUMNS + ["available"]]
     
-    data = data[[REQUIRED_COLUMNS] + ["available"]]
+    # TODO data cleaning here, you need to be able to explain what you did and why
+    # Drop NA descriptions
+    data = data.dropna(subset=["description"])
     
     split_len = chunk_size
     split_data = [data[idx*split_len:(idx+1)*split_len] for idx in range(math.ceil(len(data)/split_len))]

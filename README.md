@@ -50,7 +50,7 @@ To start using the package functionalities, you need to import the package in yo
 - genre (list[str]) - the genres of the book,
 - available (bool) - whether the book is available or not (optional; you can use random initialization of this column).
 
-The `process_data()` function will process the data and generate the embeddings. It will split the data into parts, generate embeddings, store them in a specified folder. The folder will have numbered CSVs with the processed data and PKLs with the embeddings.
+The `process_data()` function will process the data and generate the embeddings (this might take a while). It will split the data into parts, generate embeddings, store them in a specified folder. The folder will have numbered CSVs with the processed data and PKLs with the embeddings.
 
 ```{python}
 from kitab.utils import process_data
