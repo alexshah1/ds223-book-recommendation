@@ -218,7 +218,7 @@
         
   
   <span class="md-ellipsis">
-    SQL Interactions
+    SQL Interactions & Functions
   </span>
   
 
@@ -623,23 +623,84 @@
   <div class="doc doc-contents ">
   
       <p>Compute the cosine similarity between a matrix (consisting of vectors) and a vector.</p>
-<p>Example:</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>from kitab.utils import cos_mat_vec
-import numpy as np
-matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-vector = np.array([1, 2, 3])
-cos_mat_vec(matrix, vector)</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>Parameters:
-matr (np.ndarray): The matrix (containing individual vectors).
-vect (np.ndarray): The vector.</p>
-<p>Returns:
-np.ndarray: The cosine similarity between the matrix and the vector.</p>
+
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kitab.utils</span> <span class="kn">import</span> <span class="n">cos_mat_vec</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cos_mat_vec</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">vector</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+  <p><span class="doc-section-title">Parameters:</span></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr class="doc-section-item">
+          <td><code>matr</code></td>
+          <td>
+                <code><span title="numpy.ndarray">ndarray</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The matrix (containing individual vectors).</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr class="doc-section-item">
+          <td><code>vect</code></td>
+          <td>
+                <code><span title="numpy.ndarray">ndarray</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The vector.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><span class="doc-section-title">Returns:</span></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr class="doc-section-item">
+          <td>
+                <code><span title="numpy.ndarray">ndarray</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>np.ndarray: The cosine similarity between the matrix and the vector.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
 
           <details class="quote">
             <summary>Source code in <code>kitab\utils.py</code></summary>
@@ -668,19 +729,19 @@ np.ndarray: The cosine similarity between the matrix and the vector.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the cosine similarity between a matrix (consisting of vectors) and a vector.</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">    &gt;&gt;&gt; from kitab.utils import cos_mat_vec</span>
-<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])</span>
-<span class="sd">    &gt;&gt;&gt; vector = np.array([1, 2, 3])</span>
-<span class="sd">    &gt;&gt;&gt; cos_mat_vec(matrix, vector)</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from kitab.utils import cos_mat_vec</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])</span>
+<span class="sd">        &gt;&gt;&gt; vector = np.array([1, 2, 3])</span>
+<span class="sd">        &gt;&gt;&gt; cos_mat_vec(matrix, vector)</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    matr (np.ndarray): The matrix (containing individual vectors).</span>
-<span class="sd">    vect (np.ndarray): The vector.</span>
+<span class="sd">        matr (np.ndarray): The matrix (containing individual vectors).</span>
+<span class="sd">        vect (np.ndarray): The vector.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    np.ndarray: The cosine similarity between the matrix and the vector.</span>
+<span class="sd">        np.ndarray: The cosine similarity between the matrix and the vector.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dot_product</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matr</span><span class="p">,</span> <span class="n">vect</span><span class="p">)</span>
     <span class="n">norm_vector1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">matr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -706,23 +767,84 @@ np.ndarray: The cosine similarity between the matrix and the vector.</p>
   <div class="doc doc-contents ">
   
       <p>Compute the cosine similarity between two vectors.</p>
-<p>Example:</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>from kitab.utils import cos_mat_vec
-import numpy as np
-vector1 = np.array([1, 2, 3])
-vector2 = np.array([1, 2, 3])
-cos_mat_vec(vector1, vector2)</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>Parameters:
-vector1 (np.ndarray): The first vector.
-vector2 (np.ndarray): The second vector.</p>
-<p>Returns:
-float: The cosine similarity between the two vectors.</p>
+
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kitab.utils</span> <span class="kn">import</span> <span class="n">cos_vec_vec</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vector1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vector2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cos_vec_vec</span><span class="p">(</span><span class="n">vector1</span><span class="p">,</span> <span class="n">vector2</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+  <p><span class="doc-section-title">Parameters:</span></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr class="doc-section-item">
+          <td><code>vector1</code></td>
+          <td>
+                <code><span title="numpy.ndarray">ndarray</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The first vector.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr class="doc-section-item">
+          <td><code>vector2</code></td>
+          <td>
+                <code><span title="numpy.ndarray">ndarray</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The second vector.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><span class="doc-section-title">Returns:</span></p>
+  <table>
+    <thead>
+      <tr>
+<th>Name</th>        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr class="doc-section-item">
+<td><code>float</code></td>          <td>
+                <code>float</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The cosine similarity between the two vectors.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
 
           <details class="quote">
             <summary>Source code in <code>kitab\utils.py</code></summary>
@@ -751,19 +873,19 @@ float: The cosine similarity between the two vectors.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the cosine similarity between two vectors.</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">    &gt;&gt;&gt; from kitab.utils import cos_mat_vec</span>
-<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; vector1 = np.array([1, 2, 3])</span>
-<span class="sd">    &gt;&gt;&gt; vector2 = np.array([1, 2, 3])</span>
-<span class="sd">    &gt;&gt;&gt; cos_mat_vec(vector1, vector2)</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from kitab.utils import cos_vec_vec</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; vector1 = np.array([1, 2, 3])</span>
+<span class="sd">        &gt;&gt;&gt; vector2 = np.array([1, 2, 3])</span>
+<span class="sd">        &gt;&gt;&gt; cos_vec_vec(vector1, vector2)</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    vector1 (np.ndarray): The first vector.</span>
-<span class="sd">    vector2 (np.ndarray): The second vector.</span>
+<span class="sd">        vector1 (np.ndarray): The first vector.</span>
+<span class="sd">        vector2 (np.ndarray): The second vector.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    float: The cosine similarity between the two vectors.</span>
+<span class="sd">        float: The cosine similarity between the two vectors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dot_product</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vector1</span><span class="p">,</span> <span class="n">vector2</span><span class="p">)</span>
     <span class="n">norm_vector1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector1</span><span class="p">)</span>
@@ -789,19 +911,67 @@ float: The cosine similarity between the two vectors.</p>
   <div class="doc doc-contents ">
   
       <p>Returns the embedding of the text.</p>
-<p>Example:</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>from kitab.utils import get_embedding
-get_embedding(text="Hello, world!")</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>Parameters:
-text (str): The text to be embedded.</p>
-<p>Returns:
-np.ndarray: The embedding of the text.</p>
+
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kitab.utils</span> <span class="kn">import</span> <span class="n">get_embedding</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_embedding</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Hello, world!&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+  <p><span class="doc-section-title">Parameters:</span></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr class="doc-section-item">
+          <td><code>text</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The text to be embedded.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><span class="doc-section-title">Returns:</span></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr class="doc-section-item">
+          <td>
+                <code><span title="numpy.ndarray">ndarray</span></code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>np.ndarray: The embedding of the text.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
 
           <details class="quote">
             <summary>Source code in <code>kitab\utils.py</code></summary>
@@ -823,15 +993,15 @@ np.ndarray: The embedding of the text.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the embedding of the text.</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">    &gt;&gt;&gt; from kitab.utils import get_embedding</span>
-<span class="sd">    &gt;&gt;&gt; get_embedding(text=&quot;Hello, world!&quot;)</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from kitab.utils import get_embedding</span>
+<span class="sd">        &gt;&gt;&gt; get_embedding(text=&quot;Hello, world!&quot;)</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    text (str): The text to be embedded.</span>
+<span class="sd">        text (str): The text to be embedded.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    np.ndarray: The embedding of the text.</span>
+<span class="sd">        np.ndarray: The embedding of the text.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>    
 </code></pre></div></td></tr></table></div>
@@ -854,22 +1024,113 @@ np.ndarray: The embedding of the text.</p>
   <div class="doc doc-contents ">
   
       <p>Process the given data file, perform data cleaning, and save the processed data and embeddings.</p>
-<p>Example:</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>from kitab.utils import process_data
-process_data(data_file="data.csv")</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>Parameters:
-data_file (str): The path to the data file.
-destination_folder (str): The path to the destination folder where the processed data and embeddings will be saved.
-column_names (dict[str:str], optional): A dictionary mapping required column names to the corresponding column names in the data file. Defaults to None.
-random_availability (bool, optional): If True, add random book availability to the data. If False, the data must contain an 'availability' column. Defaults to False.
-chunk_size (int, optional): The size of the chunks to split the data into. Defaults to 20000.
-verbose (bool, optional): If True, display log messages. Defaults to False.</p>
+
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kitab.utils</span> <span class="kn">import</span> <span class="n">process_data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">process_data</span><span class="p">(</span><span class="n">data_file</span><span class="o">=</span><span class="s2">&quot;data.csv&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+  <p><span class="doc-section-title">Parameters:</span></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr class="doc-section-item">
+          <td><code>data_file</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The path to the data file.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr class="doc-section-item">
+          <td><code>destination_folder</code></td>
+          <td>
+                <code>str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The path to the destination folder where the processed data and embeddings will be saved.</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;data&#39;</code>
+          </td>
+        </tr>
+        <tr class="doc-section-item">
+          <td><code>column_names</code></td>
+          <td>
+                <code>dict[str</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>str], optional): A dictionary mapping required column names to the corresponding column names in the data file. Defaults to None.</p>
+            </div>
+          </td>
+          <td>
+                <code>None</code>
+          </td>
+        </tr>
+        <tr class="doc-section-item">
+          <td><code>random_availability</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>If True, add random book availability to the data. If False, the data must contain an 'availability' column. Defaults to False.</p>
+            </div>
+          </td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+        <tr class="doc-section-item">
+          <td><code>chunk_size</code></td>
+          <td>
+                <code>int</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The size of the chunks to split the data into. Defaults to 20000.</p>
+            </div>
+          </td>
+          <td>
+                <code>20000</code>
+          </td>
+        </tr>
+        <tr class="doc-section-item">
+          <td><code>verbose</code></td>
+          <td>
+                <code>bool</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>If True, display log messages. Defaults to False.</p>
+            </div>
+          </td>
+          <td>
+                <code>False</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
 
 
 
@@ -975,17 +1236,17 @@ verbose (bool, optional): If True, display log messages. Defaults to False.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Process the given data file, perform data cleaning, and save the processed data and embeddings.</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">    &gt;&gt;&gt; from kitab.utils import process_data</span>
-<span class="sd">    &gt;&gt;&gt; process_data(data_file=&quot;data.csv&quot;)</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from kitab.utils import process_data</span>
+<span class="sd">        &gt;&gt;&gt; process_data(data_file=&quot;data.csv&quot;)</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    data_file (str): The path to the data file.</span>
-<span class="sd">    destination_folder (str): The path to the destination folder where the processed data and embeddings will be saved.</span>
-<span class="sd">    column_names (dict[str:str], optional): A dictionary mapping required column names to the corresponding column names in the data file. Defaults to None.</span>
-<span class="sd">    random_availability (bool, optional): If True, add random book availability to the data. If False, the data must contain an &#39;availability&#39; column. Defaults to False.</span>
-<span class="sd">    chunk_size (int, optional): The size of the chunks to split the data into. Defaults to 20000.</span>
-<span class="sd">    verbose (bool, optional): If True, display log messages. Defaults to False.</span>
+<span class="sd">        data_file (str): The path to the data file.</span>
+<span class="sd">        destination_folder (str): The path to the destination folder where the processed data and embeddings will be saved.</span>
+<span class="sd">        column_names (dict[str:str], optional): A dictionary mapping required column names to the corresponding column names in the data file. Defaults to None.</span>
+<span class="sd">        random_availability (bool, optional): If True, add random book availability to the data. If False, the data must contain an &#39;availability&#39; column. Defaults to False.</span>
+<span class="sd">        chunk_size (int, optional): The size of the chunks to split the data into. Defaults to 20000.</span>
+<span class="sd">        verbose (bool, optional): If True, display log messages. Defaults to False.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        None</span>
