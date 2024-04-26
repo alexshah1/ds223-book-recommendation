@@ -14,7 +14,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.18">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.19">
     
     
       
@@ -615,7 +615,7 @@
 
 
 <h4 id="kitab.utils.cos_mat_vec" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">cos_mat_vec</span><span class="p">(</span><span class="n">vector1</span><span class="p">,</span> <span class="n">vector2</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">cos_mat_vec</span><span class="p">(</span><span class="n">matr</span><span class="p">,</span> <span class="n">vect</span><span class="p">)</span></code>
 
 </h4>
 
@@ -623,42 +623,68 @@
   <div class="doc doc-contents ">
   
       <p>Compute the cosine similarity between a matrix (consisting of vectors) and a vector.</p>
+<p>Example:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>from kitab.utils import cos_mat_vec
+import numpy as np
+matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+vector = np.array([1, 2, 3])
+cos_mat_vec(matrix, vector)</p>
+</blockquote>
+</blockquote>
+</blockquote>
 <p>Parameters:
-vector1 (np.ndarray): The matrix (containing individual vectors).
-vector2 (np.ndarray): The vector.</p>
+matr (np.ndarray): The matrix (containing individual vectors).
+vect (np.ndarray): The vector.</p>
 <p>Returns:
 np.ndarray: The cosine similarity between the matrix and the vector.</p>
 
           <details class="quote">
             <summary>Source code in <code>kitab\utils.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">47</span>
 <span class="normal">48</span>
 <span class="normal">49</span>
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
 <span class="normal">53</span>
-<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">cos_mat_vec</span><span class="p">(</span><span class="n">vector1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">vector2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">cos_mat_vec</span><span class="p">(</span><span class="n">matr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">vect</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the cosine similarity between a matrix (consisting of vectors) and a vector.</span>
 
+<span class="sd">    Example:</span>
+<span class="sd">    &gt;&gt;&gt; from kitab.utils import cos_mat_vec</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])</span>
+<span class="sd">    &gt;&gt;&gt; vector = np.array([1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; cos_mat_vec(matrix, vector)</span>
+
 <span class="sd">    Parameters:</span>
-<span class="sd">    vector1 (np.ndarray): The matrix (containing individual vectors).</span>
-<span class="sd">    vector2 (np.ndarray): The vector.</span>
+<span class="sd">    matr (np.ndarray): The matrix (containing individual vectors).</span>
+<span class="sd">    vect (np.ndarray): The vector.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    np.ndarray: The cosine similarity between the matrix and the vector.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">dot_product</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vector1</span><span class="p">,</span> <span class="n">vector2</span><span class="p">)</span>
-    <span class="n">norm_vector1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">norm_vector2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector2</span><span class="p">)</span>
+    <span class="n">dot_product</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">matr</span><span class="p">,</span> <span class="n">vect</span><span class="p">)</span>
+    <span class="n">norm_vector1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">matr</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">norm_vector2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vect</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dot_product</span> <span class="o">/</span> <span class="p">(</span><span class="n">norm_vector1</span> <span class="o">*</span> <span class="n">norm_vector2</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
@@ -680,6 +706,18 @@ np.ndarray: The cosine similarity between the matrix and the vector.</p>
   <div class="doc doc-contents ">
   
       <p>Compute the cosine similarity between two vectors.</p>
+<p>Example:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>from kitab.utils import cos_mat_vec
+import numpy as np
+vector1 = np.array([1, 2, 3])
+vector2 = np.array([1, 2, 3])
+cos_mat_vec(vector1, vector2)</p>
+</blockquote>
+</blockquote>
+</blockquote>
 <p>Parameters:
 vector1 (np.ndarray): The first vector.
 vector2 (np.ndarray): The second vector.</p>
@@ -702,9 +740,23 @@ float: The cosine similarity between the two vectors.</p>
 <span class="normal">35</span>
 <span class="normal">36</span>
 <span class="normal">37</span>
-<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">cos_vec_vec</span><span class="p">(</span><span class="n">vector1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">vector2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">cos_vec_vec</span><span class="p">(</span><span class="n">vector1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">vector2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute the cosine similarity between two vectors.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    &gt;&gt;&gt; from kitab.utils import cos_mat_vec</span>
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; vector1 = np.array([1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; vector2 = np.array([1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; cos_mat_vec(vector1, vector2)</span>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    vector1 (np.ndarray): The first vector.</span>
@@ -737,6 +789,15 @@ float: The cosine similarity between the two vectors.</p>
   <div class="doc doc-contents ">
   
       <p>Returns the embedding of the text.</p>
+<p>Example:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>from kitab.utils import get_embedding
+get_embedding(text="Hello, world!")</p>
+</blockquote>
+</blockquote>
+</blockquote>
 <p>Parameters:
 text (str): The text to be embedded.</p>
 <p>Returns:
@@ -744,19 +805,27 @@ np.ndarray: The embedding of the text.</p>
 
           <details class="quote">
             <summary>Source code in <code>kitab\utils.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_embedding</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_embedding</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the embedding of the text.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    &gt;&gt;&gt; from kitab.utils import get_embedding</span>
+<span class="sd">    &gt;&gt;&gt; get_embedding(text=&quot;Hello, world!&quot;)</span>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    text (str): The text to be embedded.</span>
@@ -785,6 +854,15 @@ np.ndarray: The embedding of the text.</p>
   <div class="doc doc-contents ">
   
       <p>Process the given data file, perform data cleaning, and save the processed data and embeddings.</p>
+<p>Example:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>from kitab.utils import process_data
+process_data(data_file="data.csv")</p>
+</blockquote>
+</blockquote>
+</blockquote>
 <p>Parameters:
 data_file (str): The path to the data file.
 destination_folder (str): The path to the destination folder where the processed data and embeddings will be saved.
@@ -819,25 +897,7 @@ verbose (bool, optional): If True, display log messages. Defaults to False.</p>
 
           <details class="quote">
             <summary>Source code in <code>kitab\utils.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 88</span>
 <span class="normal"> 89</span>
 <span class="normal"> 90</span>
 <span class="normal"> 91</span>
@@ -889,9 +949,35 @@ verbose (bool, optional): If True, display log messages. Defaults to False.</p>
 <span class="normal">137</span>
 <span class="normal">138</span>
 <span class="normal">139</span>
-<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">process_data</span><span class="p">(</span><span class="n">data_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">destination_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">column_names</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">:</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">random_availability</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20000</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">process_data</span><span class="p">(</span><span class="n">data_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">destination_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="n">column_names</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">:</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">random_availability</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20000</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Process the given data file, perform data cleaning, and save the processed data and embeddings.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    &gt;&gt;&gt; from kitab.utils import process_data</span>
+<span class="sd">    &gt;&gt;&gt; process_data(data_file=&quot;data.csv&quot;)</span>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    data_file (str): The path to the data file.</span>
@@ -1222,7 +1308,7 @@ str: The formatted log message with colored output.</p>
     <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.3220b9d7.min.js"></script>
+      <script src="../assets/javascripts/bundle.dd8806f2.min.js"></script>
       
     
   </body>
