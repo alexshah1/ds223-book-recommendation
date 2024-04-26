@@ -18,6 +18,10 @@ logger.addHandler(ch)
 def get_book_by_ISBN(ISBN: str, verbose: bool = False):
     """
     Retrieves a book from the database based on its ISBN.
+    
+    Example:
+    >>> from kitab.db.functions import get_book_by_ISBN
+    >>> get_book_by_ISBN("1442942355")
 
     Parameters:
     ISBN (str): The ISBN of the book to retrieve.
@@ -84,6 +88,10 @@ def get_book_by_ISBN(ISBN: str, verbose: bool = False):
 def get_book_by_title(title: str, verbose: bool = False):
     """
     Retrieves a book from the database based on its title.
+    
+    Example:
+    >>> from kitab.db.functions import get_book_by_title
+    >>> get_book_by_title("The Ghostly Rental")
 
     Parameters:
     title (str): The title of the book to retrieve.
@@ -116,6 +124,23 @@ def get_book_by_title(title: str, verbose: bool = False):
 def add_book_db(book: dict, verbose: bool = False) -> bool:
     """
     Adds a book to the database.
+    
+    Example:
+    >>> from kitab.db.functions import add_book_db
+    >>> add_book_db({
+            "isbn": "1442942355",
+            "title": "The Ghostly Rental",
+            "description": "Employing the subtle methods of presenting mysterious ghost stories in the backdrop of psychological troubles, the novel presents the life of James. The troubles that he faces, combined with the baffling events around him give an aura to the novel that is almost unsurpassable.",
+            "available": False,
+            "authors": [
+                "Henry James"
+            ],
+            "genres": [
+                "Horror",
+                "Short Stories",
+                "The United States Of America"
+            ]
+        })
 
     Parameters:
     book (dict): A dictionary containing the book information.
@@ -175,6 +200,17 @@ def add_book_db(book: dict, verbose: bool = False) -> bool:
 def update_book_db(ISBN: str, new_book: dict, verbose: bool = True) -> bool:
     """
     Updates a book in the database.
+    
+    Example:
+    >>> from kitab.db.functions import update_book_db
+    >>> update_book_db({
+            "available": True,
+            "genres": [
+                "Horror",
+                "Short Stories",
+                "Mystery"
+            ]
+        })
     
     Parameters:
     ISBN (str): The ISBN of the book to update.
@@ -262,6 +298,10 @@ def update_book_db(ISBN: str, new_book: dict, verbose: bool = True) -> bool:
 def get_table_from_db(table_name: str, conditions: dict = None, verbose: bool = False) -> pd.DataFrame:
     """
     Retrieves a table from the database.
+    
+    Example:
+    >>> from kitab.db.functions import get_table_from_db
+    >>> get_table_from_db("book", conditions={"available": True})
 
     Parameters:
     table_name (str): The name of the table to retrieve.
@@ -291,6 +331,10 @@ def get_table_from_db(table_name: str, conditions: dict = None, verbose: bool = 
 def _get_or_add_genres(db: SqlHandler, genres: list[str], verbose: bool = False) -> list[int]:
     """
     Get the genre IDs for the given list of genres. If the genres do not exist in the database, add them to the genre table.
+    
+    Example:
+    >>> from kitab.db.functions import _get_or_add_genres
+    >>> _get_or_add_genres(db, genres=["Horror", "Short Stories"])
 
     Parameters:
     db (SqlHandler): The database handler.
@@ -325,7 +369,14 @@ def _get_or_add_genres(db: SqlHandler, genres: list[str], verbose: bool = False)
 def _get_or_add_authors(db: SqlHandler, authors: list[str], verbose: bool = False) -> list[int]:
     """
     Get the author IDs for the given list of authors. If the authors do not exist in the database, add them to the author table.
-
+    
+    Example:
+    >>> from kitab.db.functions import _get_or_add_authors
+    >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+    >>> from kitab.db.sql_interactions import SqlHandler
+    >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+    >>> _get_or_add_authors(db, authors=["Henry James"])
+    
     Parameters:
     db (SqlHandler): The database handler.
     authors (list[str]): A list of authors.
@@ -359,6 +410,10 @@ def _get_or_add_authors(db: SqlHandler, authors: list[str], verbose: bool = Fals
 def get_authors(ISBNs: list[str], verbose: bool = False) -> dict[str:list]:
     """
     Get the authors for the given list of ISBNs.
+    
+    Example:
+    >>> from kitab.db.functions import get_authors
+    >>> get_authors(ISBNs=["1442942355", "1613720211"])
     
     Parameters:
     ISBNs (list[str]): A list of ISBNs.
@@ -394,6 +449,10 @@ def get_authors(ISBNs: list[str], verbose: bool = False) -> dict[str:list]:
 def get_genres(ISBNs: list[str], verbose: bool = False) -> dict[list]:
     """
     Get the genres for the given list of ISBNs.
+    
+    Example:
+    >>> from kitab.db.functions import get_genres
+    >>> get_genres(ISBNs=["1442942355", "1613720211"])
     
     Parameters:
     ISBNs (list[str]): A list of ISBNs.
@@ -431,6 +490,10 @@ def get_history_by_recommendation_isbn(recommendation_isbn: str, verbose: bool =
     """
     Get the history of recommendations for a book with the given ISBN.
     
+    Example:
+    >>> from kitab.db.functions import get_history_by_recommendation_isbn
+    >>> get_history_by_recommendation_isbn(recommendation_isbn="1442942355")
+    
     Parameters:
     recommendation_ISBN (str): The ISBN of the recommended book.
 
@@ -452,6 +515,10 @@ def get_history_by_recommendation_isbn(recommendation_isbn: str, verbose: bool =
 def add_recommendation_log(description: str, recommendation_ISBN: str, successful: bool, verbose: bool = False) -> bool:
     """
     Adds a recommendation log to the history table.
+    
+    Example:
+    >>> from kitab.db.functions import add_recommendation_log
+    >>> add_recommendation_log(description="In a masterful blend of psychological intrigue and spectral disturbances, this novel unfurls the complex life of Clara. Her internal struggles are mirrored by eerie, inexplicable occurrences, weaving a tale that is both deeply personal and chillingly atmospheric, offering an unparalleled exploration of the human psyche shadowed by the paranormal.", recommendation_isbn="1442942355", successful=True)
     
     Parameters:
     description (str): The description of the recommendation.

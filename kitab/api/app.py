@@ -42,19 +42,40 @@ class BookUpdate(BaseModel):
         extra = "forbid"
 
 
-@app.get("/get_book")
-def get_book(isbn: str):
+@app.get("/get_book_by_isbn")
+def get_book_isbn(isbn: str):
     """
     Get the book by ISBN.
     
     Parameters:
-    ISBNs (str): The ISBN of the book.
+    ISBN (str): The ISBN of the book.
 
     Returns:
     dict: The book information.
     """
     # Get the book by ISBN
     book = get_book_by_ISBN(isbn)
+    
+    # If it doesn't exist, return a message
+    if book is None:
+        return {"message": "Book not found."}
+    
+    return book
+
+
+@app.get("/get_book_by_title")
+def get_book_title(title: str):
+    """
+    Get the book by title.
+    
+    Parameters:
+    title (str): The title of the book.
+
+    Returns:
+    dict: The book information.
+    """
+    # Get the book by ISBN
+    book = get_book_by_title(title)
     
     # If it doesn't exist, return a message
     if book is None:

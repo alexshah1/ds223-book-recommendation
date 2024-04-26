@@ -1,5 +1,8 @@
 book-recommendation/
 book_recommendation/
+mkdocs-env/
+mkdocs_env/
+data/
 **/.DS_Store
 .git/
 .vscode/

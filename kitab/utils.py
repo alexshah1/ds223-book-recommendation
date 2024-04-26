@@ -25,6 +25,13 @@ def cos_vec_vec(vector1: np.ndarray, vector2: np.ndarray) -> float:
     """
     Compute the cosine similarity between two vectors.
     
+    Example:
+    >>> from kitab.utils import cos_mat_vec
+    >>> import numpy as np
+    >>> vector1 = np.array([1, 2, 3])
+    >>> vector2 = np.array([1, 2, 3])
+    >>> cos_mat_vec(vector1, vector2)
+    
     Parameters:
     vector1 (np.ndarray): The first vector.
     vector2 (np.ndarray): The second vector.
@@ -37,25 +44,36 @@ def cos_vec_vec(vector1: np.ndarray, vector2: np.ndarray) -> float:
     norm_vector2 = np.linalg.norm(vector2)
     return dot_product / (norm_vector1 * norm_vector2)
 
-def cos_mat_vec(vector1: np.ndarray, vector2: np.ndarray) -> np.ndarray:
+def cos_mat_vec(matr: np.ndarray, vect: np.ndarray) -> np.ndarray:
     """
     Compute the cosine similarity between a matrix (consisting of vectors) and a vector.
     
+    Example:
+    >>> from kitab.utils import cos_mat_vec
+    >>> import numpy as np
+    >>> matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    >>> vector = np.array([1, 2, 3])
+    >>> cos_mat_vec(matrix, vector)
+    
     Parameters:
-    vector1 (np.ndarray): The matrix (containing individual vectors).
-    vector2 (np.ndarray): The vector.
+    matr (np.ndarray): The matrix (containing individual vectors).
+    vect (np.ndarray): The vector.
     
     Returns:
     np.ndarray: The cosine similarity between the matrix and the vector.
     """
-    dot_product = np.dot(vector1, vector2)
-    norm_vector1 = np.linalg.norm(vector1, axis=1)
-    norm_vector2 = np.linalg.norm(vector2)
+    dot_product = np.dot(matr, vect)
+    norm_vector1 = np.linalg.norm(matr, axis=1)
+    norm_vector2 = np.linalg.norm(vect)
     return dot_product / (norm_vector1 * norm_vector2)
 
 def get_embedding(text: str) -> np.ndarray:
     """
     Returns the embedding of the text.
+    
+    Example:
+    >>> from kitab.utils import get_embedding
+    >>> get_embedding(text="Hello, world!")
     
     Parameters:
     text (str): The text to be embedded.
@@ -70,6 +88,10 @@ def get_embedding(text: str) -> np.ndarray:
 def process_data(data_file: str, destination_folder: str = "data", column_names: dict[str:str] = None, random_availability: bool = False, chunk_size: int = 20000, verbose: bool = False) -> None:
     """
     Process the given data file, perform data cleaning, and save the processed data and embeddings.
+    
+    Example:
+    >>> from kitab.utils import process_data
+    >>> process_data(data_file="data.csv")
 
     Parameters:
     data_file (str): The path to the data file.

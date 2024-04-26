@@ -22,6 +22,10 @@ def get_full_data(folder_path: str = "data", verbose: bool = False):
     """
     Retrieves and combines data from multiple CSV files and corresponding pickle files.
     
+    Example:
+    >>> from kitab.db.get_data import get_full_data
+    >>> get_full_data(folder_path="data")
+    
     Parameters:
     folder_path (str): The path to the directory containing the CSV and pickle files.
     verbose (bool): Whether to display logs. Default is False.
@@ -62,6 +66,10 @@ def get_full_data(folder_path: str = "data", verbose: bool = False):
 def load_data(folder_path: str = "data", verbose: bool = False):
     """
     Load data from a specified folder path and insert it into the database.
+    
+    Example:
+    >>> from kitab.db.get_data import load_data
+    >>> load_data(folder_path="data")
 
     Parameters:
     folder_path (str): The path to the folder containing the data files. Default is "data".
