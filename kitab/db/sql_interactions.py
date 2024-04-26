@@ -52,6 +52,10 @@ class SqlHandler:
         """
         Retrieves the columns of a table in the database.
         
+        Example:
+        >>> from kitab.db.sql_interactions import get_table_columns
+        >>> db.get_table_columns("Book")
+
         Parameters:
         table_name (str): The name of the table whose columns are to be retrieved.
         verbose (bool): Whether to print verbose output. Defaults to False.
@@ -76,6 +80,10 @@ class SqlHandler:
         """
         Executes a list of commands in the database.
         
+        Example:
+        >>> from kitab.db.sql_interactions import execute_commands
+        >>> db.execute_commands(commands)
+
         Parameters:
         commands (list): A list of SQL commands to be executed.
         verbose (bool): Whether to print verbose output. Defaults to False.
@@ -95,6 +103,11 @@ class SqlHandler:
     def insert_many(self, df: pd.DataFrame, table_name: str, verbose: bool = False) -> None:
         """
         Inserts data from a DataFrame into a table in the database.
+
+        Example:
+        >>> from kitab.db.sql_interactions import insert_many
+        >>> df = pd.DataFrame(...)
+        >>> db.insert_many(df, "Book")
 
         Parameters:
         df (pd.DataFrame): The DataFrame containing the data to be inserted.
@@ -156,6 +169,10 @@ class SqlHandler:
         """
         Truncates a table from the database.
 
+        Example:
+        >>> from kitab.db.sql_interactions import truncate_table
+        >>> db.trucate_table("Book")
+
         Parameters:
         table_name (str): The name of the table to be truncated.
         verbose (bool): Whether to print verbose output. Defaults to False.
@@ -175,6 +192,10 @@ class SqlHandler:
     def drop_table(self, table_name: str, verbose: bool = False) -> None:
         """
         Drops a table from the database if it exists.
+
+        Example:
+        >>> from kitab.db.sql_interactions import drop_table
+        >>> db.drop_table("Book")
 
         Parameters:
         table_name (str): The name of the table to be dropped.
@@ -199,6 +220,11 @@ class SqlHandler:
         """
         Insert one or more records into the database table.
 
+        Example:
+        >>> from kitab.db.sql_interactions import insert_records
+        >>> list_of_books = [...]
+        >>> db.insert_records("Book", list_of_books)
+
         Parameters:
         values_list (List[Dict]): A list of dictionaries containing column names as keys and their values as values.
         verbose (bool): Whether to print verbose output. Defaults to False.
@@ -222,14 +248,20 @@ class SqlHandler:
             logger.info(f"{len(values_list)} records inserted successfully.")
 
 
-    def update_records(self, table_name: str, update_values: dict, condition: dict, verbose: bool = False) -> None:
+    def update_records(self, table_name: str, updated_values: dict, condition: dict, verbose: bool = False) -> None:
         """
         Update records in the database table based on a given condition.
+
+        Example:
+        >>> from kitab.db.sql_interactions import update_records
+        >>> updated_values = {...}
+        >>> conditions = {...}
+        >>> db.update_records("Book", updated_values, conditions)        
 
         Parameters:
         table_name (str): The name of the table to update records in.
         condition (dict): A dictionary representing the condition for selecting records to update.
-        update_values (dict): A dictionary containing column names as keys and their updated values as values.
+        updated_values (dict): A dictionary containing column names as keys and their updated values as values.
         verbose (bool): Whether to print verbose output. Defaults to False.
 
         Returns:
@@ -239,15 +271,15 @@ class SqlHandler:
             logger.warning("No condition provided for updating records.")
             return
 
-        if not update_values:
+        if not updated_values:
             logger.warning("No values provided for update.")
             return
 
-        set_clause = ', '.join([f"{column} = %s" for column in update_values.keys()])
+        set_clause = ', '.join([f"{column} = %s" for column in updated_values.keys()])
         condition_clause = ' AND '.join([f"{column} = %s" for column in condition.keys()])
 
         query = f"UPDATE {table_name} SET {set_clause} WHERE {condition_clause};"
-        values = list(update_values.values()) + list(condition.values())
+        values = list(updated_values.values()) + list(condition.values())
 
         self.cursor.execute(query, tuple(values))
         self.connection.commit()
@@ -258,6 +290,11 @@ class SqlHandler:
     def remove_records(self, table_name: str, conditions_list: list[dict], verbose: bool = False) -> None:
         """
         Remove records from the database table based on multiple conditions.
+        
+        Example:
+        >>> from kitab.db.sql_interactions import remove_records
+        >>> list_of_conditions = [...]
+        >>> db.remove_records("Book", list_of_conditions)          
 
         Parameters:
         table_name (str): The name of the table to remove records from.
@@ -293,6 +330,11 @@ class SqlHandler:
         """
         Retrieve data from the database table.
 
+        Example:
+        >>> from kitab.db.sql_interactions import get_table
+        >>> list_of_conditions = [...]
+        >>> db.get_table("Book", list_of_conditions)          
+        
         Parameters:
         table_name (str): The name of the table to retrieve data from.
         conditions (dict, optional): A dictionary representing the conditions to filter records. Defaults to None.
