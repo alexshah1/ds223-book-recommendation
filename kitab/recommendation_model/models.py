@@ -10,6 +10,10 @@ def recommend_books(description: str, n: int, get_available: bool = True, data :
     """
     Recommends a list of books based on a given description.
     
+    Examples:
+        >>> from kitab.recommendation_model.models import recommend_books
+        >>> recommend_books(description="Employing the subtle methods of presenting mysterious ghost stories in the backdrop of psychological troubles, the novel presents the life of James. The troubles that he faces, combined with the baffling events around him give an aura to the novel that is almost unsurpassable", n=5)
+    
     Parameters:
         description (str): The description of the book.
         n (int): The number of books to recommend.
@@ -67,6 +71,10 @@ def recommend_books_by_ISBN(ISBN: str, n: int, get_available: bool = True) -> li
     """
     Recommends a list of books based on the description of the book with the given ISBN.
     
+    Examples:
+        >>> from kitab.recommendation_model.models import recommend_books_by_ISBN
+        >>> recommend_books_by_ISBN(ISBN="1442942355", n=5)
+    
     Parameters:
         ISBN (str): The ISBN of the book.
         n (int): The number of books to recommend.
@@ -93,6 +101,10 @@ def recommend_books_by_ISBN(ISBN: str, n: int, get_available: bool = True) -> li
 def recommend_books_by_title(title: str, n: int, get_available: bool = True) -> list[dict]:
     """
     Recommends a list of books based on the description of the book with the given title.
+    
+    Examples:
+        >>> from kitab.recommendation_model.models import recommend_books_by_title
+        >>> recommend_books_by_title(title="The Ghostly Rental", n=5)
     
     Parameters:
         title (str): The title of the book.

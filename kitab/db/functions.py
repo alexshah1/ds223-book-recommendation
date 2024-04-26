@@ -15,20 +15,20 @@ ch.setLevel(logging.DEBUG)
 ch.setFormatter(CustomFormatter())
 logger.addHandler(ch)
 
-def get_book_by_ISBN(ISBN: str, verbose: bool = False):
+def get_book_by_ISBN(ISBN: str, verbose: bool = False) -> tuple[dict]:
     """
     Retrieves a book from the database based on its ISBN.
     
-    Example:
-    >>> from kitab.db.functions import get_book_by_ISBN
-    >>> get_book_by_ISBN("1442942355")
+    Examples:
+        >>> from kitab.db.functions import get_book_by_ISBN
+        >>> get_book_by_ISBN("1442942355")
 
     Parameters:
-    ISBN (str): The ISBN of the book to retrieve.
-    verbose (bool): Whether to print verbose output. Defaults to False.
+        ISBN (str): The ISBN of the book to retrieve.
+        verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
-    dict or None: A dictionary containing the book information if found, or None if no book is found.
+        tuple[dict]: A tuple containing the book information, authors, and genres if found, or None if no book is found.
     """
 
     # Open connection to the database
@@ -85,20 +85,20 @@ def get_book_by_ISBN(ISBN: str, verbose: bool = False):
     return book
 
 
-def get_book_by_title(title: str, verbose: bool = False):
+def get_book_by_title(title: str, verbose: bool = False) -> tuple[dict]:
     """
     Retrieves a book from the database based on its title.
     
-    Example:
-    >>> from kitab.db.functions import get_book_by_title
-    >>> get_book_by_title("The Ghostly Rental")
+    Examples:
+        >>> from kitab.db.functions import get_book_by_title
+        >>> get_book_by_title("The Ghostly Rental")
 
     Parameters:
-    title (str): The title of the book to retrieve.
-    verbose (bool): Whether to print verbose output. Defaults to False.
+        title (str): The title of the book to retrieve.
+        verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
-    dict or None: A dictionary containing the book information if found, or None if no book is found.
+        tuple[dict]: A tuple containing the book information, authors, and genres if found, or None if no book is found.
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
@@ -125,28 +125,28 @@ def add_book_db(book: dict, verbose: bool = False) -> bool:
     """
     Adds a book to the database.
     
-    Example:
-    >>> from kitab.db.functions import add_book_db
-    >>> add_book_db({
-            "isbn": "1442942355",
-            "title": "The Ghostly Rental",
-            "description": "Employing the subtle methods of presenting mysterious ghost stories in the backdrop of psychological troubles, the novel presents the life of James. The troubles that he faces, combined with the baffling events around him give an aura to the novel that is almost unsurpassable.",
-            "available": False,
-            "authors": [
-                "Henry James"
-            ],
-            "genres": [
-                "Horror",
-                "Short Stories",
-                "The United States Of America"
-            ]
-        })
+    Examples:
+        >>> from kitab.db.functions import add_book_db
+        >>> add_book_db({
+                "isbn": "1442942355",
+                "title": "The Ghostly Rental",
+                "description": "Employing the subtle methods of presenting mysterious ghost stories in the backdrop of psychological troubles, the novel presents the life of James. The troubles that he faces, combined with the baffling events around him give an aura to the novel that is almost unsurpassable",
+                "available": False,
+                "authors": [
+                    "Henry James"
+                ],
+                "genres": [
+                    "Horror",
+                    "Short Stories",
+                    "The United States Of America"
+                ]
+            })
 
     Parameters:
-    book (dict): A dictionary containing the book information.
+        book (dict): A dictionary containing the book information.
     
     Returns:
-    bool: True if the book was successfully added, False otherwise.
+        bool: True if the book was successfully added, False otherwise.
     """
     try:
         # Open connection to the database
@@ -201,24 +201,24 @@ def update_book_db(ISBN: str, new_book: dict, verbose: bool = True) -> bool:
     """
     Updates a book in the database.
     
-    Example:
-    >>> from kitab.db.functions import update_book_db
-    >>> update_book_db({
-            "available": True,
-            "genres": [
-                "Horror",
-                "Short Stories",
-                "Mystery"
-            ]
-        })
+    Examples:
+        >>> from kitab.db.functions import update_book_db
+        >>> update_book_db({
+                "available": True,
+                "genres": [
+                    "Horror",
+                    "Short Stories",
+                    "Mystery"
+                ]
+            })
     
     Parameters:
-    ISBN (str): The ISBN of the book to update.
-    new_book (dict): A dictionary containing the updated book information.
-    verbose (bool): Whether to print verbose output. Defaults to False.
+        ISBN (str): The ISBN of the book to update.
+        new_book (dict): A dictionary containing the updated book information.
+        verbose (bool): Whether to print verbose output. Defaults to False.
     
     Returns:
-    bool: True if the book was successfully updated, False otherwise.
+        bool: True if the book was successfully updated, False otherwise.
     """
     try:
         # Open connection to the database
@@ -299,17 +299,17 @@ def get_table_from_db(table_name: str, conditions: dict = None, verbose: bool = 
     """
     Retrieves a table from the database.
     
-    Example:
-    >>> from kitab.db.functions import get_table_from_db
-    >>> get_table_from_db("book", conditions={"available": True})
+    Examples:
+        >>> from kitab.db.functions import get_table_from_db
+        >>> get_table_from_db("book", conditions={"available": True})
 
     Parameters:
-    table_name (str): The name of the table to retrieve.
-    conditions (dict): A dictionary of conditions to filter the table.
-    verbose (bool): Whether to print verbose output. Defaults to False.
+        table_name (str): The name of the table to retrieve.
+        conditions (dict): A dictionary of conditions to filter the table.
+        verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
-    pd.DataFrame: A DataFrame containing the table information.
+        pd.DataFrame: A DataFrame containing the table information.
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
@@ -332,17 +332,17 @@ def _get_or_add_genres(db: SqlHandler, genres: list[str], verbose: bool = False)
     """
     Get the genre IDs for the given list of genres. If the genres do not exist in the database, add them to the genre table.
     
-    Example:
-    >>> from kitab.db.functions import _get_or_add_genres
-    >>> _get_or_add_genres(db, genres=["Horror", "Short Stories"])
+    Examples:
+        >>> from kitab.db.functions import _get_or_add_genres
+        >>> _get_or_add_genres(db, genres=["Horror", "Short Stories"])
 
     Parameters:
-    db (SqlHandler): The database handler.
-    genres (list[str]): A list of genres.
-    verbose (bool): Whether to print verbose output. Defaults to False.
+        db (SqlHandler): The database handler.
+        genres (list[str]): A list of genres.
+        verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
-    list[int]: A list of genre IDs.
+        list[int]: A list of genre IDs.
     """
     genre_table = db.get_table("genre")
     
@@ -370,20 +370,20 @@ def _get_or_add_authors(db: SqlHandler, authors: list[str], verbose: bool = Fals
     """
     Get the author IDs for the given list of authors. If the authors do not exist in the database, add them to the author table.
     
-    Example:
-    >>> from kitab.db.functions import _get_or_add_authors
-    >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
-    >>> from kitab.db.sql_interactions import SqlHandler
-    >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
-    >>> _get_or_add_authors(db, authors=["Henry James"])
+    Examples:
+        >>> from kitab.db.functions import _get_or_add_authors
+        >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+        >>> from kitab.db.sql_interactions import SqlHandler
+        >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+        >>> _get_or_add_authors(db, authors=["Henry James"])
     
     Parameters:
-    db (SqlHandler): The database handler.
-    authors (list[str]): A list of authors.
-    verbose (bool): Whether to print verbose output. Defaults to False.
+        db (SqlHandler): The database handler.
+        authors (list[str]): A list of authors.
+        verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
-    list[int]: A list of author IDs.
+        list[int]: A list of author IDs.
     """
     author_table = db.get_table("author")
     
@@ -411,16 +411,16 @@ def get_authors(ISBNs: list[str], verbose: bool = False) -> dict[str:list]:
     """
     Get the authors for the given list of ISBNs.
     
-    Example:
-    >>> from kitab.db.functions import get_authors
-    >>> get_authors(ISBNs=["1442942355", "1613720211"])
+    Examples:
+        >>> from kitab.db.functions import get_authors
+        >>> get_authors(ISBNs=["1442942355", "1613720211"])
     
     Parameters:
-    ISBNs (list[str]): A list of ISBNs.
-    verbose (bool): Whether to print verbose output. Defaults to False.
+        ISBNs (list[str]): A list of ISBNs.
+        verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
-    dict[str:list]: A dictionary containing the authors for each ISBN.
+        dict[str:list]: A dictionary containing the authors for each ISBN.
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
@@ -446,20 +446,20 @@ def get_authors(ISBNs: list[str], verbose: bool = False) -> dict[str:list]:
     # Return the dictionary of lists
     return isbn_authors
 
-def get_genres(ISBNs: list[str], verbose: bool = False) -> dict[list]:
+def get_genres(ISBNs: list[str], verbose: bool = False) -> dict[str:list]:
     """
     Get the genres for the given list of ISBNs.
     
-    Example:
-    >>> from kitab.db.functions import get_genres
-    >>> get_genres(ISBNs=["1442942355", "1613720211"])
+    Examples:
+        >>> from kitab.db.functions import get_genres
+        >>> get_genres(ISBNs=["1442942355", "1613720211"])
     
     Parameters:
-    ISBNs (list[str]): A list of ISBNs.
-    verbose (bool): Whether to print verbose output. Defaults to False.
+        ISBNs (list[str]): A list of ISBNs.
+        verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
-    dict[str:list]: A dictionary containing the genres for each ISBN.
+        dict[str:list]: A dictionary containing the genres for each ISBN.
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
@@ -490,15 +490,15 @@ def get_history_by_recommendation_isbn(recommendation_isbn: str, verbose: bool =
     """
     Get the history of recommendations for a book with the given ISBN.
     
-    Example:
-    >>> from kitab.db.functions import get_history_by_recommendation_isbn
-    >>> get_history_by_recommendation_isbn(recommendation_isbn="1442942355")
+    Examples:
+        >>> from kitab.db.functions import get_history_by_recommendation_isbn
+        >>> get_history_by_recommendation_isbn(recommendation_isbn="1442942355")
     
     Parameters:
-    recommendation_ISBN (str): The ISBN of the recommended book.
+        recommendation_isbn (str): The ISBN of the recommended book.
 
     Returns:
-    dict: A dictionary containing the history of recommendations for the book.
+        dict: A dictionary containing the history of recommendations for the book.
     """
     # Open connection to the database
     db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
@@ -516,18 +516,18 @@ def add_recommendation_log(description: str, recommendation_ISBN: str, successfu
     """
     Adds a recommendation log to the history table.
     
-    Example:
-    >>> from kitab.db.functions import add_recommendation_log
-    >>> add_recommendation_log(description="In a masterful blend of psychological intrigue and spectral disturbances, this novel unfurls the complex life of Clara. Her internal struggles are mirrored by eerie, inexplicable occurrences, weaving a tale that is both deeply personal and chillingly atmospheric, offering an unparalleled exploration of the human psyche shadowed by the paranormal.", recommendation_isbn="1442942355", successful=True)
+    Examples:
+        from kitab.db.functions import add_recommendation_log
+        add_recommendation_log(description="In a masterful blend of psychological intrigue and spectral disturbances, this novel unfurls the complex life of Clara. Her internal struggles are mirrored by eerie, inexplicable occurrences, weaving a tale that is both deeply personal and chillingly atmospheric, offering an unparalleled exploration of the human psyche shadowed by the paranormal.", recommendation_isbn="1442942355", successful=True)
     
     Parameters:
-    description (str): The description of the recommendation.
-    recommendation_ISBN (str): The ISBN of the recommended book.
-    successful (bool): Whether the recommendation was successful or not.
-    verbose (bool): Whether to print verbose output. Defaults to False.
+        description (str): The description of the recommendation.
+        recommendation_ISBN (str): The ISBN of the recommended book.
+        successful (bool): Whether the recommendation was successful or not.
+        verbose (bool): Whether to print verbose output. Defaults to False.
 
     Returns:
-    bool: True if the recommendation log was successfully added, False otherwise.
+        bool: True if the recommendation log was successfully added, False otherwise.
     """
     try:
         # Open connection to the database

@@ -31,11 +31,17 @@ class SqlHandler:
         """
         Close the connection to the database.
         
+        Examples:
+            >>> from kitab.db.sql_interactions import SqlHandler
+            >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+            >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+            >>> db.close_cnxn()
+        
         Parameters:
-        verbose (bool): Whether to print verbose output. Defaults to False.
+            verbose (bool): Whether to print verbose output. Defaults to False.
         
         Returns:
-        None
+            None
         """
         if verbose:
             logger.info('Committing the changes.')
@@ -52,16 +58,18 @@ class SqlHandler:
         """
         Retrieves the columns of a table in the database.
         
-        Example:
-        >>> from kitab.db.sql_interactions import get_table_columns
-        >>> db.get_table_columns("Book")
+        Examples:
+            >>> from kitab.db.sql_interactions import SqlHandler
+            >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+            >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+            >>> db.get_table_columns("Book")
 
         Parameters:
-        table_name (str): The name of the table whose columns are to be retrieved.
-        verbose (bool): Whether to print verbose output. Defaults to False.
+            table_name (str): The name of the table whose columns are to be retrieved.
+            verbose (bool): Whether to print verbose output. Defaults to False.
         
         Returns:
-        list: A list of column names in the table.
+            list: A list of column names in the table.
         """
         try:
             self.cursor.execute(f"SELECT column_name FROM information_schema.columns WHERE table_name = '{table_name}';")
@@ -80,16 +88,19 @@ class SqlHandler:
         """
         Executes a list of commands in the database.
         
-        Example:
-        >>> from kitab.db.sql_interactions import execute_commands
-        >>> db.execute_commands(commands)
+        Examples:
+            >>> from kitab.db.sql_interactions import SqlHandler
+            >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+            >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+            >>> commands = [...]
+            >>> db.execute_commands(commands)
 
         Parameters:
-        commands (list): A list of SQL commands to be executed.
-        verbose (bool): Whether to print verbose output. Defaults to False.
+            commands (list): A list of SQL commands to be executed.
+            verbose (bool): Whether to print verbose output. Defaults to False.
         
         Returns:
-        None
+            None
         """
         for command in commands:
             self.cursor.execute(command)
@@ -104,18 +115,20 @@ class SqlHandler:
         """
         Inserts data from a DataFrame into a table in the database.
 
-        Example:
-        >>> from kitab.db.sql_interactions import insert_many
-        >>> df = pd.DataFrame(...)
-        >>> db.insert_many(df, "Book")
+        Examples:
+            >>> from kitab.db.sql_interactions import SqlHandler
+            >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+            >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+            >>> df = pd.DataFrame(...)
+            >>> db.insert_many(df, "Book")
 
         Parameters:
-        df (pd.DataFrame): The DataFrame containing the data to be inserted.
-        table_name (str): The name of the table to be dropped.
-        verbose (bool): Whether to print verbose output. Defaults to False.
+            df (pd.DataFrame): The DataFrame containing the data to be inserted.
+            table_name (str): The name of the table to be dropped.
+            verbose (bool): Whether to print verbose output. Defaults to False.
 
         Returns:
-        None
+            None
         """
         try:
             df = df.replace(np.nan, None)  # for handling NULLS
@@ -169,16 +182,18 @@ class SqlHandler:
         """
         Truncates a table from the database.
 
-        Example:
-        >>> from kitab.db.sql_interactions import truncate_table
-        >>> db.trucate_table("Book")
+        Examples:
+            >>> from kitab.db.sql_interactions import SqlHandler
+            >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+            >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+            >>> db.truncate_table("Book")
 
         Parameters:
-        table_name (str): The name of the table to be truncated.
-        verbose (bool): Whether to print verbose output. Defaults to False.
+            table_name (str): The name of the table to be truncated.
+            verbose (bool): Whether to print verbose output. Defaults to False.
 
         Returns:
-        None
+            None
         """
         query = f""" TRUNCATE TABLE {table_name} CASCADE; """   #if exists
         self.cursor.execute(query)
@@ -193,16 +208,18 @@ class SqlHandler:
         """
         Drops a table from the database if it exists.
 
-        Example:
-        >>> from kitab.db.sql_interactions import drop_table
-        >>> db.drop_table("Book")
+        Examples:
+            >>> from kitab.db.sql_interactions import SqlHandler
+            >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+            >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+            >>> db.drop_table("Book")
 
         Parameters:
-        table_name (str): The name of the table to be dropped.
-        verbose (bool): Whether to print verbose output. Defaults to False.
+            table_name (str): The name of the table to be dropped.
+            verbose (bool): Whether to print verbose output. Defaults to False.
 
         Returns:
-        None
+            None
         """
         query = f"DROP TABLE IF EXISTS {table_name};"
         if verbose:
@@ -220,17 +237,19 @@ class SqlHandler:
         """
         Insert one or more records into the database table.
 
-        Example:
-        >>> from kitab.db.sql_interactions import insert_records
-        >>> list_of_books = [...]
-        >>> db.insert_records("Book", list_of_books)
+        Examples:
+            >>> from kitab.db.sql_interactions import SqlHandler
+            >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+            >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+            >>> list_of_books = [...]
+            >>> db.insert_records("Book", list_of_books)
 
         Parameters:
-        values_list (List[Dict]): A list of dictionaries containing column names as keys and their values as values.
-        verbose (bool): Whether to print verbose output. Defaults to False.
+            values_list (List[Dict]): A list of dictionaries containing column names as keys and their values as values.
+            verbose (bool): Whether to print verbose output. Defaults to False.
 
         Returns:
-        None
+            None
         """
         if not values_list:
             logger.warning("No records to insert.")
@@ -252,20 +271,22 @@ class SqlHandler:
         """
         Update records in the database table based on a given condition.
 
-        Example:
-        >>> from kitab.db.sql_interactions import update_records
-        >>> updated_values = {...}
-        >>> conditions = {...}
-        >>> db.update_records("Book", updated_values, conditions)        
+        Examples:
+            >>> from kitab.db.sql_interactions import SqlHandler
+            >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+            >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+            >>> updated_values = {...}
+            >>> conditions = {...}
+            >>> db.update_records("Book", updated_values, conditions)        
 
         Parameters:
-        table_name (str): The name of the table to update records in.
-        condition (dict): A dictionary representing the condition for selecting records to update.
-        updated_values (dict): A dictionary containing column names as keys and their updated values as values.
-        verbose (bool): Whether to print verbose output. Defaults to False.
+            table_name (str): The name of the table to update records in.
+            condition (dict): A dictionary representing the condition for selecting records to update.
+            updated_values (dict): A dictionary containing column names as keys and their updated values as values.
+            verbose (bool): Whether to print verbose output. Defaults to False.
 
         Returns:
-        None
+            None
         """
         if not condition:
             logger.warning("No condition provided for updating records.")
@@ -291,19 +312,21 @@ class SqlHandler:
         """
         Remove records from the database table based on multiple conditions.
         
-        Example:
-        >>> from kitab.db.sql_interactions import remove_records
-        >>> list_of_conditions = [...]
-        >>> db.remove_records("Book", list_of_conditions)          
+        Examples:
+            >>> from kitab.db.sql_interactions import SqlHandler
+            >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+            >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+            >>> list_of_conditions = [...]
+            >>> db.remove_records("Book", list_of_conditions)          
 
         Parameters:
-        table_name (str): The name of the table to remove records from.
-        conditions_list (list[dict]): A list of dictionaries representing conditions for selecting records to remove.
-            The conditions inside each dictionary are concatenated using AND, and the dictionaries inside the list are concatenated using OR.
-        verbose (bool): Whether to print verbose output. Defaults to False.
+            table_name (str): The name of the table to remove records from.
+            conditions_list (list[dict]): A list of dictionaries representing conditions for selecting records to remove.
+                The conditions inside each dictionary are concatenated using AND, and the dictionaries inside the list are concatenated using OR.
+            verbose (bool): Whether to print verbose output. Defaults to False.
 
         Returns:
-        None
+            None
         """
         if not conditions_list:
             logger.warning("No conditions provided for removing records.")
@@ -330,18 +353,20 @@ class SqlHandler:
         """
         Retrieve data from the database table.
 
-        Example:
-        >>> from kitab.db.sql_interactions import get_table
-        >>> list_of_conditions = [...]
-        >>> db.get_table("Book", list_of_conditions)          
+        Examples:
+            >>> from kitab.db.sql_interactions import SqlHandler
+            >>> from kitab.db.db_credentials import DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME
+            >>> db = SqlHandler(DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+            >>> list_of_conditions = [...]
+            >>> db.get_table("Book", list_of_conditions)          
         
         Parameters:
-        table_name (str): The name of the table to retrieve data from.
-        conditions (dict, optional): A dictionary representing the conditions to filter records. Defaults to None.
-        verbose (bool): Whether to print verbose output. Defaults to False.
+            table_name (str): The name of the table to retrieve data from.
+            conditions (dict, optional): A dictionary representing the conditions to filter records. Defaults to None.
+            verbose (bool): Whether to print verbose output. Defaults to False.
 
         Returns:
-        pd.DataFrame: A DataFrame containing the retrieved data.
+            pd.DataFrame: A DataFrame containing the retrieved data.
         """
         if conditions:
             condition_clauses = []

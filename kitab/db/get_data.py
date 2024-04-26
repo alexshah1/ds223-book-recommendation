@@ -17,21 +17,20 @@ ch.setFormatter(CustomFormatter())
 logger.addHandler(ch)
 
 
-
-def get_full_data(folder_path: str = "data", verbose: bool = False):
+def get_full_data(folder_path: str = "data", verbose: bool = False) -> pd.DataFrame:
     """
     Retrieves and combines data from multiple CSV files and corresponding pickle files.
     
-    Example:
-    >>> from kitab.db.get_data import get_full_data
-    >>> get_full_data(folder_path="data")
+    Examples:
+        >>> from kitab.db.get_data import get_full_data
+        >>> get_full_data(folder_path="data")
     
     Parameters:
-    folder_path (str): The path to the directory containing the CSV and pickle files.
-    verbose (bool): Whether to display logs. Default is False.
+        folder_path (str): The path to the directory containing the CSV and pickle files.
+        verbose (bool): Whether to display logs. Default is False.
     
     Returns:
-    pandas.DataFrame: A DataFrame containing the combined data with an additional 'embedding' column.
+        pd.DataFrame: A DataFrame containing the combined data with an additional 'embedding' column.
     """
     data_paths = sorted(glob(f"{folder_path}/*.csv"))
     emb_paths = sorted(glob(f"{folder_path}/*.pkl"))
@@ -63,20 +62,20 @@ def get_full_data(folder_path: str = "data", verbose: bool = False):
     return df
 
 
-def load_data(folder_path: str = "data", verbose: bool = False):
+def load_data(folder_path: str = "data", verbose: bool = False) -> None:
     """
     Load data from a specified folder path and insert it into the database.
     
-    Example:
-    >>> from kitab.db.get_data import load_data
-    >>> load_data(folder_path="data")
+    Examples:
+        >>> from kitab.db.get_data import load_data
+        >>> load_data(folder_path="data")
 
     Parameters:
-    folder_path (str): The path to the folder containing the data files. Default is "data".
-    verbose (bool): Whether to display logs. Default is False.
+        folder_path (str): The path to the folder containing the data files. Default is "data".
+        verbose (bool): Whether to display logs. Default is False.
 
     Returns:
-    None
+        None
     """
     try:
         # Getting the full data

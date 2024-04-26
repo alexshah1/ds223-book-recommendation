@@ -4,7 +4,7 @@ nav:
     - Home: index.md
     - Getting Started: getting_started.md
     - Database Schema: db_schema.md
-    - SQL Interactions: sql_interactions.md
+    - SQL Interactions & Functions: sql_interactions.md
     - Recommendation Model: recommendation_model.md
     - API: api.md
     - Additional: additional.md

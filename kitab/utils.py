@@ -25,19 +25,19 @@ def cos_vec_vec(vector1: np.ndarray, vector2: np.ndarray) -> float:
     """
     Compute the cosine similarity between two vectors.
     
-    Example:
-    >>> from kitab.utils import cos_mat_vec
-    >>> import numpy as np
-    >>> vector1 = np.array([1, 2, 3])
-    >>> vector2 = np.array([1, 2, 3])
-    >>> cos_mat_vec(vector1, vector2)
+    Examples:
+        >>> from kitab.utils import cos_vec_vec
+        >>> import numpy as np
+        >>> vector1 = np.array([1, 2, 3])
+        >>> vector2 = np.array([1, 2, 3])
+        >>> cos_vec_vec(vector1, vector2)
     
     Parameters:
-    vector1 (np.ndarray): The first vector.
-    vector2 (np.ndarray): The second vector.
+        vector1 (np.ndarray): The first vector.
+        vector2 (np.ndarray): The second vector.
     
     Returns:
-    float: The cosine similarity between the two vectors.
+        float: The cosine similarity between the two vectors.
     """
     dot_product = np.dot(vector1, vector2)
     norm_vector1 = np.linalg.norm(vector1)
@@ -48,19 +48,19 @@ def cos_mat_vec(matr: np.ndarray, vect: np.ndarray) -> np.ndarray:
     """
     Compute the cosine similarity between a matrix (consisting of vectors) and a vector.
     
-    Example:
-    >>> from kitab.utils import cos_mat_vec
-    >>> import numpy as np
-    >>> matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-    >>> vector = np.array([1, 2, 3])
-    >>> cos_mat_vec(matrix, vector)
+    Examples:
+        >>> from kitab.utils import cos_mat_vec
+        >>> import numpy as np
+        >>> matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+        >>> vector = np.array([1, 2, 3])
+        >>> cos_mat_vec(matrix, vector)
     
     Parameters:
-    matr (np.ndarray): The matrix (containing individual vectors).
-    vect (np.ndarray): The vector.
+        matr (np.ndarray): The matrix (containing individual vectors).
+        vect (np.ndarray): The vector.
     
     Returns:
-    np.ndarray: The cosine similarity between the matrix and the vector.
+        np.ndarray: The cosine similarity between the matrix and the vector.
     """
     dot_product = np.dot(matr, vect)
     norm_vector1 = np.linalg.norm(matr, axis=1)
@@ -71,15 +71,15 @@ def get_embedding(text: str) -> np.ndarray:
     """
     Returns the embedding of the text.
     
-    Example:
-    >>> from kitab.utils import get_embedding
-    >>> get_embedding(text="Hello, world!")
+    Examples:
+        >>> from kitab.utils import get_embedding
+        >>> get_embedding(text="Hello, world!")
     
     Parameters:
-    text (str): The text to be embedded.
+        text (str): The text to be embedded.
     
     Returns:
-    np.ndarray: The embedding of the text.
+        np.ndarray: The embedding of the text.
     """
     return model.encode(text)    
             
@@ -89,17 +89,17 @@ def process_data(data_file: str, destination_folder: str = "data", column_names:
     """
     Process the given data file, perform data cleaning, and save the processed data and embeddings.
     
-    Example:
-    >>> from kitab.utils import process_data
-    >>> process_data(data_file="data.csv")
+    Examples:
+        >>> from kitab.utils import process_data
+        >>> process_data(data_file="data.csv")
 
     Parameters:
-    data_file (str): The path to the data file.
-    destination_folder (str): The path to the destination folder where the processed data and embeddings will be saved.
-    column_names (dict[str:str], optional): A dictionary mapping required column names to the corresponding column names in the data file. Defaults to None.
-    random_availability (bool, optional): If True, add random book availability to the data. If False, the data must contain an 'availability' column. Defaults to False.
-    chunk_size (int, optional): The size of the chunks to split the data into. Defaults to 20000.
-    verbose (bool, optional): If True, display log messages. Defaults to False.
+        data_file (str): The path to the data file.
+        destination_folder (str): The path to the destination folder where the processed data and embeddings will be saved.
+        column_names (dict[str:str], optional): A dictionary mapping required column names to the corresponding column names in the data file. Defaults to None.
+        random_availability (bool, optional): If True, add random book availability to the data. If False, the data must contain an 'availability' column. Defaults to False.
+        chunk_size (int, optional): The size of the chunks to split the data into. Defaults to 20000.
+        verbose (bool, optional): If True, display log messages. Defaults to False.
 
     Returns:
         None

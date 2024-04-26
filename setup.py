@@ -12,7 +12,7 @@ except Exception:
 
 # Add install requirements
 setup(
-    author="Alexander Shahramanyan",
+    author="Alexander Shahramanyan, Alexander Shahramanyan, Anna Charchyan, Yeva Manukyan, Lilith Asminian, Maria Petrosyan",
     description="A package for book recommendation.",
     name="kitab",
     packages=find_packages(include=["kitab", "kitab.*"]),
