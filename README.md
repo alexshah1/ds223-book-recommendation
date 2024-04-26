@@ -35,7 +35,7 @@ pip install kitab --upgrade
 
 Currently, the package only supports PostgreSQL databases. You need to have a PostgreSQL database installed on your machine to use the package.
 
-Additionally, since the package needs to store vectors, `pgvector` should be installed. To install it, follow the steps mentioned in the [pgvector documentation](https://pgvector.dev/docs/installation/).
+Additionally, since the package needs to store vectors, `pgvector` should be installed. To install it, follow the steps mentioned in the [pgvector GitHub repo](https://github.com/pgvector/pgvector).
 
 All other requirements will be installed when the package is installed/updated using `pip`.
 
