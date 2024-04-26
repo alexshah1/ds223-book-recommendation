@@ -4,7 +4,7 @@
 Our system uses a PostgreSQL database with the `pgvector` extension to store the book data and the embeddings.
 
 ## Tables
-![Database Schema](ERD.jpeg "Database Schema")
+![Database Schema](src/ERD.jpeg "Database Schema")
 
 Overall, we have the following tables in our database:
 
