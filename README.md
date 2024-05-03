@@ -45,16 +45,26 @@ All other requirements will be installed when the package is installed/updated u
 
 ## Usage
 
-To start using the package functionalities, you need to import the package in your Python script. Then you need to provide the book data, which should include the following columns:
+To start using the package functionalities, we need to load the data first. The data can be provided as a CSV file, which should include the following columns:
 
-- isbn (str) - the ISBN of the book,
-- title (str) the title of the book, 
-- description (str) the description of the book,
-- author (list[str]) - the authors of the book,
-- genre (list[str]) - the genres of the book,
-- available (bool) - whether the book is available or not (optional; you can use random initialization of this column).
+<br>
+<center>
 
-The `process_data()` function will process the data and generate the embeddings (this might take a while). It will split the data into parts, generate embeddings, store them in a specified folder. The folder will have numbered CSVs with the processed data and PKLs with the embeddings.
+| Column Name | Data Type | Description                  |
+|-------------|-----------|------------------------------|
+| isbn        | str       | the ISBN of the book         |
+| title       | str       | the title of the book        |
+| description | str       | the description of the book  |
+| author      | list[str] | the author(s) of the book    |
+| genre       | list[str] | the genre(s) of the book     |
+| available   | bool      | the availability of the book |
+
+</center>
+<br>
+
+<i>Note: The table names might be different than the ones mentioned above. In that case, an additional parameter should be provided to specify the column names (`column_names` in `process_data()`).</i>
+
+Before loading the data we need to process it. The `process_data()` function will process the data and generate the embeddings (this might take a while). It will split the data into parts, generate embeddings, store them in a specified folder. The folder will have numbered CSVs with the processed data and PKLs with the embeddings.
 
 ```{python}
 from kitab.utils import process_data
@@ -65,17 +75,23 @@ destination_folder = "data"
 process_data(filepath, destination_folder)
 ```
 
-Then you need to load these data into the database. For this, you need to provide the database connection details in your `.env` file as follows: 
+Then we need to load the data into the database. For this, we need to provide the following database connection details in the `.env`:
 
-```{bash}
-DB_USER='' # Database username
-DB_PASSWORD='' # Database password
-DB_HOST='' # Database host
-DB_PORT='' # Database port
-DB_NAME='' # Database name
-```
+<br>
+<center>
 
-Then using the `load_data()` function, the data can be loaded into the database. The function gets the path of the folder which stores the data and the embeddings, combine these, and load them into the database.
+| Parameter   | Description |
+|-------------|-------------|
+| DB_USER     | str         |
+| DB_PASSWORD | str         |
+| DB_HOST     | str         |
+| DB_PORT     | str or int  |
+| DB_NAME     | str         |
+
+</center>
+<br>
+
+After that, we can load the data into the database using the `load_data()` function.
 
 ```{python}
 from dotenv import load_dotenv, find_dotenv
@@ -86,14 +102,28 @@ from kitab.db.get_data import load_data
 load_data(destination_folder)
 ```
 
-Then you're ready to use the package functionalities. You can use the `recommend_books()` function to get recommendations for a book. The function takes the ISBN of the book and the number of recommendations you want to get.
+Now, we're ready to use the package functionalities. We can use the `recommend_books()` function to get recommendations for a book. The function takes the ISBN of the book and the number of recommendations you want to get.
 
 ```{python}
-from kitab.recommmendation_model import recommend_books
+from kitab.recommendation_model.models import recommend_books
 
 description = "In this thrilling detective tale, a group of childhood friends accidentally stumble upon an ancient artifact hidden in their clubhouse. Little do they know, their discovery thrusts them into a dangerous conspiracy spanning centuries. As they uncover clues, they race against time to prevent a cataclysmic event that could reshape the world. Join them on a heart-pounding journey through shadows and secrets in this gripping mystery."
 
 recommend_books(description, n=5)
+```
+
+We can get a recommendation for a book using its ISBN or title as well.
+
+```{python}
+from kitab.recommendation_model.models import recommend_books_by_ISBN
+
+recommend_books_by_ISBN(ISBN="1442942355", n=5)
+```
+
+```{python}
+from kitab.recommendation_model.models import recommend_books_by_title
+
+recommend_books_by_title(title="The Ghostly Rental", n=5)
 ```
 
 Find full documentation [here](https://alexshah1.github.io/ds223-book-recommendation/).

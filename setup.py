@@ -4,7 +4,7 @@ import os
 # User-friendly description from README.md
 current_directory = os.path.dirname(os.path.abspath(__file__))
 try:
-    with open('pypi_desc.md', encoding='utf-8') as f:
+    with open('README.md', encoding='utf-8') as f:
         long_description = f.read()
         print(long_description)
 except Exception:
@@ -16,7 +16,7 @@ setup(
     description="A package for book recommendation.",
     name="kitab",
     packages=find_packages(include=["kitab", "kitab.*"]),
-    version="0.0.22",
+    version="0.0.23",
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',

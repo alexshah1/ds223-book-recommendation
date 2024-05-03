@@ -8,6 +8,9 @@ import numpy as np
 import logging
 from ..logger.logger import CustomFormatter
 
+import warnings
+warnings.filterwarnings("ignore")
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 ch = logging.StreamHandler()

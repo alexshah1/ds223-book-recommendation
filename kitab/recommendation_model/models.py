@@ -12,7 +12,8 @@ def recommend_books(description: str, n: int, get_available: bool = True, data :
     
     Examples:
         >>> from kitab.recommendation_model.models import recommend_books
-        >>> recommend_books(description="Employing the subtle methods of presenting mysterious ghost stories in the backdrop of psychological troubles, the novel presents the life of James. The troubles that he faces, combined with the baffling events around him give an aura to the novel that is almost unsurpassable", n=5)
+        >>> description = "In this thrilling detective tale, a group of childhood friends accidentally stumble upon an ancient artifact hidden in their clubhouse. Little do they know, their discovery thrusts them into a dangerous conspiracy spanning centuries. As they uncover clues, they race against time to prevent a cataclysmic event that could reshape the world. Join them on a heart-pounding journey through shadows and secrets in this gripping mystery."
+        >>> recommend_books(description, n=5)
     
     Parameters:
         description (str): The description of the book.
