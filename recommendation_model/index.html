@@ -574,7 +574,8 @@
 
 <p><span class="doc-section-title">Examples:</span></p>
     <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kitab.recommendation_model.models</span> <span class="kn">import</span> <span class="n">recommend_books</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">recommend_books</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Employing the subtle methods of presenting mysterious ghost stories in the backdrop of psychological troubles, the novel presents the life of James. The troubles that he faces, combined with the baffling events around him give an aura to the novel that is almost unsurpassable&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;In this thrilling detective tale, a group of childhood friends accidentally stumble upon an ancient artifact hidden in their clubhouse. Little do they know, their discovery thrusts them into a dangerous conspiracy spanning centuries. As they uncover clues, they race against time to prevent a cataclysmic event that could reshape the world. Join them on a heart-pounding journey through shadows and secrets in this gripping mystery.&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">recommend_books</span><span class="p">(</span><span class="n">description</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </code></pre></div>
 
 
@@ -733,13 +734,15 @@
 <span class="normal">64</span>
 <span class="normal">65</span>
 <span class="normal">66</span>
-<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">recommend_books</span><span class="p">(</span><span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">get_available</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">data</span> <span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="normal">67</span>
+<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">recommend_books</span><span class="p">(</span><span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">get_available</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">data</span> <span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Recommends a list of books based on a given description.</span>
 
 <span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; from kitab.recommendation_model.models import recommend_books</span>
-<span class="sd">        &gt;&gt;&gt; recommend_books(description=&quot;Employing the subtle methods of presenting mysterious ghost stories in the backdrop of psychological troubles, the novel presents the life of James. The troubles that he faces, combined with the baffling events around him give an aura to the novel that is almost unsurpassable&quot;, n=5)</span>
+<span class="sd">        &gt;&gt;&gt; description = &quot;In this thrilling detective tale, a group of childhood friends accidentally stumble upon an ancient artifact hidden in their clubhouse. Little do they know, their discovery thrusts them into a dangerous conspiracy spanning centuries. As they uncover clues, they race against time to prevent a cataclysmic event that could reshape the world. Join them on a heart-pounding journey through shadows and secrets in this gripping mystery.&quot;</span>
+<span class="sd">        &gt;&gt;&gt; recommend_books(description, n=5)</span>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">        description (str): The description of the book.</span>
@@ -904,8 +907,7 @@
 
           <details class="quote">
             <summary>Source code in <code>kitab\recommendation_model\models.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">70</span>
-<span class="normal">71</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
 <span class="normal">74</span>
@@ -932,7 +934,8 @@
 <span class="normal">95</span>
 <span class="normal">96</span>
 <span class="normal">97</span>
-<span class="normal">98</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">recommend_books_by_ISBN</span><span class="p">(</span><span class="n">ISBN</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">get_available</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="normal">98</span>
+<span class="normal">99</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">recommend_books_by_ISBN</span><span class="p">(</span><span class="n">ISBN</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">get_available</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Recommends a list of books based on the description of the book with the given ISBN.</span>
 
@@ -1073,8 +1076,7 @@
 
           <details class="quote">
             <summary>Source code in <code>kitab\recommendation_model\models.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">101</span>
-<span class="normal">102</span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
 <span class="normal">105</span>
@@ -1101,7 +1103,8 @@
 <span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span>
-<span class="normal">129</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">recommend_books_by_title</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">get_available</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="normal">129</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">recommend_books_by_title</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">get_available</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Recommends a list of books based on the description of the book with the given title.</span>
 

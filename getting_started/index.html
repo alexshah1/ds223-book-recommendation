@@ -437,16 +437,54 @@
 <p>Additionally, since the package needs to store vectors, <code>pgvector</code> should be installed. To install it, follow the steps mentioned in the <a href="https://github.com/pgvector/pgvector">pgvector GitHub repo</a>.</p>
 <p>All other requirements will be installed when the package is installed/updated using <code>pip</code>.</p>
 <h2 id="usage">Usage</h2>
-<p>To start using the package functionalities, you need to import the package in your Python script. Then you need to provide the book data, which should include the following columns:</p>
-<ul>
-<li>isbn (str) - the ISBN of the book,</li>
-<li>title (str) the title of the book, </li>
-<li>description (str) the description of the book,</li>
-<li>author (list[str]) - the authors of the book,</li>
-<li>genre (list[str]) - the genres of the book,</li>
-<li>available (bool) - whether the book is available or not (optional; you can use random initialization of this column).</li>
-</ul>
-<p>The <code>process_data()</code> function will process the data and generate the embeddings (this might take a while). It will split the data into parts, generate embeddings, store them in a specified folder. The folder will have numbered CSVs with the processed data and PKLs with the embeddings.</p>
+<p>To start using the package functionalities, we need to load the data first. The data can be provided as a CSV file, which should include the following columns:</p>
+<p><br>
+<center></p>
+<table>
+<thead>
+<tr>
+<th>Column Name</th>
+<th>Data Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>isbn</td>
+<td>str</td>
+<td>the ISBN of the book</td>
+</tr>
+<tr>
+<td>title</td>
+<td>str</td>
+<td>the title of the book</td>
+</tr>
+<tr>
+<td>description</td>
+<td>str</td>
+<td>the description of the book</td>
+</tr>
+<tr>
+<td>author</td>
+<td>list[str]</td>
+<td>the author(s) of the book</td>
+</tr>
+<tr>
+<td>genre</td>
+<td>list[str]</td>
+<td>the genre(s) of the book</td>
+</tr>
+<tr>
+<td>available</td>
+<td>bool</td>
+<td>the availability of the book</td>
+</tr>
+</tbody>
+</table>
+<p></center>
+<br></p>
+<p><i>Note: The table names might be different than the ones mentioned above. In that case, an additional parameter should be provided to specify the column names (<code>column_names</code> in <code>process_data()</code>).</i></p>
+<p>Before loading the data we need to process it. The <code>process_data()</code> function will process the data and generate the embeddings (this might take a while). It will split the data into parts, generate embeddings, store them in a specified folder. The folder will have numbered CSVs with the processed data and PKLs with the embeddings.</p>
 <pre><code>from kitab.utils import process_data
 
 filepath = &quot;data.csv&quot;
@@ -454,14 +492,42 @@ destination_folder = &quot;data&quot;
 
 process_data(filepath, destination_folder)
 </code></pre>
-<p>Then you need to load these data into the database. For this, you need to provide the database connection details in your <code>.env</code> file as follows: </p>
-<pre><code>DB_USER='' # Database username
-DB_PASSWORD='' # Database password
-DB_HOST='' # Database host
-DB_PORT='' # Database port
-DB_NAME='' # Database name
-</code></pre>
-<p>Then using the <code>load_data()</code> function, the data can be loaded into the database. The function gets the path of the folder which stores the data and the embeddings, combine these, and load them into the database.</p>
+<p>Then we need to load the data into the database. For this, we need to provide the following database connection details in the <code>.env</code>:</p>
+<p><br>
+<center></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DB_USER</td>
+<td>str</td>
+</tr>
+<tr>
+<td>DB_PASSWORD</td>
+<td>str</td>
+</tr>
+<tr>
+<td>DB_HOST</td>
+<td>str</td>
+</tr>
+<tr>
+<td>DB_PORT</td>
+<td>str or int</td>
+</tr>
+<tr>
+<td>DB_NAME</td>
+<td>str</td>
+</tr>
+</tbody>
+</table>
+<p></center>
+<br></p>
+<p>After that, we can load the data into the database using the <code>load_data()</code> function.</p>
 <pre><code>from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
@@ -469,12 +535,21 @@ from kitab.db.get_data import load_data
 
 load_data(destination_folder)
 </code></pre>
-<p>Then you're ready to use the package functionalities. You can use the <code>recommend_books()</code> function to get recommendations for a book. The function takes the ISBN of the book and the number of recommendations you want to get.</p>
+<p>Now, we're ready to use the package functionalities. We can use the <code>recommend_books()</code> function to get recommendations for a book. The function takes the ISBN of the book and the number of recommendations you want to get.</p>
 <pre><code>from kitab.recommendation_model.models import recommend_books
 
 description = &quot;In this thrilling detective tale, a group of childhood friends accidentally stumble upon an ancient artifact hidden in their clubhouse. Little do they know, their discovery thrusts them into a dangerous conspiracy spanning centuries. As they uncover clues, they race against time to prevent a cataclysmic event that could reshape the world. Join them on a heart-pounding journey through shadows and secrets in this gripping mystery.&quot;
 
 recommend_books(description, n=5)
+</code></pre>
+<p>We can get a recommendation for a book using its ISBN or title as well.</p>
+<pre><code>from kitab.recommendation_model.models import recommend_books_by_ISBN
+
+recommend_books_by_ISBN(ISBN=&quot;1442942355&quot;, n=5)
+</code></pre>
+<pre><code>from kitab.recommendation_model.models import recommend_books_by_title
+
+recommend_books_by_title(title=&quot;The Ghostly Rental&quot;, n=5)
 </code></pre>
 
 
