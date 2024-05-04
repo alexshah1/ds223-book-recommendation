@@ -197,13 +197,13 @@ def add_book_db(book: dict, verbose: bool = False) -> bool:
     except:
         return False    
     
-def update_book_db(ISBN: str, new_book: dict, verbose: bool = True) -> bool:
+def update_book_db(ISBN: str, new_book: dict, verbose: bool = False) -> bool:
     """
     Updates a book in the database.
     
     Examples:
         >>> from kitab.db.functions import update_book_db
-        >>> update_book_db({
+        >>> update_book_db("1442942355", {
                 "available": True,
                 "genres": [
                     "Horror",
@@ -512,17 +512,17 @@ def get_history_by_recommendation_isbn(recommendation_isbn: str, verbose: bool =
     return history.drop(columns="log_id").to_dict(orient='records')
 
 
-def add_recommendation_log(description: str, recommendation_ISBN: str, successful: bool, verbose: bool = False) -> bool:
+def add_recommendation_log(description: str, recommendation_isbn: str, successful: bool, verbose: bool = False) -> bool:
     """
     Adds a recommendation log to the history table.
     
     Examples:
-        from kitab.db.functions import add_recommendation_log
-        add_recommendation_log(description="In a masterful blend of psychological intrigue and spectral disturbances, this novel unfurls the complex life of Clara. Her internal struggles are mirrored by eerie, inexplicable occurrences, weaving a tale that is both deeply personal and chillingly atmospheric, offering an unparalleled exploration of the human psyche shadowed by the paranormal.", recommendation_isbn="1442942355", successful=True)
+        >>> from kitab.db.functions import add_recommendation_log
+        >>> add_recommendation_log(description="In a masterful blend of psychological intrigue and spectral disturbances, this novel unfurls the complex life of Clara. Her internal struggles are mirrored by eerie, inexplicable occurrences, weaving a tale that is both deeply personal and chillingly atmospheric, offering an unparalleled exploration of the human psyche shadowed by the paranormal.", recommendation_isbn="1442942355", successful=True)
     
     Parameters:
         description (str): The description of the recommendation.
-        recommendation_ISBN (str): The ISBN of the recommended book.
+        recommendation_isbn (str): The ISBN of the recommended book.
         successful (bool): Whether the recommendation was successful or not.
         verbose (bool): Whether to print verbose output. Defaults to False.
 
@@ -536,7 +536,7 @@ def add_recommendation_log(description: str, recommendation_ISBN: str, successfu
             logger.info("Database connection opened.")
         
         # Insert the recommendation log into the history table
-        db.insert_records("history", [{"description": description, "recommendation_ISBN": recommendation_ISBN, "successful": successful}])
+        db.insert_records("history", [{"description": description, "recommendation_isbn": recommendation_isbn, "successful": successful}])
     
         return True
     except Exception as e:
