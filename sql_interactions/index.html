@@ -3813,7 +3813,7 @@ The conditions inside each dictionary are concatenated using AND, and the dictio
 
 
 <h4 id="kitab.db.functions.add_recommendation_log" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">add_recommendation_log</span><span class="p">(</span><span class="n">description</span><span class="p">,</span> <span class="n">recommendation_ISBN</span><span class="p">,</span> <span class="n">successful</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">add_recommendation_log</span><span class="p">(</span><span class="n">description</span><span class="p">,</span> <span class="n">recommendation_isbn</span><span class="p">,</span> <span class="n">successful</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 </h4>
 
@@ -3825,8 +3825,9 @@ The conditions inside each dictionary are concatenated using AND, and the dictio
 
 
 <p><span class="doc-section-title">Examples:</span></p>
-    <p>from kitab.db.functions import add_recommendation_log
-add_recommendation_log(description="In a masterful blend of psychological intrigue and spectral disturbances, this novel unfurls the complex life of Clara. Her internal struggles are mirrored by eerie, inexplicable occurrences, weaving a tale that is both deeply personal and chillingly atmospheric, offering an unparalleled exploration of the human psyche shadowed by the paranormal.", recommendation_isbn="1442942355", successful=True)</p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kitab.db.functions</span> <span class="kn">import</span> <span class="n">add_recommendation_log</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_recommendation_log</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;In a masterful blend of psychological intrigue and spectral disturbances, this novel unfurls the complex life of Clara. Her internal struggles are mirrored by eerie, inexplicable occurrences, weaving a tale that is both deeply personal and chillingly atmospheric, offering an unparalleled exploration of the human psyche shadowed by the paranormal.&quot;</span><span class="p">,</span> <span class="n">recommendation_isbn</span><span class="o">=</span><span class="s2">&quot;1442942355&quot;</span><span class="p">,</span> <span class="n">successful</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
 
 
 
@@ -3856,7 +3857,7 @@ add_recommendation_log(description="In a masterful blend of psychological intrig
           </td>
         </tr>
         <tr class="doc-section-item">
-          <td><code>recommendation_ISBN</code></td>
+          <td><code>recommendation_isbn</code></td>
           <td>
                 <code>str</code>
           </td>
@@ -3955,17 +3956,17 @@ add_recommendation_log(description="In a masterful blend of psychological intrig
 <span class="normal">541</span>
 <span class="normal">542</span>
 <span class="normal">543</span>
-<span class="normal">544</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_recommendation_log</span><span class="p">(</span><span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">recommendation_ISBN</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">successful</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">544</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">add_recommendation_log</span><span class="p">(</span><span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">recommendation_isbn</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">successful</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Adds a recommendation log to the history table.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        from kitab.db.functions import add_recommendation_log</span>
-<span class="sd">        add_recommendation_log(description=&quot;In a masterful blend of psychological intrigue and spectral disturbances, this novel unfurls the complex life of Clara. Her internal struggles are mirrored by eerie, inexplicable occurrences, weaving a tale that is both deeply personal and chillingly atmospheric, offering an unparalleled exploration of the human psyche shadowed by the paranormal.&quot;, recommendation_isbn=&quot;1442942355&quot;, successful=True)</span>
+<span class="sd">        &gt;&gt;&gt; from kitab.db.functions import add_recommendation_log</span>
+<span class="sd">        &gt;&gt;&gt; add_recommendation_log(description=&quot;In a masterful blend of psychological intrigue and spectral disturbances, this novel unfurls the complex life of Clara. Her internal struggles are mirrored by eerie, inexplicable occurrences, weaving a tale that is both deeply personal and chillingly atmospheric, offering an unparalleled exploration of the human psyche shadowed by the paranormal.&quot;, recommendation_isbn=&quot;1442942355&quot;, successful=True)</span>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">        description (str): The description of the recommendation.</span>
-<span class="sd">        recommendation_ISBN (str): The ISBN of the recommended book.</span>
+<span class="sd">        recommendation_isbn (str): The ISBN of the recommended book.</span>
 <span class="sd">        successful (bool): Whether the recommendation was successful or not.</span>
 <span class="sd">        verbose (bool): Whether to print verbose output. Defaults to False.</span>
 
@@ -3979,7 +3980,7 @@ add_recommendation_log(description="In a masterful blend of psychological intrig
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Database connection opened.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Insert the recommendation log into the history table</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">insert_records</span><span class="p">(</span><span class="s2">&quot;history&quot;</span><span class="p">,</span> <span class="p">[{</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span> <span class="s2">&quot;recommendation_ISBN&quot;</span><span class="p">:</span> <span class="n">recommendation_ISBN</span><span class="p">,</span> <span class="s2">&quot;successful&quot;</span><span class="p">:</span> <span class="n">successful</span><span class="p">}])</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">insert_records</span><span class="p">(</span><span class="s2">&quot;history&quot;</span><span class="p">,</span> <span class="p">[{</span><span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span> <span class="s2">&quot;recommendation_isbn&quot;</span><span class="p">:</span> <span class="n">recommendation_isbn</span><span class="p">,</span> <span class="s2">&quot;successful&quot;</span><span class="p">:</span> <span class="n">successful</span><span class="p">}])</span>
 
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -5047,7 +5048,7 @@ add_recommendation_log(description="In a masterful blend of psychological intrig
 
 
 <h4 id="kitab.db.functions.update_book_db" class="doc doc-heading">
-          <code class="highlight language-python"><span class="n">update_book_db</span><span class="p">(</span><span class="n">ISBN</span><span class="p">,</span> <span class="n">new_book</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+          <code class="highlight language-python"><span class="n">update_book_db</span><span class="p">(</span><span class="n">ISBN</span><span class="p">,</span> <span class="n">new_book</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 </h4>
 
@@ -5060,7 +5061,7 @@ add_recommendation_log(description="In a masterful blend of psychological intrig
 
 <p><span class="doc-section-title">Examples:</span></p>
     <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">kitab.db.functions</span> <span class="kn">import</span> <span class="n">update_book_db</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">update_book_db</span><span class="p">({</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">update_book_db</span><span class="p">(</span><span class="s2">&quot;1442942355&quot;</span><span class="p">,</span> <span class="p">{</span>
 <span class="go">        &quot;available&quot;: True,</span>
 <span class="go">        &quot;genres&quot;: [</span>
 <span class="go">            &quot;Horror&quot;,</span>
@@ -5122,7 +5123,7 @@ add_recommendation_log(description="In a masterful blend of psychological intrig
             </div>
           </td>
           <td>
-                <code>True</code>
+                <code>False</code>
           </td>
         </tr>
     </tbody>
@@ -5250,13 +5251,13 @@ add_recommendation_log(description="In a masterful blend of psychological intrig
 <span class="normal">293</span>
 <span class="normal">294</span>
 <span class="normal">295</span>
-<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_book_db</span><span class="p">(</span><span class="n">ISBN</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_book</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_book_db</span><span class="p">(</span><span class="n">ISBN</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_book</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Updates a book in the database.</span>
 
 <span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; from kitab.db.functions import update_book_db</span>
-<span class="sd">        &gt;&gt;&gt; update_book_db({</span>
+<span class="sd">        &gt;&gt;&gt; update_book_db(&quot;1442942355&quot;, {</span>
 <span class="sd">                &quot;available&quot;: True,</span>
 <span class="sd">                &quot;genres&quot;: [</span>
 <span class="sd">                    &quot;Horror&quot;,</span>
