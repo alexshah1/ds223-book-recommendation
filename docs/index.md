@@ -1,6 +1,6 @@
 # Kitab - Book Recommendation System
 
-![Books](https://raw.githubusercontent.com/alexshah1/ds223-book-recommendation/main/docs/src/books.png "Books")
+![Books](https://raw.githubusercontent.com/alexshah1/ds223-book-recommendation/main/docs/src/books.jpg "Books")
 
 ## Package Overview
 The **Kitab** package aims to help bookstores with an easy-to-use recommendation system. When a customer requests a book that is currently unavailable, the system will utilize machine learning techniques to find similar books based on attributes such as genre, author, and book description. This will help bookstores enhance customer satisfaction and increase sales by offering relevant alternatives.
