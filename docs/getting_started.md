@@ -104,3 +104,11 @@ from kitab.recommendation_model.models import recommend_books_by_title
 
 recommend_books_by_title(title="The Ghostly Rental", n=5)
 ```
+
+### API
+We have also implemented an API that can be used to interact with the model and the database. You can find information on API endpoints and how to use them in the documentation. To run the API, run the following:
+
+```{python}
+from kitab.api.app import run_api
+run_api(port=5552)
+```

@@ -8,6 +8,7 @@ from pydantic import BaseModel
 import uvicorn
 import logging
 from ..logger.logger import CustomFormatter
+import uvicorn
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -254,5 +255,18 @@ def add_log(description: str, recommendation_isbn: str, successful: bool):
     return {"message": "Something went wrong. Log not added."}
 
 
-if __name__ == "__main__":
-    uvicorn.run(app, host="localhost")
+def run_api(port=5552) -> None:
+    """
+    Run the API server.
+    
+    Examples:
+        >>> from kitab.utils import run_api
+        >>> run_api(port=5552)
+    
+    Parameters:
+    port (int): The port number on which the API server will run.
+    
+    Returns:
+    None
+    """
+    uvicorn.run(app, port=port) 
