@@ -319,6 +319,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      API
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -480,6 +495,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      API
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -623,6 +653,11 @@ recommend_books_by_ISBN(ISBN=&quot;1442942355&quot;, n=5)
 <pre><code>from kitab.recommendation_model.models import recommend_books_by_title
 
 recommend_books_by_title(title=&quot;The Ghostly Rental&quot;, n=5)
+</code></pre>
+<h3 id="api">API</h3>
+<p>We have also implemented an API that can be used to interact with the model and the database. You can find information on API endpoints and how to use them in the documentation. To run the API, run the following:</p>
+<pre><code>from kitab.api.app import run_api
+run_api(port=5552)
 </code></pre>
 
 
