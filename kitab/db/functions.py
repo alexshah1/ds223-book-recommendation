@@ -106,7 +106,7 @@ def get_book_by_title(title: str, verbose: bool = False) -> tuple[dict]:
         logger.info("Database connection opened.")
     
     # Retrieve the book with the given title
-    books = db.get_table("book", conditions={"title": title})
+    books = db.get_table("book", conditions={"title": title}, verbose=verbose)
         
     if len(books) == 0:
         if verbose:
@@ -170,9 +170,9 @@ def add_book_db(book: dict, verbose: bool = False) -> bool:
         if len(authors) > 0:
             if verbose:
                 logger.info("Authors to be added.")
-            author_ids = _get_or_add_authors(db, authors)
+            author_ids = _get_or_add_authors(db, authors, verbose=verbose)
             
-            db.insert_records("bookauthor", [{"isbn": ISBN, "author_id": int(author_id)} for author_id in author_ids])
+            db.insert_records("bookauthor", [{"isbn": ISBN, "author_id": int(author_id)} for author_id in author_ids], verbose=verbose)
             if verbose:
                 logger.info("Author table populated.")
         else:
@@ -184,9 +184,9 @@ def add_book_db(book: dict, verbose: bool = False) -> bool:
         if len(genres) > 0:
             if verbose:
                 logger.info("Genres to be added.")
-            genre_ids = _get_or_add_genres(db, genres)
+            genre_ids = _get_or_add_genres(db, genres, verbose=verbose)
             
-            db.insert_records("bookgenre", [{"isbn": ISBN, "genre_id": int(genre_id)} for genre_id in genre_ids])
+            db.insert_records("bookgenre", [{"isbn": ISBN, "genre_id": int(genre_id)} for genre_id in genre_ids], verbose=verbose)
             if verbose:
                 logger.info("Genre table populated.")
         else:
@@ -239,15 +239,15 @@ def update_book_db(ISBN: str, new_book: dict, verbose: bool = False) -> bool:
             if key == "description":
                 new_values["embedding"] = get_embedding(new_book["description"]).tolist()
 
-        db.update_records("book", new_values, condition)
+        db.update_records("book", new_values, condition, verbose=verbose)
         if verbose:
             logger.info("Book table updated.")
         
         ISBN = latest_ISBN
         
         # Get the tables
-        book_author = db.get_table("bookauthor", conditions={"isbn": ISBN})
-        book_genre = db.get_table("bookgenre", conditions={"isbn": ISBN})
+        book_author = db.get_table("bookauthor", conditions={"isbn": ISBN}, verbose=verbose)
+        book_genre = db.get_table("bookgenre", conditions={"isbn": ISBN}, verbose=verbose)
         
         # Add author(s) to the author table if doesn't exist
         if "authors" in new_book:
@@ -255,14 +255,14 @@ def update_book_db(ISBN: str, new_book: dict, verbose: bool = False) -> bool:
                 logger.info("Authors to be updated.")
             
             authors = new_book["authors"]
-            new_author_ids = set(_get_or_add_authors(db, authors))
+            new_author_ids = set(_get_or_add_authors(db, authors, verbose=verbose))
             current_author_ids = set(book_author[book_author["isbn"] == ISBN]["author_id"].tolist())
             
             removed_authors = current_author_ids - new_author_ids
             added_authors = new_author_ids - current_author_ids
             
-            db.remove_records("bookauthor", [{"isbn": ISBN, "author_id": int(removed_author)} for removed_author in removed_authors])
-            db.insert_records("bookauthor", [{"isbn": ISBN, "author_id": int(added_author)} for added_author in added_authors])
+            db.remove_records("bookauthor", [{"isbn": ISBN, "author_id": int(removed_author)} for removed_author in removed_authors], verbose=verbose)
+            db.insert_records("bookauthor", [{"isbn": ISBN, "author_id": int(added_author)} for added_author in added_authors], verbose=verbose)
             
             if verbose:
                 logger.info("Author table updated.")
@@ -276,14 +276,14 @@ def update_book_db(ISBN: str, new_book: dict, verbose: bool = False) -> bool:
                 logger.info("Genres to be updated.")
             
             genres = new_book["genres"]    
-            new_genre_ids = set(_get_or_add_genres(db, genres))
+            new_genre_ids = set(_get_or_add_genres(db, genres, verbose=verbose))
             current_genre_ids = set(book_genre[book_genre["isbn"] == ISBN]["genre_id"].tolist())
         
             removed_genres = current_genre_ids - new_genre_ids
             added_genres = new_genre_ids - current_genre_ids
             
-            db.remove_records("bookgenre", [{"isbn": ISBN, "genre_id": int(removed_genre)} for removed_genre in removed_genres])
-            db.insert_records("bookgenre", [{"isbn": ISBN, "genre_id": int(added_genre)} for added_genre in added_genres])
+            db.remove_records("bookgenre", [{"isbn": ISBN, "genre_id": int(removed_genre)} for removed_genre in removed_genres], verbose=verbose)
+            db.insert_records("bookgenre", [{"isbn": ISBN, "genre_id": int(added_genre)} for added_genre in added_genres], verbose=verbose)
             
             if verbose:
                 logger.info("Genre table updated.")
@@ -318,9 +318,9 @@ def get_table_from_db(table_name: str, conditions: dict = None, verbose: bool = 
     
     # Retrieve the table from the database
     if conditions:
-        table = db.get_table(table_name, conditions=conditions)
+        table = db.get_table(table_name, conditions=conditions, verbose=verbose)
     else:
-        table = db.get_table(table_name)
+        table = db.get_table(table_name, verbose=verbose)
         
     if verbose:
         logger.info(f"Table {table_name} retrieved.")
@@ -344,7 +344,7 @@ def _get_or_add_genres(db: SqlHandler, genres: list[str], verbose: bool = False)
     Returns:
         list[int]: A list of genre IDs.
     """
-    genre_table = db.get_table("genre")
+    genre_table = db.get_table("genre", verbose=verbose)
     
     genre_ids = []
     cur_index = max(genre_table["genre_id"] + 1)
@@ -360,7 +360,7 @@ def _get_or_add_genres(db: SqlHandler, genres: list[str], verbose: bool = False)
         genre_ids.append(genre_id)
     
     # Insert the records
-    db.insert_records("genre", to_insert)
+    db.insert_records("genre", to_insert, verbose=verbose)
     if verbose:
         logger.info("New genres added.")
     
@@ -385,7 +385,7 @@ def _get_or_add_authors(db: SqlHandler, authors: list[str], verbose: bool = Fals
     Returns:
         list[int]: A list of author IDs.
     """
-    author_table = db.get_table("author")
+    author_table = db.get_table("author", verbose=verbose)
     
     author_ids = []
     cur_index = max(author_table["author_id"]+1)
@@ -401,7 +401,7 @@ def _get_or_add_authors(db: SqlHandler, authors: list[str], verbose: bool = Fals
         author_ids.append(author_id)
     
     # Insert the records
-    db.insert_records("author", to_insert)
+    db.insert_records("author", to_insert, verbose=verbose)
     if verbose:
         logger.info("New authors added.")
     
@@ -428,10 +428,10 @@ def get_authors(ISBNs: list[str], verbose: bool = False) -> dict[str:list]:
         logger.info("Database connection opened.")
     
     # Retrieve the authors of the books with the given ISBNs
-    authors = db.get_table("bookauthor", conditions={"isbn": ISBNs})
+    authors = db.get_table("bookauthor", conditions={"isbn": ISBNs}, verbose=verbose)
     author_ids = authors["author_id"].tolist()
     
-    author_table = db.get_table("author", conditions={"author_id": author_ids})
+    author_table = db.get_table("author", conditions={"author_id": author_ids}, verbose=verbose)
     
     # Initialize dictionary to store authors for each ISBN
     isbn_authors = {isbn: [] for isbn in ISBNs}
@@ -467,10 +467,10 @@ def get_genres(ISBNs: list[str], verbose: bool = False) -> dict[str:list]:
         logger.info("Database connection opened.")
 
     # Retrieve the genres of the books with the given ISBNs
-    genres = db.get_table("bookgenre", conditions={"isbn": ISBNs})
+    genres = db.get_table("bookgenre", conditions={"isbn": ISBNs}, verbose=verbose)
     genre_ids = genres["genre_id"].tolist()
     
-    genre_table = db.get_table("genre", conditions={"genre_id": genre_ids})
+    genre_table = db.get_table("genre", conditions={"genre_id": genre_ids}, verbose=verbose)
     
     # Initialize dictionary to store genres for each ISBN
     isbn_genres = {isbn: [] for isbn in ISBNs}
@@ -506,7 +506,7 @@ def get_history_by_recommendation_isbn(recommendation_isbn: str, verbose: bool =
         logger.info("Database connection opened.")
     
     # Retrieve the history of books that have been recommended
-    history = db.get_table("history", conditions={"recommendation_ISBN": recommendation_isbn})
+    history = db.get_table("history", conditions={"recommendation_ISBN": recommendation_isbn}, verbose=verbose)
     
     # Return the history
     return history.drop(columns="log_id").to_dict(orient='records')
@@ -536,7 +536,7 @@ def add_recommendation_log(description: str, recommendation_isbn: str, successfu
             logger.info("Database connection opened.")
         
         # Insert the recommendation log into the history table
-        db.insert_records("history", [{"description": description, "recommendation_isbn": recommendation_isbn, "successful": successful}])
+        db.insert_records("history", [{"description": description, "recommendation_isbn": recommendation_isbn, "successful": successful}], verbose=verbose)
     
         return True
     except Exception as e:

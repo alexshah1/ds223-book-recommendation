@@ -79,7 +79,7 @@ def load_data(folder_path: str = "data", verbose: bool = False) -> None:
     """
     try:
         # Getting the full data
-        data = get_full_data(folder_path)
+        data = get_full_data(folder_path, verbose=verbose)
         
         data.fillna({"genre": ""}, inplace=True)
         data = data[REQUIRED_COLUMNS + ["embedding", "available"]]
@@ -149,37 +149,37 @@ def load_data(folder_path: str = "data", verbose: bool = False) -> None:
 
         # Inserting data
         # Book table
-        sql_handler.insert_many(book_table, "book")
+        sql_handler.insert_many(book_table, "book", verbose=verbose)
         
         if verbose:
             logger.info("Book data inserted successfully.")
 
         # Author table
-        sql_handler.insert_many(author_table, "author")
+        sql_handler.insert_many(author_table, "author", verbose=verbose)
         
         if verbose:
             logger.info("Author data inserted successfully.")
 
         # Genre table
-        sql_handler.insert_many(genre_table, "genre")
+        sql_handler.insert_many(genre_table, "genre", verbose=verbose)
         
         if verbose:
             logger.info("Genre data inserted successfully.")
 
         # BookAuthor table
-        sql_handler.insert_many(book_author, "bookauthor")
+        sql_handler.insert_many(book_author, "bookauthor", verbose=verbose)
         
         if verbose:
             logger.info("Book-Author mapping inserted successfully.")
 
         # BookGenre table
-        sql_handler.insert_many(book_genre, "bookgenre")
+        sql_handler.insert_many(book_genre, "bookgenre", verbose=verbose)
         
         if verbose:
             logger.info("Book-Genre mapping inserted successfully.")
         
         # Close the connection
-        sql_handler.close_cnxn()
+        sql_handler.close_cnxn(verbose=verbose)
 
     except psycopg2.Error as e:
         logger.error("Unable to connect to the PostgreSQL server.")
